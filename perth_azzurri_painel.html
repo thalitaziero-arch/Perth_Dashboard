@@ -282,6 +282,46 @@
     display:inline-block;
   }
 
+  /* ===== Coach's Notes ===== */
+  .coach-card{ border-left:4px solid var(--azzurro-green); }
+  .coach-text{
+    font-size:0.95rem;
+    line-height:1.7;
+    color:var(--ink);
+    padding:16px 18px;
+    background:var(--azzurro-cream);
+    border-radius:10px;
+    margin-bottom:16px;
+  }
+  .coach-text p{margin-bottom:10px;}
+  .coach-text p:last-child{margin-bottom:0;}
+  .coach-video{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    padding:14px 18px;
+    border:1px dashed var(--line-dark);
+    border-radius:10px;
+  }
+  .video-label{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .video-link{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    color:var(--azzurro-red);
+    text-decoration:none;
+    border-bottom:2px solid transparent;
+    transition:border-color 0.15s;
+  }
+  .video-link:hover{border-color:var(--azzurro-red);}
+
   /* ===== My Area: login ===== */
   .login-box{
     max-width:480px;
@@ -497,6 +537,7 @@
     <a href="#shooting">Shooting</a>
     <a href="#matches">Matches</a>
     <a href="#details">Technical Details</a>
+    <a href="#coach-notes">Coach's Notes</a>
     <a href="#my-area" id="navMyArea">My Area</a>
   </div>
 </nav>
@@ -587,6 +628,24 @@
         <h3>Where the team recovers and loses the ball</h3>
         <p class="desc">Sum of all rounds, split into defensive, middle and attacking thirds. The pitch is oriented with Perth Azzurri attacking to the right.</p>
         <div id="pitchWrap"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="coach-notes">
+    <div class="section-head">
+      <h2>Coach's Notes</h2>
+      <span class="tag">Season comments &amp; video analysis</span>
+    </div>
+    <div class="chart-card full coach-card">
+      <h3>What the coach is seeing</h3>
+      <p class="desc">A quick word on recent performances, what's working, and what we're focusing on in training.</p>
+      <div class="coach-text">
+        <p>[Coach: add your notes here — recent form, key takeaways, areas to work on, and anything you want the squad to keep in mind.]</p>
+      </div>
+      <div class="coach-video">
+        <span class="video-label">Video analysis</span>
+        <a href="#" id="coachVideoLink" class="video-link">[Add YouTube link here]</a>
       </div>
     </div>
   </section>
@@ -728,21 +787,27 @@ function barChart(ctx, datasets, opts={}){
 
 // Goals vs xG
 lineChart(document.getElementById('chartGoals'), [
-  {label:'Goals', data:team.map(t=>t.Goals), borderColor:COL.green, backgroundColor:COL.green, tension:0.3, fill:false, pointRadius:4},
-  {label:'xG (expected)', data:team.map(t=>t.xG), borderColor:COL.red, backgroundColor:COL.red, borderDash:[5,4], tension:0.3, fill:false, pointRadius:4},
-]);
+  {label:'Goals', data:team.map(t=>t.Goals), borderColor:COL.green, backgroundColor:COL.green, tension:0.3, fill:false, pointRadius:4,
+    datalabels:{ align:'top', offset:6, color:COL.green, font:{weight:'700', size:11}, formatter:(v)=>v }},
+  {label:'xG (expected)', data:team.map(t=>t.xG), borderColor:COL.red, backgroundColor:COL.red, borderDash:[5,4], tension:0.3, fill:false, pointRadius:4,
+    datalabels:{ align:'bottom', offset:6, color:COL.red, font:{weight:'700', size:11}, formatter:(v)=>v.toFixed(2) }},
+], { plugins:{ datalabels:{display:true} } });
 
 // Possession
 lineChart(document.getElementById('chartPossession'), [
-  {label:'Perth Azzurri', data:team.map(t=>t.Possession_pct), borderColor:COL.navy, backgroundColor:'rgba(22,40,79,0.08)', tension:0.3, fill:true, pointRadius:3},
-  {label:'Opponents average', data:team.map(()=>oppAvg.Possession_pct), borderColor:COL.muted, borderDash:[6,4], pointRadius:0, fill:false, tension:0},
-], { scales:{ y:{ min:0, max:100, grid:{color:'rgba(12,24,48,0.05)'} }, x:{grid:{display:false}} }, plugins:{datalabels:{display:false}} });
+  {label:'Perth Azzurri', data:team.map(t=>t.Possession_pct), borderColor:COL.navy, backgroundColor:'rgba(22,40,79,0.08)', tension:0.3, fill:true, pointRadius:3,
+    datalabels:{ align:'top', offset:6, color:COL.navy, font:{weight:'700', size:10}, formatter:(v)=>v.toFixed(0)+'%' }},
+  {label:'Opponents average', data:team.map(()=>oppAvg.Possession_pct), borderColor:COL.muted, borderDash:[6,4], pointRadius:0, fill:false, tension:0,
+    datalabels:{display:false}},
+], { scales:{ y:{ min:0, max:100, grid:{color:'rgba(12,24,48,0.05)'} }, x:{grid:{display:false}} }, plugins:{datalabels:{display:true}} });
 
 // Passes accuracy
 lineChart(document.getElementById('chartPasses'), [
-  {label:'Perth Azzurri', data:team.map(t=>t.Passes_acc_pct), borderColor:COL.green, backgroundColor:'rgba(0,146,70,0.08)', tension:0.3, fill:true, pointRadius:3},
-  {label:'Opponents average', data:team.map(()=>oppAvg.Passes_acc_pct), borderColor:COL.muted, borderDash:[6,4], pointRadius:0, fill:false, tension:0},
-], { scales:{ y:{ min:0, max:100, grid:{color:'rgba(12,24,48,0.05)'} }, x:{grid:{display:false}} }, plugins:{datalabels:{display:false}} });
+  {label:'Perth Azzurri', data:team.map(t=>t.Passes_acc_pct), borderColor:COL.green, backgroundColor:'rgba(0,146,70,0.08)', tension:0.3, fill:true, pointRadius:3,
+    datalabels:{ align:'top', offset:6, color:COL.green, font:{weight:'700', size:10}, formatter:(v)=>v.toFixed(0)+'%' }},
+  {label:'Opponents average', data:team.map(()=>oppAvg.Passes_acc_pct), borderColor:COL.muted, borderDash:[6,4], pointRadius:0, fill:false, tension:0,
+    datalabels:{display:false}},
+], { scales:{ y:{ min:0, max:100, grid:{color:'rgba(12,24,48,0.05)'} }, x:{grid:{display:false}} }, plugins:{datalabels:{display:true}} });
 
 // Shots - with numbers on bars
 barChart(document.getElementById('chartShots'), [
