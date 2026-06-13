@@ -4,9 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Perth Azzurri — Team Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- External font links removed: everything now uses the Gibson font stack defined below -->
+<style>
+  /* Gibson font stack — uses local Gibson if installed, falls back to Gill Sans / system-ui */
+  :root {
+    --font-gibson: 'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif;
+    --font-mono:   'Gibson', 'Gill Sans', 'Gill Sans MT', system-ui, sans-serif;
+  }
+  /* ── Gibson global override ── */
+  *, *::before, *::after,
+  input, button, textarea, select, table, th, td {
+    font-family: var(--font-gibson) !important;
+  }
+  /* Chart.js canvases use JS-set fonts, override via Chart.defaults below */
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
@@ -26,13 +37,13 @@
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     background:var(--azzurro-cream);
     color:var(--ink);
     line-height:1.5;
   }
-  .display{font-family:'Montserrat', sans-serif; font-weight:800; letter-spacing:0.01em;}
-  .mono{font-family:'Space Mono', monospace;}
+  .display{font-family: var(--font-gibson); font-weight:800; letter-spacing:0.01em;}
+  .mono{font-family: var(--font-mono);}
 
   /* ===== Header / Hero ===== */
   header{
@@ -68,7 +79,7 @@
   }
   .hero-text{flex:1; min-width:280px;}
   .eyebrow{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.78rem;
     letter-spacing:0.22em;
     text-transform:uppercase;
@@ -101,7 +112,7 @@
   }
   .npl-badge img{width:34px; height:32px;}
   .npl-badge span{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.74rem;
     letter-spacing:0.12em;
     text-transform:uppercase;
@@ -124,13 +135,43 @@
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:4px;
-    overflow-x:auto;
+    gap:12px;
+  }
+  .nav-page-tabs {
+    display:flex;
+    gap:0;
+    background:rgba(255,255,255,0.08);
+    border-radius:999px;
+    padding:4px;
+  }
+  a.nav-page-tab {
+    color:rgba(255,255,255,0.6) !important;
+    background:transparent !important;
+    border:none !important;
+    border-radius:999px !important;
+    padding:9px 28px !important;
+    font-family: var(--font-gibson) !important;
+    font-weight:700 !important;
+    font-size:0.88rem !important;
+    text-transform:uppercase !important;
+    letter-spacing:0.06em !important;
+    text-decoration:none !important;
+    transition:all 0.22s !important;
+    white-space:nowrap;
+  }
+  a.nav-page-tab:hover {
+    color:rgba(255,255,255,0.9) !important;
+    background:rgba(255,255,255,0.1) !important;
+  }
+  a.nav-page-tab.active {
+    background:#fff !important;
+    color:var(--azzurro-navy) !important;
+    box-shadow:0 2px 8px rgba(0,0,0,0.18) !important;
   }
   nav a{
     color:rgba(255,255,255,0.6);
     text-decoration:none;
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:600;
     font-size:0.95rem;
     text-transform:uppercase;
@@ -177,7 +218,7 @@
     line-height:1;
   }
   .section-head .tag{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.78rem;
     letter-spacing:0.16em;
     text-transform:uppercase;
@@ -210,13 +251,13 @@
   .kpi:nth-child(3n+2)::before{background:var(--azzurro-red);}
   .kpi:nth-child(3n)::before{background:#fff;}
   .kpi .val{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:800;
     font-size:2.4rem;
     line-height:1;
   }
   .kpi .label{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.72rem;
     letter-spacing:0.12em;
     text-transform:uppercase;
@@ -238,7 +279,7 @@
     box-shadow:0 4px 16px rgba(12,24,48,0.04);
   }
   .chart-card h3{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:700;
     font-size:1.15rem;
     text-transform:uppercase;
@@ -278,14 +319,14 @@
     margin-bottom:8px;
   }
   .rate-label{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.7rem;
     letter-spacing:0.08em;
     text-transform:uppercase;
     color:var(--muted);
   }
   .rate-pct{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:800;
     font-size:1.6rem;
     color:var(--azzurro-navy);
@@ -303,7 +344,7 @@
     border-radius:999px;
   }
   .rate-frac{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.78rem;
     color:var(--muted);
   }
@@ -317,7 +358,7 @@
   }
   .count-grid .kpi{ background:var(--azzurro-navy-deep); }
   .count-grid .kpi .sub{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.68rem;
     color:rgba(255,255,255,0.45);
     margin-top:4px;
@@ -325,7 +366,7 @@
     letter-spacing:0.06em;
   }
 
-  .stats-table{ font-family:'Space Mono', monospace; font-size:0.82rem; }
+  .stats-table{ font-family: var(--font-mono); font-size:0.82rem; }
   .stat-note{
     font-size:0.82rem;
     color:var(--muted);
@@ -396,14 +437,14 @@
     border-radius:10px;
   }
   .video-label{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.72rem;
     letter-spacing:0.12em;
     text-transform:uppercase;
     color:var(--muted);
   }
   .video-link{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:700;
     font-size:1rem;
     color:var(--azzurro-red);
@@ -436,7 +477,7 @@
     justify-content:center;
   }
   .pin-input{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:1.6rem;
     letter-spacing:0.6em;
     text-align:center;
@@ -449,7 +490,7 @@
   }
   .pin-input:focus{outline:none; border-color:var(--azzurro-green);}
   .pin-btn{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:700;
     font-size:1rem;
     text-transform:uppercase;
@@ -468,7 +509,7 @@
     font-size:0.84rem;
     margin-top:14px;
     min-height:1.2em;
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
   }
 
   /* ===== Player profile ===== */
@@ -485,14 +526,14 @@
     padding:24px 28px;
   }
   .profile-header .name{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:800;
     font-size:2.2rem;
     text-transform:uppercase;
     line-height:1;
   }
   .profile-header .meta{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.8rem;
     color:rgba(255,255,255,0.6);
     letter-spacing:0.08em;
@@ -500,14 +541,14 @@
     margin-top:6px;
   }
   .profile-header .num{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:800;
     font-size:3rem;
     color:var(--azzurro-green);
     line-height:1;
   }
   .logout-btn{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.74rem;
     text-transform:uppercase;
     letter-spacing:0.1em;
@@ -541,7 +582,7 @@
     box-shadow:0 4px 16px rgba(12,24,48,0.06);
   }
   .match-row .round{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.72rem;
     color:var(--muted);
     text-transform:uppercase;
@@ -549,14 +590,14 @@
   }
   .match-row .round b{
     display:block;
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-size:1.6rem;
     font-weight:800;
     color:var(--azzurro-navy);
     letter-spacing:0;
   }
   .match-row .info .teams{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:700;
     font-size:1.15rem;
     text-transform:uppercase;
@@ -572,7 +613,7 @@
     gap:10px;
   }
   .pill{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.72rem;
     font-weight:700;
     letter-spacing:0.05em;
@@ -591,7 +632,7 @@
     text-align:center;
     padding:32px 24px;
     font-size:0.82rem;
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
   }
   footer .tricolore-bar{margin-bottom:24px;}
 
@@ -604,7 +645,7 @@
 
   /* ===== League Report Section ===== */
   .report-update-info{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.76rem;
     color:var(--muted);
     margin-bottom:20px;
@@ -625,7 +666,7 @@
     margin-bottom:24px;
   }
   .report-tab{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.78rem;
     letter-spacing:0.08em;
     text-transform:uppercase;
@@ -657,7 +698,7 @@
   .league-table th{
     background:var(--azzurro-navy);
     color:rgba(255,255,255,0.7);
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.7rem;
     letter-spacing:0.08em;
     text-transform:uppercase;
@@ -671,7 +712,7 @@
     border-bottom:1px solid var(--azzurro-cream);
     vertical-align:middle;
   }
-  .league-table td.num{ text-align:right; font-family:'Space Mono', monospace; font-size:0.84rem; }
+  .league-table td.num{ text-align:right; font-family: var(--font-mono); font-size:0.84rem; }
   .league-table tr:last-child td{ border-bottom:none; }
   .league-table tr.highlight-row td{
     background:rgba(22,40,79,0.06);
@@ -681,7 +722,7 @@
     color:var(--azzurro-navy);
   }
   .rank-num{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:800;
     font-size:1.1rem;
     color:var(--muted);
@@ -706,7 +747,7 @@
   .report-mini-table h4{
     background:var(--azzurro-navy);
     color:#fff;
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.74rem;
     letter-spacing:0.1em;
     text-transform:uppercase;
@@ -727,13 +768,13 @@
     font-weight:700;
   }
   .mini-rank{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.72rem;
     color:var(--muted);
     min-width:26px;
   }
   .mini-val{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.82rem;
     color:var(--azzurro-navy);
     font-weight:700;
@@ -765,13 +806,13 @@
     gap:16px;
   }
   .report-intro .ri-item .ri-val{
-    font-family:'Montserrat', sans-serif;
+    font-family: var(--font-gibson);
     font-weight:800;
     font-size:2rem;
     line-height:1;
   }
   .report-intro .ri-item .ri-label{
-    font-family:'Space Mono', monospace;
+    font-family: var(--font-mono);
     font-size:0.68rem;
     letter-spacing:0.1em;
     text-transform:uppercase;
@@ -782,6 +823,44 @@
     font-size:0.78rem;
     color:rgba(255,255,255,0.4);
     margin-top:2px;
+  }
+
+
+  /* nav-npl-tab removed — using nav-page-tab */
+  /* NPL back button */
+  .npl-back-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0 28px;
+    cursor: pointer;
+  }
+  .npl-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--azzurro-cream);
+    border: none;
+    border-radius: 999px;
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .npl-back-btn:hover {
+    background: var(--azzurro-navy);
+    color: #fff;
+  }
+  .npl-page-title {
+    font-family: var(--font-gibson);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.04em;
   }
 
 </style>
@@ -806,18 +885,18 @@
 
 <nav>
   <div class="nav-inner">
-    <a href="#summary">Season Summary</a>
-    <a href="#league-report">Perth Comparison</a>
-    <a href="#performance">Performance</a>
-    <a href="#shooting">Shooting</a>
-    <a href="#matches">Matches</a>
-    <a href="#details">Recoveries</a>
-    <a href="#coach-notes">Video Analysis</a>
-    <a href="#my-area" class="nav-cta">My Area</a>
+    <div class="nav-page-tabs">
+      <a href="#summary" data-view="main" class="nav-page-tab active" id="tab-main">Season Summary</a>
+      <a href="#league-report" data-view="npl" class="nav-page-tab" id="tab-npl">NPL Comparison</a>
+    </div>
+    <a href="#my-area" class="nav-cta" data-view="main">My Area</a>
   </div>
 </nav>
 
 <main>
+
+  <!-- ═══ MAIN VIEW ═══ -->
+  <div id="view-main">
 
   <section id="summary">
     <div class="section-head">
@@ -825,14 +904,6 @@
       <span class="tag" id="summary-tag"></span>
     </div>
     <div class="kpi-grid" id="kpi-grid"></div>
-  </section>
-
-  <section id="league-report">
-    <div class="section-head">
-      <h2>Perth Comparison — Report</h2>
-      <span class="tag">WA NPL Women 2026 · League context</span>
-    </div>
-    <div id="reportContent"></div>
   </section>
 
   <section id="performance">
@@ -856,10 +927,20 @@
         <p class="desc">Pass accuracy (accurate passes / total).</p>
         <canvas id="chartPasses"></canvas>
       </div>
-      <div class="chart-card">
+      <div class="chart-card full">
         <h3>Shots per match</h3>
-        <p class="desc">Total shots vs. shots on target, with the numbers for each round.</p>
-        <canvas id="chartShots"></canvas>
+        <p class="desc">Bars = shots taken (dark) and on target (red) · dashed line = season average · number above each bar = total shots that match.</p>
+        <canvas id="chartShots" style="max-height:300px;"></canvas>
+        <div id="shotsConversionStrip"></div>
+      </div>
+      <div class="chart-card" id="spg-stat-card">
+        <h3>Shots needed to score</h3>
+        <p class="desc">Season total: how many shots we take per goal scored.</p>
+        <div id="spgNumberDisplay" style="display:flex;align-items:center;justify-content:center;flex-direction:column;padding:32px 16px;gap:8px;">
+          <div style="font-family:var(--font-gibson);font-weight:800;font-size:4rem;line-height:1;color:var(--azzurro-navy);" id="spgBigNumber">—</div>
+          <div style="font-family: var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">shots per goal · season avg</div>
+          <div style="font-family: var(--font-mono);font-size:0.82rem;color:var(--muted);margin-top:4px;" id="spgSubLine">— shots · — goals</div>
+        </div>
       </div>
       <div class="chart-card">
         <h3>Duels: won vs. lost</h3>
@@ -872,25 +953,25 @@
       <h3 style="color:#fff; margin-bottom:14px;">📖 How to read these charts</h3>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px;">
         <div>
-          <p style="font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">SHOTS PER MATCH</p>
+          <p style="font-family: var(--font-mono); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">SHOTS PER MATCH</p>
           <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
             The <strong style="color:#fff">total number above each bar</strong> is the total shots in that match. The <strong style="color:var(--azzurro-red)">red number inside</strong> is how many were on target (forced the goalkeeper to save or resulted in a goal).
           </p>
         </div>
         <div>
-          <p style="font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">DUELS WON %</p>
+          <p style="font-family: var(--font-mono); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">DUELS WON %</p>
           <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
             Each bar shows the <strong style="color:#fff">total duels in that match</strong> ("t") and the <strong style="color:var(--azzurro-green)">% won</strong>. A duel is any 1v1 contest — defensive, offensive, or aerial. Winning more than 50% means Perth dominated individual battles.
           </p>
         </div>
         <div>
-          <p style="font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">xG — EXPECTED GOALS</p>
+          <p style="font-family: var(--font-mono); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">xG — EXPECTED GOALS</p>
           <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
             xG measures the <strong style="color:#fff">quality of chances created</strong>, not just the number of shots. A shot from close range in a good position = high xG (~0.7). A long-range speculative shot = low xG (~0.04). If Perth score <em>more</em> than their xG, they finished above expectation — and vice versa.
           </p>
         </div>
         <div>
-          <p style="font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">PASS ACCURACY %</p>
+          <p style="font-family: var(--font-mono); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">PASS ACCURACY %</p>
           <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
             The percentage of passes that reached a teammate. Higher is better, but context matters — teams playing shorter passes tend to have higher accuracy. Perth's league average is around <strong style="color:#fff">76%</strong>.
           </p>
@@ -976,6 +1057,21 @@
     <div id="playerProfile" class="player-profile" style="display:none;"></div>
   </section>
 
+
+  </div><!-- /view-main -->
+
+  <!-- ═══ NPL COMPARISON VIEW ═══ -->
+  <div id="view-npl" style="display:none;">
+  <section id="league-report">
+    <div class="npl-back-bar">
+      <button class="npl-back-btn" id="nplBackBtn">← Back to Dashboard</button>
+      <span class="npl-page-title">NPL Comparison · WA NPL Women 2026</span>
+    </div>
+    <div id="reportContent"></div>
+  </section>
+  </div><!-- /view-npl -->
+  </div><!-- /view-npl -->
+
 </main>
 
 <footer>
@@ -1001,7 +1097,9 @@ const COL = {
   navy:'#16284f', navyDeep:'#0c1830', green:'#009246', red:'#ce2b37', white:'#ffffff', muted:'#6b7488'
 };
 Chart.register(ChartDataLabels);
-Chart.defaults.font.family = "'Montserrat', sans-serif";
+// Set Gibson as Chart.js default font
+Chart.defaults.font.family = "'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif";
+Chart.defaults.font.size = 12;
 Chart.defaults.color = COL.muted;
 Chart.defaults.set('plugins.datalabels', { display:false });
 
@@ -1117,13 +1215,81 @@ lineChart(document.getElementById('chartPasses'), [
     datalabels:{display:false}},
 ], { scales:{ y:{ min:0, max:100, grid:{color:'rgba(12,24,48,0.05)'} }, x:{grid:{display:false}} }, plugins:{datalabels:{display:true}} });
 
-// Shots - with numbers on bars
-barChart(document.getElementById('chartShots'), [
-  {label:'Total Shots', data:team.map(t=>t.Shots), backgroundColor:'rgba(22,40,79,0.25)',
-    datalabels:{ anchor:'end', align:'top', color:COL.navy, font:{weight:'700', size:11}, formatter:(v)=>v }},
-  {label:'On Target', data:team.map(t=>t.Shots_on_target), backgroundColor:COL.red,
-    datalabels:{ anchor:'center', align:'center', color:'#fff', font:{weight:'700', size:11}, formatter:(v)=>v }},
-], { plugins:{ legend:{position:'bottom', labels:{boxWidth:14, font:{size:11}}}, datalabels:{} }});
+// Shots - combo: bars + average line + numbers + SPG number
+(function(){
+  const avgShots = team.reduce((s,t)=>s+t.Shots,0)/team.length;
+  const avgOnTarget = team.reduce((s,t)=>s+t.Shots_on_target,0)/team.length;
+  new Chart(document.getElementById('chartShots'), {
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        { type:'bar', label:'Total Shots', data:team.map(t=>t.Shots),
+          backgroundColor:'rgba(22,40,79,0.18)', borderColor:'rgba(22,40,79,0.5)', borderWidth:1,
+          datalabels:{ anchor:'end', align:'top', color:COL.navy, font:{weight:'800', size:13}, formatter:(v)=>v } },
+        { type:'bar', label:'On Target', data:team.map(t=>t.Shots_on_target),
+          backgroundColor:COL.red,
+          datalabels:{ anchor:'center', align:'center', color:'#fff', font:{weight:'700', size:11}, formatter:(v)=>v } },
+        { type:'line', label:'Avg Total ('+avgShots.toFixed(1)+')', data:team.map(()=>avgShots),
+          borderColor:COL.navy, borderWidth:2, borderDash:[6,4], pointRadius:0,
+          datalabels:{display:false} },
+        { type:'line', label:'Avg On Target ('+avgOnTarget.toFixed(1)+')', data:team.map(()=>avgOnTarget),
+          borderColor:COL.red, borderWidth:1.5, borderDash:[4,4], pointRadius:0,
+          datalabels:{display:false} },
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:true,
+      interaction:{mode:'index', intersect:false},
+      scales:{
+        y:{ beginAtZero:true, grid:{color:'rgba(12,24,48,0.05)'}, ticks:{font:{size:11}} },
+        x:{ grid:{display:false} }
+      },
+      plugins:{
+        legend:{position:'bottom', labels:{boxWidth:14, font:{size:11}}},
+        datalabels:{}
+      }
+    }
+  });
+
+  // SPG big number
+  const totalShots  = team.reduce((s,t)=>s+t.Shots,0);
+  const totalGoals  = team.reduce((s,t)=>s+t.Goals,0);
+  const totalOnTgt  = team.reduce((s,t)=>s+t.Shots_on_target,0);
+  const seasonSPG   = totalGoals > 0 ? (totalShots/totalGoals).toFixed(1) : '—';
+  const convRate    = totalShots > 0 ? (totalGoals/totalShots*100).toFixed(1) : '—';
+  const onTgtConv   = totalOnTgt > 0 ? (totalGoals/totalOnTgt*100).toFixed(1) : '—';
+
+  const spgEl = document.getElementById('spgBigNumber');
+  const spgSub = document.getElementById('spgSubLine');
+  if(spgEl) spgEl.textContent = seasonSPG;
+  if(spgSub) spgSub.textContent = totalShots+' shots · '+totalGoals+' goals · '+convRate+'% conversion';
+
+  // Conversion strip
+  document.getElementById('shotsConversionStrip').innerHTML = `
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1px; background:var(--azzurro-navy); border-radius:10px; overflow:hidden; margin-top:18px;">
+      <div style="background:var(--azzurro-navy-deep); color:#fff; padding:18px 16px;">
+        <div style="font-family:var(--font-gibson); font-weight:800; font-size:2rem; line-height:1;">${totalShots}</div>
+        <div style="font-family: var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-top:6px;">Total shots</div>
+      </div>
+      <div style="background:var(--azzurro-navy-deep); color:#fff; padding:18px 16px;">
+        <div style="font-family:var(--font-gibson); font-weight:800; font-size:2rem; line-height:1;">${totalGoals}</div>
+        <div style="font-family: var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-top:6px;">Goals scored</div>
+      </div>
+      <div style="background:var(--azzurro-navy-deep); color:#fff; padding:18px 16px;">
+        <div style="font-family:var(--font-gibson); font-weight:800; font-size:2rem; line-height:1;">${seasonSPG}</div>
+        <div style="font-family: var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-top:6px;">Shots per goal</div>
+      </div>
+      <div style="background:var(--azzurro-navy-deep); color:#fff; padding:18px 16px;">
+        <div style="font-family:var(--font-gibson); font-weight:800; font-size:2rem; line-height:1;">${convRate}%</div>
+        <div style="font-family: var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-top:6px;">Shot conversion</div>
+      </div>
+      <div style="background:var(--azzurro-navy-deep); color:#fff; padding:18px 16px;">
+        <div style="font-family:var(--font-gibson); font-weight:800; font-size:2rem; line-height:1;">${onTgtConv}%</div>
+        <div style="font-family: var(--font-mono); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-top:6px;">On-target conv.</div>
+      </div>
+    </div>`;
+})();
 
 // Duels - won vs lost (stacked)
 barChart(document.getElementById('chartDuels'), [
@@ -1173,22 +1339,22 @@ const pitchSVG = `
   ${zones.map((z,i)=>{
     const cx = i*200 + 100;
     return `
-    <text x="${cx}" y="40" text-anchor="middle" fill="#fff" font-family="Space Mono, monospace" font-size="12" letter-spacing="2" opacity="0.85">${zoneLabels[z].toUpperCase()}</text>
-    <text x="${cx}" y="175" text-anchor="middle" fill="#fff" font-family="Montserrat, sans-serif" font-weight="800" font-size="46">${rec[z]}</text>
-    <text x="${cx}" y="198" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Space Mono, monospace" font-size="11" letter-spacing="1">RECOVERIES</text>
-    <text x="${cx}" y="245" text-anchor="middle" fill="#bfe0ff" font-family="Montserrat, sans-serif" font-weight="800" font-size="34">${los[z]}</text>
-    <text x="${cx}" y="265" text-anchor="middle" fill="rgba(191,224,255,0.85)" font-family="Space Mono, monospace" font-size="11" letter-spacing="1">LOSSES</text>
+    <text x="${cx}" y="40" text-anchor="middle" fill="#fff" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif" font-size="12" letter-spacing="2" opacity="0.85">${zoneLabels[z].toUpperCase()}</text>
+    <text x="${cx}" y="175" text-anchor="middle" fill="#fff" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif" font-weight="800" font-size="46">${rec[z]}</text>
+    <text x="${cx}" y="198" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif" font-size="11" letter-spacing="1">RECOVERIES</text>
+    <text x="${cx}" y="245" text-anchor="middle" fill="#ff6b6b" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif" font-weight="800" font-size="34">${los[z]}</text>
+    <text x="${cx}" y="265" text-anchor="middle" fill="rgba(255,120,120,0.85)" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif" font-size="11" letter-spacing="1">LOSSES</text>
     `;
   }).join('')}
   <!-- attack arrow -->
   <line x1="40" y1="350" x2="560" y2="350" stroke="#fff" stroke-width="2" opacity="0.6"/>
   <polygon points="560,344 575,350 560,356" fill="#fff" opacity="0.6"/>
-  <text x="300" y="345" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Space Mono, monospace" font-size="11" letter-spacing="2">PERTH AZZURRI ATTACK →</text>
+  <text x="300" y="345" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif" font-size="11" letter-spacing="2">PERTH AZZURRI ATTACK →</text>
 </svg>`;
 document.getElementById('pitchWrap').innerHTML = `<div class="pitch">${pitchSVG}
   <div class="pitch-legend">
-    <span><i style="background:${COL.green}"></i> Ball recoveries</span>
-    <span><i style="background:#3aa0ff"></i> Ball losses</span>
+    <span><i style="background:#ffffff; border:1.5px solid #ccc;"></i> Ball recoveries</span>
+    <span style="color:var(--azzurro-red);"><i style="background:var(--azzurro-red);"></i> Ball losses</span>
   </div>
 </div>`;
 
@@ -1348,7 +1514,7 @@ function showProfile(player){
 
   const isGK = !!player.is_goalkeeper;
 
-  const bodyHtml = isGK ? `
+    const bodyHtml = isGK ? `
     <div class="chart-card full">
       <h3>Goalkeeper season stats</h3>
       <p class="desc">Season totals based on matches played in goal.</p>
@@ -1358,15 +1524,15 @@ function showProfile(player){
         <div class="stats-row"><span>Total minutes</span><span>${player.total_min ?? '-'}'</span><span></span></div>
         <div class="stats-row"><span>Average minutes</span><span>${player.avg_min ?? '-'}'</span><span></span></div>
       </div>
-      <p class="desc" style="margin-top:14px;">More detailed goalkeeper stats (saves, clean sheets, goals against) will appear here as they're added to the data hub.</p>
     </div>
-  ` : `
+  ` : ` 
+    <!-- ══ SEASON DETAILS ══ -->
     <div class="chart-card full">
       <h3>Season detailed stats</h3>
-      <p class="desc">Your accumulated numbers across all matches played.</p>
+      <p class="desc">Accumulated numbers across all matches played.</p>
       <div class="rate-grid">
         ${rateCards.map(([label,frac,pctVal])=>{
-          const p = (pctVal===null || pctVal===undefined) ? 0 : pctVal;
+          const p = (pctVal===null||pctVal===undefined) ? 0 : pctVal;
           return `
           <div class="rate-card">
             <div class="rate-top">
@@ -1378,7 +1544,7 @@ function showProfile(player){
           </div>`;
         }).join('')}
       </div>
-      <div class="count-grid">
+      <div class="count-grid" style="margin-top:16px;">
         ${countCards.map(([label,val,sub])=>`
           <div class="kpi">
             <div class="val">${val ?? '-'}</div>
@@ -1387,45 +1553,194 @@ function showProfile(player){
           </div>
         `).join('')}
       </div>
-      <h3 style="margin-top:22px;">Other contributions</h3>
+    </div>
+
+    <!-- ══ OTHER CONTRIBUTIONS ══ -->
+    <div class="chart-card full">
+      <h3>Other contributions</h3>
       <p class="desc">Additional ways you've impacted matches this season.</p>
       <div class="count-grid">
         ${extraRows.map(([label,val])=>`
           <div class="kpi">
-            <div class="val">${val}</div>
+            <div class="val">${val ?? '-'}</div>
             <div class="label">${label}</div>
           </div>
         `).join('')}
       </div>
     </div>
+
+    <!-- ══ DEFENSIVE STATS ══ -->
+    <div class="chart-card full">
+      <h3>🛡 Defensive stats</h3>
+      <p class="desc">Your defensive contributions, duels, recoveries and discipline this season.</p>
+
+      <!-- KPI strip -->
+      <div class="count-grid" style="margin-bottom:20px;">
+        <div class="kpi">
+          <div class="val">${player.losses_total ?? '-'}</div>
+          <div class="label">Ball losses total</div>
+          <div class="sub">own half: ${player.losses_own ?? '-'}</div>
+        </div>
+        <div class="kpi">
+          <div class="val">${player.recoveries ?? '-'}</div>
+          <div class="label">Recoveries total</div>
+          <div class="sub">opp. half: ${player.recoveries_opp ?? '-'}</div>
+        </div>
+        <div class="kpi">
+          <div class="val">${dd.def_duels ?? '-'}</div>
+          <div class="label">Def. duels total/won</div>
+          <div class="sub">${dd.def_pct ?? '-'} won</div>
+        </div>
+        <div class="kpi">
+          <div class="val">${dd.aerial ?? '-'}</div>
+          <div class="label">Aerial duels total/won</div>
+          <div class="sub">${dd.aerial_pct ?? '-'} won</div>
+        </div>
+        <div class="kpi">
+          <div class="val">${dd.interceptions_clear ?? '-'}</div>
+          <div class="label">Intercept / Clearances</div>
+        </div>
+        <div class="kpi">
+          <div class="val">${dd.blocks ?? '-'}</div>
+          <div class="label">Shots blocked</div>
+        </div>
+        <div class="kpi">
+          <div class="val">${dd.fouls ?? '-'}</div>
+          <div class="label">Fouls / Suffered</div>
+        </div>
+        <div class="kpi">
+          <div class="val" style="color:${(player.yc??0)>3?'var(--azzurro-red)':'inherit'}">${player.yc ?? 0} YC · ${player.rc ?? 0} RC</div>
+          <div class="label">Cards</div>
+        </div>
+      </div>
+
+      <!-- Recoveries on pitch -->
+      <p style="font-family: var(--font-mono);font-size:0.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Recoveries by zone</p>
+      <div style="display:flex;gap:12px;align-items:stretch;flex-wrap:wrap;margin-bottom:20px;">
+        <svg viewBox="0 0 320 210" style="width:260px;min-width:200px;border-radius:8px;overflow:hidden;" xmlns="http://www.w3.org/2000/svg">
+          <!-- pitch -->
+          <rect width="320" height="210" fill="#2d7a3a" rx="6"/>
+          <rect x="8" y="8" width="304" height="194" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+          <!-- halfway -->
+          <line x1="160" y1="8" x2="160" y2="202" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+          <circle cx="160" cy="105" r="28" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+          <!-- penalty areas -->
+          <rect x="8" y="62" width="52" height="86" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          <rect x="260" y="62" width="52" height="86" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          <!-- zone labels -->
+          <text x="58" y="110" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="9" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">OWN</text>
+          <text x="58" y="121" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="9" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">HALF</text>
+          <text x="262" y="110" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="9" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">OPP</text>
+          <text x="262" y="121" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="9" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">HALF</text>
+          <!-- own half recoveries bubble -->
+          <circle cx="90" cy="105" r="${Math.min(42, Math.max(12, (player.recoveries-player.recoveries_opp)/player.recoveries*60))}" fill="rgba(22,40,79,0.55)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+          <text x="90" y="100" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">${player.recoveries - (player.recoveries_opp ?? 0)}</text>
+          <text x="90" y="115" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="9" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">own half</text>
+          <!-- opp half recoveries bubble -->
+          <circle cx="230" cy="105" r="${Math.min(42, Math.max(12, (player.recoveries_opp ?? 0)/player.recoveries*60))}" fill="rgba(0,146,70,0.55)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+          <text x="230" y="100" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">${player.recoveries_opp ?? '-'}</text>
+          <text x="230" y="115" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="9" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">opp. half</text>
+          <!-- total label -->
+          <text x="160" y="197" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="8" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">TOTAL RECOVERIES: ${player.recoveries}</text>
+        </svg>
+        <div style="flex:1;min-width:180px;">
+          <div class="stats-table">
+            <div class="stats-row head"><span>Zone</span><span>Count</span><span>%</span></div>
+            <div class="stats-row"><span>Own half</span><span>${player.recoveries - (player.recoveries_opp ?? 0)}</span><span>${player.recoveries > 0 ? Math.round((player.recoveries-(player.recoveries_opp??0))/player.recoveries*100) : '-'}%</span></div>
+            <div class="stats-row"><span>Opp. half</span><span>${player.recoveries_opp ?? '-'}</span><span>${player.recoveries > 0 ? Math.round((player.recoveries_opp??0)/player.recoveries*100) : '-'}%</span></div>
+            <div class="stats-row" style="font-weight:700;"><span>Total</span><span>${player.recoveries}</span><span>100%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Defensive table -->
+      <div class="stats-table">
+        <div class="stats-row head"><span>Metric</span><span>Total / Won</span><span>Win %</span></div>
+        ${defenseRows.map(([label,val,pct])=>`
+          <div class="stats-row"><span>${label}</span><span>${val}</span><span>${pct}</span></div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- ══ PASSING DETAILS ══ -->
+    <div class="chart-card full">
+      <h3>⚡ Passing details</h3>
+      <p class="desc">All passes by direction and type. Format: total / accurate.</p>
+
+      <!-- Passing pitch visual -->
+      <p style="font-family: var(--font-mono);font-size:0.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Pass map — key zones</p>
+      <div style="display:flex;gap:12px;align-items:stretch;flex-wrap:wrap;margin-bottom:20px;">
+        <svg viewBox="0 0 320 210" style="width:260px;min-width:200px;border-radius:8px;overflow:hidden;" xmlns="http://www.w3.org/2000/svg">
+          <rect width="320" height="210" fill="#2d7a3a" rx="6"/>
+          <rect x="8" y="8" width="304" height="194" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+          <line x1="160" y1="8" x2="160" y2="202" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+          <circle cx="160" cy="105" r="28" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+          <rect x="8" y="62" width="52" height="86" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          <rect x="260" y="62" width="52" height="86" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          <!-- Forward passes arrow -->
+          <defs>
+            <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.7)"/>
+            </marker>
+          </defs>
+          <line x1="80" y1="130" x2="230" y2="90" stroke="rgba(255,255,255,0.6)" stroke-width="2" marker-end="url(#arr)"/>
+          <!-- Labels -->
+          <text x="160" y="75" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">${pa.forward ?? '-'}</text>
+          <text x="160" y="86" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="8" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">FORWARD</text>
+          <text x="42" y="155" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">${pa.long ?? '-'}</text>
+          <text x="42" y="165" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="8" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">LONG</text>
+          <text x="275" y="155" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">${pa.final_third ?? '-'}</text>
+          <text x="275" y="165" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="8" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">FINAL 3rd</text>
+          <text x="160" y="142" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">${pa.progressive ?? '-'}</text>
+          <text x="160" y="153" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="8" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">PROG.</text>
+          <text x="42" y="40" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">${pa.back ?? '-'}</text>
+          <text x="42" y="50" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="8" font-family="'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif">BACK</text>
+        </svg>
+        <div style="flex:1;min-width:180px;">
+          <div class="stats-table">
+            <div class="stats-row head"><span>Type</span><span>Total / Acc.</span><span>%</span></div>
+            <div class="stats-row"><span>Forward</span><span>${pa.forward ?? '-'}</span><span>${pa.forward_pct ?? '-'}%</span></div>
+            <div class="stats-row"><span>Back</span><span>${pa.back ?? '-'}</span><span>${pa.back_pct ?? '-'}%</span></div>
+            <div class="stats-row"><span>Lateral</span><span>${pa.lateral ?? '-'}</span><span>${pa.lateral_pct ?? '-'}%</span></div>
+            <div class="stats-row"><span>Short / Medium</span><span>${pa.short_med ?? '-'}</span><span>${pa.short_med_pct ?? '-'}%</span></div>
+            <div class="stats-row"><span>Long</span><span>${pa.long ?? '-'}</span><span>${pa.long_pct ?? '-'}%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key pass rates -->
+      <p style="font-family: var(--font-mono);font-size:0.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;">Key pass rates</p>
+      <div class="stats-table">
+        <div class="stats-row head"><span>Type</span><span>Total / Accurate</span><span>%</span></div>
+        <div class="stats-row"><span>Progressive passes</span><span>${pa.progressive ?? '-'}</span><span>${pa.progressive_pct ?? '-'}%</span></div>
+        <div class="stats-row"><span>Passes to final third</span><span>${pa.final_third ?? '-'}</span><span>${pa.final_third_pct ?? '-'}%</span></div>
+        <div class="stats-row"><span>Through balls</span><span>${pa.through ?? '-'}</span><span>${pa.through_pct ?? '-'}%</span></div>
+        <div class="stats-row"><span>Deep completions</span><span>${pa.deep_completions ?? '-'}</span><span>—</span></div>
+        <div class="stats-row"><span>Key passes</span><span>${pa.key_passes ?? '-'}</span><span>—</span></div>
+        <div class="stats-row"><span>Shot assists</span><span>${pa.shot_assists ?? '-'}</span><span>—</span></div>
+        <div class="stats-row"><span>2nd / 3rd assists</span><span>${pa.second_third_assists ?? '-'}</span><span>—</span></div>
+      </div>
+    </div>
+
+    <!-- ══ CHART GRID ══ -->
     <div class="chart-grid">
       <div class="chart-card">
         <h3>Duels by type: won vs. lost</h3>
         <p class="desc">Breakdown of every duel you contested this season.</p>
         <canvas id="profileDuelsChart"></canvas>
       </div>
-      <div class="chart-card full">
-        <h3>Passing by direction &amp; length</h3>
-        <p class="desc">Forward, back, lateral, short/medium and long passes — accurate vs. inaccurate, with totals.</p>
-        <canvas id="profilePassingChart1"></canvas>
-      </div>
       <div class="chart-card">
         <h3>Progressive &amp; final-third passing</h3>
-        <p class="desc">Progressive passes, passes to the final third, and through balls — accurate vs. inaccurate.</p>
+        <p class="desc">Progressive passes, passes to the final third, and through balls.</p>
         <canvas id="profilePassingChart2"></canvas>
       </div>
       <div class="chart-card full">
-        <h3>Defensive actions &amp; set pieces</h3>
-        <p class="desc">Your duels by type, defensive contributions, fouls and set-piece involvement.</p>
-        <div class="stats-table">
-          <div class="stats-row head"><span>Metric</span><span>Total / Won</span><span>%</span></div>
-          ${defenseRows.map(([label,val,pct])=>`
-            <div class="stats-row"><span>${label}</span><span>${val}</span><span>${pct}</span></div>
-          `).join('')}
-        </div>
+        <h3>Passing by direction &amp; length</h3>
+        <p class="desc">Forward, back, lateral, short/medium and long passes — accurate vs. inaccurate.</p>
+        <canvas id="profilePassingChart1"></canvas>
       </div>
     </div>
-  `;
+  `
 
   profileBox.innerHTML = `
     <div class="profile-header">
@@ -1443,7 +1758,7 @@ function showProfile(player){
       <strong>xG (Expected Goals)</strong>: how many goals a player would be expected to score from the shots they took, based on shot quality. <strong>xA (Expected Assists)</strong>: how many assists a player would be expected to register from the key passes they made, based on the quality of the chance created.
     </p>
     ${bodyHtml}
-    <p style="color:var(--muted); font-size:0.84rem; font-family:'Space Mono', monospace;">
+    <p style="color:var(--muted); font-size:0.84rem; font-family: var(--font-mono);">
       The team-wide charts and data are still visible in the sections above (Summary, Performance, Matches).
     </p>
   `;
@@ -1535,176 +1850,372 @@ pinInput.addEventListener('input', () => { pinInput.value = pinInput.value.repla
 
 // ===== LEAGUE COMPARISON REPORT =====
 // Update this object each week with fresh data from the Wyscout season report PDF
-const REPORT_DATA = {
-  lastUpdated: "Round 10 · June 2026",
-  standings: [
-    { pos:1, team:"Perth",         pts:24, p:10, w:7, d:3, l:0, gf:23, ga:2,  gd:21, xg:17.8, xga:4.3  },
-    { pos:2, team:"Fremantle City",pts:21, p:10, w:6, d:3, l:1, gf:25, ga:9,  gd:16, xg:18.6, xga:14.7 },
-    { pos:3, team:"Balcatta",      pts:19, p:10, w:5, d:4, l:1, gf:25, ga:8,  gd:16, xg:20.3, xga:7.6  },
-    { pos:4, team:"Perth RedStar", pts:15, p:10, w:4, d:3, l:3, gf:17, ga:12, gd:5,  xg:21.0, xga:10.6 },
-    { pos:5, team:"West NTC",      pts:14, p:10, w:3, d:5, l:2, gf:17, ga:13, gd:4,  xg:16.3, xga:15.5 },
-    { pos:6, team:"Subiaco",       pts:7,  p:10, w:2, d:1, l:7, gf:10, ga:22, gd:-12,xg:16.8, xga:18.8 },
-    { pos:7, team:"Sorrento",      pts:7,  p:10, w:2, d:1, l:7, gf:9,  ga:29, gd:-20,xg:7.9,  xga:27.9 },
-    { pos:8, team:"UWA Nedlands",  pts:2,  p:10, w:0, d:2, l:8, gf:4,  ga:34, gd:-30,xg:3.7,  xga:23.1 },
-  ],
-  teamStats: {
-    shots:         [{team:"Balcatta",val:19.14},{team:"Perth",val:16.74},{team:"Perth RedStar",val:16.22},{team:"Fremantle City",val:13.52},{team:"West NTC",val:13.32},{team:"Subiaco",val:13.03},{team:"Sorrento",val:5.77},{team:"UWA Nedlands",val:5.60}],
-    shotsAgainst:  [{team:"Perth",val:6.30},{team:"Balcatta",val:7.57},{team:"Perth RedStar",val:8.34},{team:"West NTC",val:10.27},{team:"Fremantle City",val:14.09},{team:"Subiaco",val:15.79},{team:"UWA Nedlands",val:18.91},{team:"Sorrento",val:22.43}],
-    possession:    [{team:"Balcatta",val:61.3},{team:"Perth",val:54.4},{team:"Perth RedStar",val:53.5},{team:"Fremantle City",val:52.4},{team:"West NTC",val:48.2},{team:"Subiaco",val:45.7},{team:"Sorrento",val:43.9},{team:"UWA Nedlands",val:39.7}],
-    passes:        [{team:"Balcatta",val:511.40},{team:"Perth",val:433.07},{team:"Fremantle City",val:401.41},{team:"Perth RedStar",val:394.13},{team:"West NTC",val:386.35},{team:"Subiaco",val:335.17},{team:"Sorrento",val:311.64},{team:"UWA Nedlands",val:288.38}],
-    progressive:   [{team:"Balcatta",val:89.37},{team:"Perth",val:82.95},{team:"West NTC",val:81.34},{team:"Perth RedStar",val:77.72},{team:"Subiaco",val:75.16},{team:"Fremantle City",val:74.02},{team:"Sorrento",val:67.48},{team:"UWA Nedlands",val:65.60}],
-    deepComp:      [{team:"Perth",val:8.09},{team:"Perth RedStar",val:7.41},{team:"Fremantle City",val:7.00},{team:"Balcatta",val:6.41},{team:"West NTC",val:5.99},{team:"Subiaco",val:5.04},{team:"Sorrento",val:2.84},{team:"UWA Nedlands",val:1.80}],
-    crosses:       [{team:"Perth",val:17.68},{team:"Balcatta",val:14.82},{team:"West NTC",val:11.99},{team:"Perth RedStar",val:11.53},{team:"Subiaco",val:11.04},{team:"Fremantle City",val:9.74},{team:"Sorrento",val:5.49},{team:"UWA Nedlands",val:4.23}],
-    dribbles:      [{team:"Fremantle City",val:31.10},{team:"Perth",val:22.19},{team:"West NTC",val:21.50},{team:"Subiaco",val:20.64},{team:"Perth RedStar",val:20.44},{team:"Balcatta",val:17.98},{team:"UWA Nedlands",val:15.32},{team:"Sorrento",val:14.57}],
-    touchesPenArea:[{team:"Perth",val:21.82},{team:"Perth RedStar",val:20.16},{team:"Fremantle City",val:19.38},{team:"West NTC",val:17.70},{team:"Balcatta",val:17.56},{team:"Subiaco",val:13.60},{team:"Sorrento",val:7.00},{team:"UWA Nedlands",val:5.07}],
-    ppda:          [{team:"Perth RedStar",val:5.83},{team:"Perth",val:6.18},{team:"Balcatta",val:7.41},{team:"Fremantle City",val:8.50},{team:"Subiaco",val:9.03},{team:"West NTC",val:9.69},{team:"UWA Nedlands",val:13.40},{team:"Sorrento",val:26.67}],
-    recoveries:    [{team:"Balcatta",val:98.62},{team:"Perth",val:97.99},{team:"Fremantle City",val:97.09},{team:"West NTC",val:96.95},{team:"Perth RedStar",val:95.34},{team:"Subiaco",val:86.00},{team:"UWA Nedlands",val:80.92},{team:"Sorrento",val:79.97}],
-    losses:        [{team:"Perth",val:123.20},{team:"Fremantle City",val:125.45},{team:"Balcatta",val:127.22},{team:"Subiaco",val:128.05},{team:"Sorrento",val:128.14},{team:"Perth RedStar",val:129.75},{team:"UWA Nedlands",val:130.25},{team:"West NTC",val:136.24}],
+// ═══════════════════════════════════════════════════════════════
+// NPL COMPARISON DATA — loaded from npl_comparison_data.json
+// To update weekly: edit npl_comparison_data.json with the new
+// Hudl Wyscout "NPL Comparison" PDF values. See README.md for instructions.
+// ═══════════════════════════════════════════════════════════════
+let REPORT_DATA = null;
+
+async function loadReportData() {
+  try {
+    const res = await fetch('npl_comparison_data.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    REPORT_DATA = await res.json();
+  } catch (err) {
+    console.error('Could not load npl_comparison_data.json:', err);
+    const el = document.getElementById('view-npl');
+    if (el) {
+      el.innerHTML = '<div style="padding:2rem;text-align:center;color:#b00;">' +
+        'Erro ao carregar npl_comparison_data.json. Verifique se o arquivo está na mesma pasta do painel.html no servidor.</div>';
+    }
+    return;
   }
-};
+  if (typeof buildReport === 'function') buildReport();
+}
 
-function buildReport(){
+// ═══════════════════════════════════════════════════════════════
+// buildReport — renders the full NPL Comparison page
+// ═══════════════════════════════════════════════════════════════
+function buildReport() {
   const wrap = document.getElementById('reportContent');
-  if(!wrap) return;
-
+  if (!wrap) return;
   const PERTH = "Perth";
 
-  function perthRow(arr){ return arr.findIndex(r=>r.team===PERTH); }
+  // ── helper: mini ranked bar table ──────────────────────────
+  function miniTable(title, arr, unit, lowerBetter, note) {
+    unit = unit || ''; lowerBetter = lowerBetter || false; note = note || '';
+    const vals = arr.map(r => r.val);
+    const max = Math.max(...vals), min = Math.min(...vals), range = max - min || 1;
+    return `<div class="report-mini-table">
+      <h4>${title}${unit ? ' <span style="font-weight:400;opacity:.55;font-size:.85em;">(${unit})</span>' : ''}</h4>
+      ${note ? `<p style="font-size:.74rem;padding:4px 14px 0;color:var(--muted);margin:0;">${note}</p>` : ''}
+      ${arr.map((r,i) => {
+        const isP = r.team === PERTH;
+        const frac = lowerBetter ? (max - r.val)/range : (r.val - min)/range;
+        const disp = r.val % 1 !== 0 ? r.val.toFixed(2) : r.val;
+        return `<div class="mini-row${isP ? ' perth-row' : ''}">
+          <span class="mini-rank">${i+1}</span>
+          <span style="flex:2;font-size:.83rem;font-weight:${isP?'700':'400'}">${r.team}</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:${Math.max(4,frac*100).toFixed(0)}%"></div></div>
+          <span class="mini-val">${disp}${unit==='%'?'%':''}</span>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
 
-  // Standings table
-  const standHtml = `
-    <div class="report-intro">
-      ${(()=>{
-        const p = REPORT_DATA.standings.find(r=>r.team===PERTH);
-        return [
-          ['#'+p.pos, 'League position', ''],
-          [p.pts+' pts', 'Points', p.p+' matches'],
-          [p.w+'-'+p.d+'-'+p.l, 'W / D / L', ''],
-          [p.gf+':'+p.ga, 'Goals For:Against', 'GD '+( p.gd>0?'+':'')+p.gd],
-          [p.xg.toFixed(1)+' xG', 'Expected goals', 'xGA '+p.xga.toFixed(1)],
-        ].map(([v,l,s])=>`<div class="ri-item"><div class="ri-val">${v}</div><div class="ri-label">${l}</div>${s?'<div class="ri-sub">'+s+'</div>':''}</div>`).join('');
-      })()}
+  // ── helper: wyscout-style typology chart ───────────────────
+  function typologyChart(data, perth) {
+    const cols = [
+      { key:'total',     pKey:null,          label:'Total',              avg:(data.reduce((s,r)=>s+r.total,0)/data.length).toFixed(1) },
+      { key:'longShots', pKey:'longShotsPct', label:'Long shots',        avg:(data.reduce((s,r)=>s+r.longShots,0)/data.length).toFixed(1) },
+      { key:'counter',   pKey:'counterPct',   label:'Counterattacks',    avg:(data.reduce((s,r)=>s+r.counter,0)/data.length).toFixed(1) },
+      { key:'setPiece',  pKey:'setPiecePct',  label:'After set pieces',  avg:(data.reduce((s,r)=>s+r.setPiece,0)/data.length).toFixed(1) },
+      { key:'directFK',  pKey:'directFKPct',  label:'Direct FK & pen',   avg:(data.reduce((s,r)=>s+r.directFK,0)/data.length).toFixed(1) },
+    ];
+    const maxVals = cols.map(c => Math.max(...data.map(r => r[c.key])) || 1);
+    const BAR = 110, LABEL = 130, COL = 155;
+    function bcolor(i,n,isP){ if(isP)return'#16284f'; const r=i/(n-1); return r<=0.33?'#22c55e':r<=0.66?'#f59e0b':'#ef4444'; }
+
+    let h = `<div style="overflow-x:auto;"><div style="min-width:${LABEL+cols.length*COL}px;">`;
+    // header
+    h += `<div style="display:flex;height:40px;align-items:flex-end;padding-bottom:6px;border-bottom:2px solid #e5e7eb;">
+      <div style="width:${LABEL}px;flex-shrink:0;"></div>
+      ${cols.map(c=>`<div style="width:${COL}px;flex-shrink:0;text-align:center;">
+        <div style="font-size:.65rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;">${c.label}</div>
+        <div style="font-size:.75rem;font-weight:700;color:#374151;">avg ${c.avg}</div>
+      </div>`).join('')}
+    </div>`;
+    // rows
+    data.forEach((r,ri) => {
+      const isP = r.team === perth;
+      h += `<div style="display:flex;height:34px;align-items:center;background:${isP?'rgba(22,40,79,.05)':'transparent'};border-bottom:1px solid #f3f4f6;">
+        <div style="width:${LABEL}px;flex-shrink:0;font-size:.83rem;font-weight:${isP?'700':'500'};color:${isP?'#16284f':'#374151'};padding-left:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.team}</div>
+        ${cols.map((c,ci) => {
+          const val = r[c.key], pct = c.pKey ? r[c.pKey] : null;
+          const bw = Math.max(ci===0?16:0, Math.round(val/maxVals[ci]*BAR));
+          const label = ci===0 ? `${val}` : val===0 ? '0' : `${val}${pct!==null?` (${pct}%)`:''}`;
+          const col = bcolor(ri, data.length, isP);
+          return `<div style="width:${COL}px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+            ${val>0||ci===0 ? `<div style="display:flex;align-items:center;gap:4px;">
+              <div style="width:${bw}px;height:20px;background:${col};border-radius:3px;display:flex;align-items:center;justify-content:center;min-width:${val>0?12:0}px;">
+                ${bw>=32?`<span style="font-size:.71rem;font-weight:700;color:#fff;">${label}</span>`:''}
+              </div>
+              ${bw<32&&val>0?`<span style="font-size:.71rem;font-weight:600;color:#374151;">${label}</span>`:''}
+            </div>` : `<span style="font-size:.75rem;color:#d1d5db;">0</span>`}
+          </div>`;
+        }).join('')}
+      </div>`;
+    });
+    h += '</div></div>';
+    return h;
+  }
+
+  // ── Perth highlight strip ───────────────────────────────────
+  function perthStrip(items) {
+    return `<div class="report-intro" style="margin-bottom:20px;">
+      ${items.map(([v,l,s])=>`<div class="ri-item">
+        <div class="ri-val">${v}</div>
+        <div class="ri-label">${l}</div>
+        ${s?`<div class="ri-sub">${s}</div>`:''}
+      </div>`).join('')}
+    </div>`;
+  }
+
+  // ── DATA shortcuts ──────────────────────────────────────────
+  const pGST  = REPORT_DATA.goalsScoredTypology.find(r=>r.team===PERTH);
+  const pGCT  = REPORT_DATA.goalsConcededTypology.find(r=>r.team===PERTH);
+  const pForm = REPORT_DATA.formations.find(r=>r.team===PERTH);
+  const pFlanks= REPORT_DATA.attackFlanks.find(r=>r.team===PERTH);
+  const pStand = REPORT_DATA.standings.find(r=>r.team===PERTH);
+
+  // ── ATTACK TAB HTML ─────────────────────────────────────────
+  const attackHtml = `
+    ${perthStrip([
+      ['#'+pStand.pos, 'League position', pStand.pts+' points'],
+      [pGST.total, 'Goals scored', '#3 in league'],
+      [pGST.longShots+' ('+pGST.longShotsPct+'%)', 'Long shots', ''],
+      [pGST.setPiece+' ('+pGST.setPiecePct+'%)', 'Set pieces', ''],
+      [pGST.counter+' ('+pGST.counterPct+'%)', 'Counter', ''],
+    ])}
+
+    <div class="chart-card full" style="padding:0;overflow:hidden;margin-bottom:20px;">
+      <div style="padding:18px 20px 0;">
+        <h3 style="margin-bottom:2px;">Goals scored typology</h3>
+        <p class="desc" style="margin-bottom:12px;">All 8 teams · league avg per column · Perth highlighted in navy</p>
+      </div>
+      <div style="padding:0 20px 20px;">${typologyChart(REPORT_DATA.goalsScoredTypology, PERTH)}</div>
     </div>
-    <div class="chart-card full" style="padding:0; overflow:hidden;">
+
+    <div class="chart-card full" style="padding:18px 20px;margin-bottom:20px;">
+      <h3 style="margin-bottom:4px;">Perth goals by time period vs. league average</h3>
+      <p class="desc" style="margin-bottom:12px;">Goals scored each 15-min window</p>
+      <canvas id="chartGoalTimingAttack" style="max-height:220px;"></canvas>
+    </div>
+
+    <div class="chart-card full" style="padding:18px 20px;margin-bottom:20px;">
+      <h3 style="margin-bottom:4px;">Attack profile — formation & flanks</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px;">
+        <div>
+          <p style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;">Primary formation</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:var(--azzurro-navy);color:#fff;border-radius:999px;padding:6px 16px;font-size:.83rem;font-weight:700;">${pForm.f1} <span style="opacity:.6;">${pForm.p1}%</span></span>
+            <span style="background:var(--azzurro-cream);color:var(--azzurro-navy);border-radius:999px;padding:6px 16px;font-size:.83rem;">${pForm.f2} <span style="opacity:.6;">${pForm.p2}%</span></span>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;">Attack by flank</p>
+          ${[['Left',pFlanks.left,'var(--azzurro-green)'],['Centre',pFlanks.centre,'var(--azzurro-navy)'],['Right',pFlanks.right,'var(--azzurro-red)']].map(([lab,val,col])=>`
+            <div style="margin-bottom:6px;">
+              <div style="display:flex;justify-content:space-between;font-size:.83rem;margin-bottom:2px;"><span>${lab}</span><strong>${val}%</strong></div>
+              <div style="height:7px;background:rgba(22,40,79,.08);border-radius:999px;overflow:hidden;">
+                <div style="width:${val}%;height:100%;background:${col};border-radius:999px;"></div>
+              </div>
+            </div>`).join('')}
+          <p style="font-size:.72rem;color:var(--muted);margin-top:4px;">League avg: 30% · 35% · 35%</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-grid">
+      ${miniTable('Shots per 90', REPORT_DATA.teamStats.shots, 'avg/90')}
+      ${miniTable('xG per shot', REPORT_DATA.teamStats.shotsXG, '', false, 'Higher = better chance quality')}
+      ${miniTable('Ball possession', REPORT_DATA.teamStats.possession, '%')}
+      ${miniTable('Passes per 90', REPORT_DATA.teamStats.passes, 'avg/90')}
+      ${miniTable('Progressive passes /90', REPORT_DATA.teamStats.progressive, 'avg/90')}
+      ${miniTable('Deep completions /90', REPORT_DATA.teamStats.deepComp, 'avg/90', false, 'Pass received within 20m of opp. goal')}
+      ${miniTable('Crosses per 90', REPORT_DATA.teamStats.crosses, 'avg/90')}
+      ${miniTable('Dribbles per 90', REPORT_DATA.teamStats.dribbles, 'avg/90')}
+      ${miniTable('Touches in pen. area /90', REPORT_DATA.teamStats.touchesPA, 'avg/90')}
+      ${miniTable('Offensive duels /90', REPORT_DATA.teamStats.offDuels, 'avg/90')}
+    </div>`;
+
+  // ── DEFENCE TAB HTML ────────────────────────────────────────
+  const defenceHtml = `
+    ${perthStrip([
+      ['#1', 'Goals conceded', 'Best in league'],
+      [pGCT.total, 'Total conceded', ''],
+      [pGCT.longShots+' ('+pGCT.longShotsPct+'%)', 'Long shots', ''],
+      [pGCT.setPiece+' ('+pGCT.setPiecePct+'%)', 'Set pieces', ''],
+      [pGCT.counter+' ('+pGCT.counterPct+'%)', 'Counter conceded', ''],
+    ])}
+
+    <div class="chart-card full" style="padding:0;overflow:hidden;margin-bottom:20px;">
+      <div style="padding:18px 20px 0;">
+        <h3 style="margin-bottom:2px;">Goals conceded typology</h3>
+        <p class="desc" style="margin-bottom:12px;">All 8 teams · league avg per column · Perth highlighted</p>
+      </div>
+      <div style="padding:0 20px 20px;">${typologyChart(REPORT_DATA.goalsConcededTypology, PERTH)}</div>
+    </div>
+
+    <div class="chart-card full" style="padding:18px 20px;margin-bottom:20px;">
+      <h3 style="margin-bottom:4px;">Perth goals conceded by time period vs. league average</h3>
+      <p class="desc" style="margin-bottom:12px;">Goals conceded each 15-min window</p>
+      <canvas id="chartGoalTimingDefence" style="max-height:220px;"></canvas>
+    </div>
+
+    <div class="report-grid">
+      ${miniTable('Shots against /90 — lower = better', REPORT_DATA.teamStats.shotsAgainst, 'avg/90', true)}
+      ${miniTable('Pressing PPDA — lower = more intense', REPORT_DATA.teamStats.ppda, '', true, 'Opp. passes per def. action in opp. 60%')}
+      ${miniTable('Defensive duels /90', REPORT_DATA.teamStats.defDuels, 'avg/90')}
+      ${miniTable('Aerial duels /90', REPORT_DATA.teamStats.aerialDuels, 'avg/90')}
+      ${miniTable('Interceptions /90', REPORT_DATA.teamStats.interceptions, 'avg/90')}
+      ${miniTable('Ball recoveries /90', REPORT_DATA.teamStats.recoveries, 'avg/90')}
+      ${miniTable('Ball losses /90 — lower = better', REPORT_DATA.teamStats.losses, '', true)}
+    </div>`;
+
+  // ── STANDINGS TAB HTML ──────────────────────────────────────
+  const standHtml = `
+    ${perthStrip([
+      ['#'+pStand.pos, 'League position', ''],
+      [pStand.pts+' pts', 'Points', pStand.p+' matches'],
+      [pStand.w+'-'+pStand.d+'-'+pStand.l, 'W / D / L', ''],
+      [pStand.gf+':'+pStand.ga, 'Goals For:Against', 'GD '+(pStand.gd>0?'+':'')+pStand.gd],
+      [pStand.xg.toFixed(1)+' xG', 'Expected goals', 'xGA '+pStand.xga.toFixed(1)],
+    ])}
+    <div class="chart-card full" style="padding:0;overflow:hidden;">
       <table class="league-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Team</th>
-            <th class="num">Pts</th>
-            <th class="num">P</th>
-            <th class="num">W</th>
-            <th class="num">D</th>
-            <th class="num">L</th>
-            <th class="num">GF</th>
-            <th class="num">GA</th>
-            <th class="num">GD</th>
-            <th class="num">xG</th>
-            <th class="num">xGA</th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th>#</th><th>Team</th>
+          <th class="num">Pts</th><th class="num">P</th><th class="num">W</th><th class="num">D</th><th class="num">L</th>
+          <th class="num">GF</th><th class="num">GA</th><th class="num">GD</th>
+          <th class="num">xG</th><th class="num">xGA</th>
+        </tr></thead>
         <tbody>
           ${REPORT_DATA.standings.map(r=>{
-            const isPerth = r.team === PERTH;
-            return `<tr class="${isPerth?'highlight-row':''}">
+            const isP = r.team===PERTH;
+            return `<tr class="${isP?'highlight-row':''}">
               <td><span class="rank-num ${r.pos<=3?'top':''}">${r.pos}</span></td>
-              <td class="team-name">${isPerth?'<strong>'+r.team+'</strong>':r.team}</td>
-              <td class="num">${r.pts}</td>
-              <td class="num">${r.p}</td>
-              <td class="num">${r.w}</td>
-              <td class="num">${r.d}</td>
-              <td class="num">${r.l}</td>
-              <td class="num">${r.gf}</td>
-              <td class="num">${r.ga}</td>
+              <td class="team-name">${isP?'<strong>'+r.team+'</strong>':r.team}</td>
+              <td class="num">${r.pts}</td><td class="num">${r.p}</td>
+              <td class="num">${r.w}</td><td class="num">${r.d}</td><td class="num">${r.l}</td>
+              <td class="num">${r.gf}</td><td class="num">${r.ga}</td>
               <td class="num">${r.gd>0?'+':''}${r.gd}</td>
-              <td class="num">${r.xg.toFixed(1)}</td>
-              <td class="num">${r.xga.toFixed(1)}</td>
+              <td class="num">${r.xg.toFixed(1)}</td><td class="num">${r.xga.toFixed(1)}</td>
             </tr>`;
           }).join('')}
         </tbody>
       </table>
-    </div>`;
+    </div>
+    <p style="font-size:.75rem;color:var(--muted);margin-top:8px;">xG = Expected Goals. xGA = Expected Goals Against. Source: Hudl Wyscout · ${REPORT_DATA.lastUpdated}</p>`;
 
-  // Mini comparison tables helper
-  function miniTable(title, arr, unit='', lowerIsBetter=false){
-    const max = Math.max(...arr.map(r=>r.val));
-    const min = Math.min(...arr.map(r=>r.val));
-    const range = max - min || 1;
-    const pi = arr.findIndex(r=>r.team===PERTH);
-    return `
-      <div class="report-mini-table">
-        <h4>${title}${unit?' ('+unit+')':''}</h4>
-        ${arr.map((r,i)=>{
-          const isP = r.team===PERTH;
-          const frac = lowerIsBetter ? (max-r.val)/range : (r.val-min)/range;
-          return `<div class="mini-row${isP?' perth-row':''}">
-            <span class="mini-rank">${i+1}</span>
-            <span style="flex:2; font-size:0.84rem; font-weight:${isP?'700':'400'}">${r.team}</span>
-            <div class="bar-wrap"><div class="bar-fill" style="width:${Math.max(4,frac*100).toFixed(0)}%"></div></div>
-            <span class="mini-val">${typeof r.val==='number'&&r.val%1!==0?r.val.toFixed(2):r.val}${unit==='%'?'%':''}</span>
-          </div>`;
-        }).join('')}
-      </div>`;
-  }
-
-  const attackHtml = `
-    <div class="report-grid">
-      ${miniTable('Shots per 90','shots' in REPORT_DATA.teamStats ? REPORT_DATA.teamStats.shots : [], 'avg/90')}
-      ${miniTable('Shots against per 90', REPORT_DATA.teamStats.shotsAgainst, 'avg/90', true)}
-      ${miniTable('Ball possession', REPORT_DATA.teamStats.possession, '%')}
-      ${miniTable('Passes per 90', REPORT_DATA.teamStats.passes, 'avg/90')}
-      ${miniTable('Progressive passes per 90', REPORT_DATA.teamStats.progressive, 'avg/90')}
-      ${miniTable('Deep completions per 90', REPORT_DATA.teamStats.deepComp, 'avg/90')}
-      ${miniTable('Crosses per 90', REPORT_DATA.teamStats.crosses, 'avg/90')}
-      ${miniTable('Dribbles per 90', REPORT_DATA.teamStats.dribbles, 'avg/90')}
-      ${miniTable('Touches in pen. area per 90', REPORT_DATA.teamStats.touchesPenArea, 'avg/90')}
-    </div>`;
-
-  const defenseHtml = `
-    <div class="report-grid">
-      ${miniTable('Pressing (PPDA) — lower = more intense', REPORT_DATA.teamStats.ppda, '', true)}
-      ${miniTable('Ball recoveries per 90', REPORT_DATA.teamStats.recoveries, 'avg/90')}
-      ${miniTable('Ball losses per 90 — lower = better', REPORT_DATA.teamStats.losses, '', true)}
-    </div>`;
-
-  // Tabs
+  // ── RENDER ──────────────────────────────────────────────────
   wrap.innerHTML = `
     <div class="report-update-info">
       <span class="dot"></span>
-      <span>Last updated: ${REPORT_DATA.lastUpdated} · Data: Hudl Wyscout Season Report</span>
+      <span>Last updated: ${REPORT_DATA.lastUpdated} · Hudl Wyscout Season Report</span>
     </div>
     <div class="report-tabs">
-      <button class="report-tab active" data-tab="standings">Standings</button>
-      <button class="report-tab" data-tab="attack">Attack &amp; Passing</button>
-      <button class="report-tab" data-tab="defense">Defence &amp; Pressing</button>
+      <button class="report-tab active" data-tab="attack">⚽ Attack</button>
+      <button class="report-tab" data-tab="defence">🛡 Defence</button>
+      <button class="report-tab" data-tab="standings">📊 Standings</button>
     </div>
-    <div class="report-panel active" id="rtab-standings">${standHtml}</div>
-    <div class="report-panel" id="rtab-attack">${attackHtml}</div>
-    <div class="report-panel" id="rtab-defense">${defenseHtml}</div>
-  `;
+    <div class="report-panel active" id="rtab-attack">${attackHtml}</div>
+    <div class="report-panel" id="rtab-defence">${defenceHtml}</div>
+    <div class="report-panel" id="rtab-standings">${standHtml}</div>`;
 
-  wrap.querySelectorAll('.report-tab').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      wrap.querySelectorAll('.report-tab').forEach(b=>b.classList.remove('active'));
-      wrap.querySelectorAll('.report-panel').forEach(p=>p.classList.remove('active'));
+  // ── TAB SWITCHING ───────────────────────────────────────────
+  wrap.querySelectorAll('.report-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      wrap.querySelectorAll('.report-tab').forEach(b => b.classList.remove('active'));
+      wrap.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('rtab-'+btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'attack')  setTimeout(() => drawTimingChart('attack'), 60);
+      if (btn.dataset.tab === 'defence') setTimeout(() => drawTimingChart('defence'), 60);
     });
+  });
+
+  // Draw attack chart immediately
+  setTimeout(() => drawTimingChart('attack'), 80);
+
+  // ── TIMING CHARTS ───────────────────────────────────────────
+  function drawTimingChart(type) {
+    const isAtk = type === 'attack';
+    const elId  = isAtk ? 'chartGoalTimingAttack' : 'chartGoalTimingDefence';
+    const el = document.getElementById(elId);
+    if (!el) return;
+    const existing = Chart.getChart(el);
+    if (existing) existing.destroy();
+    const src  = isAtk ? REPORT_DATA.goalsScoredDynamics : REPORT_DATA.goalsConcededDynamics;
+    const pRow = src.find(r => r.team === PERTH);
+    const lgAvg = ['t1','t2','t3','t4','t5','t6'].map(k =>
+      parseFloat((src.reduce((s,r) => s + r[k], 0) / src.length).toFixed(2))
+    );
+    new Chart(el, {
+      type: 'bar',
+      data: {
+        labels: ["1-15'","16-30'","31-45+'","46-60'","61-75'","76-90+'"],
+        datasets: [
+          { type:'bar', label: isAtk ? 'Perth goals scored' : 'Perth goals conceded',
+            data: [pRow.t1,pRow.t2,pRow.t3,pRow.t4,pRow.t5,pRow.t6],
+            backgroundColor: isAtk ? 'rgba(22,40,79,0.75)' : 'rgba(206,43,55,0.65)',
+            borderRadius: 4,
+            datalabels: { anchor:'end', align:'top', color: isAtk?'#16284f':'#ce2b37', font:{weight:'700',size:13}, formatter:v=>v } },
+          { type:'line', label:'League average',
+            data: lgAvg,
+            borderColor: isAtk ? 'rgba(206,43,55,.7)' : 'rgba(22,40,79,.6)',
+            borderWidth: 2, borderDash:[5,4], pointRadius:3,
+            datalabels: { display:false } }
+        ]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:true,
+        scales: { y:{ beginAtZero:true, grid:{color:'rgba(12,24,48,.05)'}, ticks:{stepSize:1} }, x:{grid:{display:false}} },
+        plugins: { legend:{position:'bottom',labels:{boxWidth:14,font:{size:11}}}, datalabels:{} }
+      }
+    });
+  }
+}
+
+
+
+// ===== VIEW SWITCHER =====
+const viewMain  = document.getElementById('view-main');
+const viewNpl   = document.getElementById('view-npl');
+const tabMain   = document.getElementById('tab-main');
+const tabNpl    = document.getElementById('tab-npl');
+const myCTALink = document.querySelector('a.nav-cta');
+
+function showView(view) {
+  if (view === 'npl') {
+    viewMain.style.display = 'none';
+    viewNpl.style.display  = 'block';
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    tabMain.classList.remove('active');
+    tabNpl.classList.add('active');
+    // Load data (if not already loaded) then build the report
+    if (REPORT_DATA === null) {
+      loadReportData();
+    } else {
+      buildReport();
+    }
+  } else {
+    viewMain.style.display = 'block';
+    viewNpl.style.display  = 'none';
+    tabNpl.classList.remove('active');
+    tabMain.classList.add('active');
+  }
+}
+
+tabMain.addEventListener('click', e => { e.preventDefault(); showView('main'); });
+tabNpl.addEventListener('click',  e => { e.preventDefault(); showView('npl'); });
+
+// My Area CTA stays inside main view
+if (myCTALink) {
+  myCTALink.addEventListener('click', e => {
+    if (viewNpl.style.display !== 'none') {
+      e.preventDefault();
+      showView('main');
+      const target = document.getElementById('my-area');
+      if (target) setTimeout(() => target.scrollIntoView({behavior:'smooth'}), 60);
+    }
   });
 }
 
-buildReport();
-
-// Active nav highlight
-const navLinks = document.querySelectorAll('nav a');
-const sections = document.querySelectorAll('main section');
-window.addEventListener('scroll', ()=>{
-  let current = sections[0].id;
-  sections.forEach(sec=>{
-    if(window.scrollY >= sec.offsetTop - 80) current = sec.id;
-  });
-  navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+current));
-});
+// Back button in NPL view
+const nplBack = document.getElementById('nplBackBtn');
+if (nplBack) nplBack.addEventListener('click', () => showView('main'));
 </script>
 
 </body>
