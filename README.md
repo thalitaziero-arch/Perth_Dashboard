@@ -2,23 +2,24 @@
 
 ## Arquivos do pacote
 
-- **perth_azzurri_painel_v2.html** — o painel completo (não precisa editar este arquivo nas atualizações semanais).
-- **npl_comparison_data.json** — os dados da aba "NPL Comparison". **É este arquivo que você atualiza toda semana.**
+- **perth_azzurri_painel_v2.html** — o painel completo, já com os dados da NPL Comparison embutidos dentro do arquivo (objeto `REPORT_DATA` no `<script>`). **É este arquivo que você edita/substitui toda semana.**
+- **npl_comparison_data.json** — cópia de referência dos mesmos dados em JSON puro, útil para conferir valores ou para rodar o `extract_wyscout.py`.
+- **extract_wyscout.py** — script Python que lê o PDF "NPL Comparison" e gera/atualiza esses dados automaticamente.
 - **README.md** — este guia.
 
 ## Como funciona
 
-O painel carrega o arquivo `npl_comparison_data.json` automaticamente quando a aba "NPL Comparison" é aberta. Por isso:
+Os dados da aba "NPL Comparison" estão dentro do próprio `perth_azzurri_painel_v2.html`, no objeto `const REPORT_DATA = { ... }`. Não há mais arquivo externo — o painel funciona sozinho, inclusive abrindo localmente (`file://`).
 
-1. Os dois arquivos (`perth_azzurri_painel_v2.html` e `npl_comparison_data.json`) **precisam estar na mesma pasta** no servidor (GitHub Pages, Netlify, etc.).
-2. Toda semana, basta substituir o `npl_comparison_data.json` pelo arquivo atualizado — **não precisa tocar no HTML**.
+Toda semana você atualiza esse objeto `REPORT_DATA` dentro do HTML com os novos valores do PDF "NPL Comparison".
 
 ## Atualização semanal (passo a passo)
 
 Toda semana você recebe o PDF **"NPL Comparison"** (Season Report) do Hudl Wyscout. Para atualizar:
 
-1. Abra `npl_comparison_data.json` em um editor de texto (VS Code, Notepad++, ou até o Bloco de Notas).
-2. Abra o novo PDF e localize cada seção abaixo. Os comentários originais do HTML indicavam as páginas do PDF — use como referência (os números de página podem variar levemente entre rodadas):
+1. Abra `perth_azzurri_painel_v2.html` em um editor de texto/código (VS Code recomendado).
+2. Procure por `const REPORT_DATA = {` — é o bloco que contém todos os dados da NPL Comparison.
+3. Abra o novo PDF e localize cada seção abaixo. Os comentários originais indicavam as páginas do PDF — use como referência (os números de página podem variar levemente entre rodadas):
 
 | Campo no JSON | Conteúdo | Página típica do PDF |
 |---|---|---|
@@ -48,19 +49,30 @@ Toda semana você recebe o PDF **"NPL Comparison"** (Season Report) do Hudl Wysc
 
 4. Para as listas em `teamStats` (ex: `shots`, `possession`), cada time tem um objeto `{"team": "Nome", "val": número}`. Atualize o `val` de cada time e, se a ordem do ranking mudar, reordene as linhas (a ordem na lista define a posição no gráfico/tabela).
 
-5. Salve o arquivo `npl_comparison_data.json`.
+5. Salve o arquivo `perth_azzurri_painel_v2.html`.
 
-6. Verifique se o JSON é válido (sem vírgulas sobrando, todas as chaves e valores entre aspas quando texto). Você pode colar o conteúdo em [jsonlint.com](https://jsonlint.com) para checar rapidamente.
+6. Verifique se o JSON dentro do `REPORT_DATA` continua válido (sem vírgulas sobrando, todas as chaves e valores entre aspas quando texto). O VS Code já avisa se houver erro de sintaxe dentro do bloco.
 
-7. Suba o `npl_comparison_data.json` atualizado para o servidor, na mesma pasta do `perth_azzurri_painel_v2.html`.
+7. Suba o `perth_azzurri_painel_v2.html` atualizado para o servidor.
 
 8. Abra o painel no navegador, vá até a aba "NPL Comparison" e confirme que os dados aparecem corretos e que o texto "Last updated" no topo da aba mostra a rodada certa.
 
-## Dica
+## Atualização automática com extract_wyscout.py
 
-Se quiser, peça para o Claude processar o PDF da semana e gerar o `npl_comparison_data.json` atualizado automaticamente — basta enviar o PDF junto com este arquivo JSON atual.
+Em vez de editar manualmente, você pode usar o script Python para gerar os dados automaticamente a partir do PDF:
+
+```bash
+pip install pdfplumber --break-system-packages
+python extract_wyscout.py caminho/para/o_novo_relatorio.pdf --round "Round 11 · Junho 2026"
+```
+
+O script gera/atualiza `npl_comparison_data.json` e mostra um resumo das diferenças em relação à rodada anterior (pontos na classificação, etc.), além de avisos se alguma seção não tiver os 8 times esperados — confira esses avisos antes de prosseguir.
+
+Depois, copie o conteúdo de `npl_comparison_data.json` e cole no lugar do objeto `REPORT_DATA` dentro do `perth_azzurri_painel_v2.html` (substituindo apenas o que está entre `const REPORT_DATA = ` e o `;` final do bloco).
+
+Se quiser, peça para o Claude fazer essa parte: basta enviar o novo PDF e o HTML atual, e o Claude roda o script, confere os avisos e atualiza o HTML para você.
 
 ## Solução de problemas
 
-- **A aba "NPL Comparison" aparece vazia ou com mensagem de erro vermelha**: verifique se `npl_comparison_data.json` está na mesma pasta do HTML no servidor e se o nome do arquivo está exatamente correto (sensível a maiúsculas/minúsculas).
-- **JSON inválido**: um erro de sintaxe (vírgula faltando ou sobrando, aspas erradas) impede o carregamento. Use o jsonlint.com para encontrar o erro exato.
+- **A aba "NPL Comparison" aparece vazia, com dados antigos ou trava o carregamento**: provavelmente há um erro de sintaxe no objeto `REPORT_DATA` (vírgula faltando ou sobrando, chave sem fechar). Abra o Console do navegador (F12) para ver a mensagem de erro exata, ou abra o arquivo no VS Code, que sinaliza erros de JSON/JS automaticamente.
+- **Quer confirmar que o `REPORT_DATA` está correto antes de subir**: copie o conteúdo entre `const REPORT_DATA = ` e o `;` final, cole em [jsonlint.com](https://jsonlint.com) e valide.
