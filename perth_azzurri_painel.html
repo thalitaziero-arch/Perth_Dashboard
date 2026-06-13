@@ -601,6 +601,189 @@
     section{padding:40px 0;}
     .match-row{grid-template-columns:70px 1fr; grid-template-areas:"r i" ". res"; }
   }
+
+  /* ===== League Report Section ===== */
+  .report-update-info{
+    font-family:'Space Mono', monospace;
+    font-size:0.76rem;
+    color:var(--muted);
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .report-update-info .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--azzurro-green);
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .report-tabs{
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+    margin-bottom:24px;
+  }
+  .report-tab{
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:8px 16px;
+    border-radius:999px;
+    border:1px solid var(--line-dark);
+    background:#fff;
+    cursor:pointer;
+    color:var(--muted);
+    transition:all 0.2s;
+  }
+  .report-tab.active, .report-tab:hover{
+    background:var(--azzurro-navy);
+    color:#fff;
+    border-color:var(--azzurro-navy);
+  }
+  .report-panel{ display:none; }
+  .report-panel.active{ display:block; }
+
+  .league-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:0.88rem;
+    background:#fff;
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 4px 16px rgba(12,24,48,0.06);
+  }
+  .league-table th{
+    background:var(--azzurro-navy);
+    color:rgba(255,255,255,0.7);
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:10px 12px;
+    text-align:left;
+    white-space:nowrap;
+  }
+  .league-table th.num{ text-align:right; }
+  .league-table td{
+    padding:11px 12px;
+    border-bottom:1px solid var(--azzurro-cream);
+    vertical-align:middle;
+  }
+  .league-table td.num{ text-align:right; font-family:'Space Mono', monospace; font-size:0.84rem; }
+  .league-table tr:last-child td{ border-bottom:none; }
+  .league-table tr.highlight-row td{
+    background:rgba(22,40,79,0.06);
+    font-weight:700;
+  }
+  .league-table tr.highlight-row td.team-name{
+    color:var(--azzurro-navy);
+  }
+  .rank-num{
+    font-family:'Montserrat', sans-serif;
+    font-weight:800;
+    font-size:1.1rem;
+    color:var(--muted);
+    min-width:22px;
+    display:inline-block;
+  }
+  .rank-num.top{ color:var(--azzurro-green); }
+  .team-name{ font-weight:600; }
+
+  .report-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
+    gap:20px;
+    margin-top:20px;
+  }
+  .report-mini-table{
+    background:#fff;
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 4px 16px rgba(12,24,48,0.04);
+  }
+  .report-mini-table h4{
+    background:var(--azzurro-navy);
+    color:#fff;
+    font-family:'Space Mono', monospace;
+    font-size:0.74rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    padding:10px 14px;
+    margin:0;
+  }
+  .mini-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:8px 14px;
+    border-bottom:1px solid var(--azzurro-cream);
+    font-size:0.85rem;
+  }
+  .mini-row:last-child{ border-bottom:none; }
+  .mini-row.perth-row{
+    background:rgba(22,40,79,0.05);
+    font-weight:700;
+  }
+  .mini-rank{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    color:var(--muted);
+    min-width:26px;
+  }
+  .mini-val{
+    font-family:'Space Mono', monospace;
+    font-size:0.82rem;
+    color:var(--azzurro-navy);
+    font-weight:700;
+  }
+  .bar-wrap{
+    flex:1;
+    margin:0 10px;
+    height:6px;
+    background:rgba(22,40,79,0.08);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    border-radius:999px;
+    background:var(--azzurro-green);
+    transition:width 0.6s ease;
+  }
+  .perth-row .bar-fill{ background:var(--azzurro-navy); }
+
+  .report-intro{
+    background:var(--azzurro-navy-deep);
+    color:#fff;
+    border-radius:var(--radius);
+    padding:24px 28px;
+    margin-bottom:24px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:16px;
+  }
+  .report-intro .ri-item .ri-val{
+    font-family:'Montserrat', sans-serif;
+    font-weight:800;
+    font-size:2rem;
+    line-height:1;
+  }
+  .report-intro .ri-item .ri-label{
+    font-family:'Space Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.5);
+    margin-top:6px;
+  }
+  .report-intro .ri-item .ri-sub{
+    font-size:0.78rem;
+    color:rgba(255,255,255,0.4);
+    margin-top:2px;
+  }
+
 </style>
 </head>
 <body>
@@ -621,6 +804,19 @@
   <div class="tricolore-bar"><span class="green"></span><span class="white"></span><span class="red"></span></div>
 </header>
 
+<nav>
+  <div class="nav-inner">
+    <a href="#summary">Season Summary</a>
+    <a href="#league-report">Perth Comparison</a>
+    <a href="#performance">Performance</a>
+    <a href="#shooting">Shooting</a>
+    <a href="#matches">Matches</a>
+    <a href="#details">Recoveries</a>
+    <a href="#coach-notes">Video Analysis</a>
+    <a href="#my-area" class="nav-cta">My Area</a>
+  </div>
+</nav>
+
 <main>
 
   <section id="summary">
@@ -629,6 +825,14 @@
       <span class="tag" id="summary-tag"></span>
     </div>
     <div class="kpi-grid" id="kpi-grid"></div>
+  </section>
+
+  <section id="league-report">
+    <div class="section-head">
+      <h2>Perth Comparison — Report</h2>
+      <span class="tag">WA NPL Women 2026 · League context</span>
+    </div>
+    <div id="reportContent"></div>
   </section>
 
   <section id="performance">
@@ -661,6 +865,36 @@
         <h3>Duels: won vs. lost</h3>
         <p class="desc">Distribution of individual duels contested in each match.</p>
         <canvas id="chartDuels"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card full" style="margin-top:24px; background:var(--azzurro-navy-deep); color:#fff;">
+      <h3 style="color:#fff; margin-bottom:14px;">📖 How to read these charts</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px;">
+        <div>
+          <p style="font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">SHOTS PER MATCH</p>
+          <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
+            The <strong style="color:#fff">total number above each bar</strong> is the total shots in that match. The <strong style="color:var(--azzurro-red)">red number inside</strong> is how many were on target (forced the goalkeeper to save or resulted in a goal).
+          </p>
+        </div>
+        <div>
+          <p style="font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">DUELS WON %</p>
+          <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
+            Each bar shows the <strong style="color:#fff">total duels in that match</strong> ("t") and the <strong style="color:var(--azzurro-green)">% won</strong>. A duel is any 1v1 contest — defensive, offensive, or aerial. Winning more than 50% means Perth dominated individual battles.
+          </p>
+        </div>
+        <div>
+          <p style="font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">xG — EXPECTED GOALS</p>
+          <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
+            xG measures the <strong style="color:#fff">quality of chances created</strong>, not just the number of shots. A shot from close range in a good position = high xG (~0.7). A long-range speculative shot = low xG (~0.04). If Perth score <em>more</em> than their xG, they finished above expectation — and vice versa.
+          </p>
+        </div>
+        <div>
+          <p style="font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:6px;">PASS ACCURACY %</p>
+          <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
+            The percentage of passes that reached a teammate. Higher is better, but context matters — teams playing shorter passes tend to have higher accuracy. Perth's league average is around <strong style="color:#fff">76%</strong>.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -713,8 +947,8 @@
 
   <section id="coach-notes">
     <div class="section-head">
-      <h2>Coach's Notes</h2>
-      <span class="tag">Season comments &amp; video analysis</span>
+      <h2>Video Analysis</h2>
+      <span class="tag">Season playlist</span>
     </div>
     <div class="chart-card full coach-card">
       <div class="coach-video">
@@ -885,20 +1119,21 @@ lineChart(document.getElementById('chartPasses'), [
 
 // Shots - with numbers on bars
 barChart(document.getElementById('chartShots'), [
-  {label:'Total Shots', data:team.map(t=>t.Shots), backgroundColor:'rgba(22,40,79,0.25)'},
-  {label:'On Target', data:team.map(t=>t.Shots_on_target), backgroundColor:COL.red},
-], { plugins:{ legend:{position:'bottom', labels:{boxWidth:14, font:{size:11}}}, datalabels:{
-  anchor:'end', align:'top', color:COL.navy, font:{weight:'700', size:10}, formatter:(v)=>v
-}}});
+  {label:'Total Shots', data:team.map(t=>t.Shots), backgroundColor:'rgba(22,40,79,0.25)',
+    datalabels:{ anchor:'end', align:'top', color:COL.navy, font:{weight:'700', size:11}, formatter:(v)=>v }},
+  {label:'On Target', data:team.map(t=>t.Shots_on_target), backgroundColor:COL.red,
+    datalabels:{ anchor:'center', align:'center', color:'#fff', font:{weight:'700', size:11}, formatter:(v)=>v }},
+], { plugins:{ legend:{position:'bottom', labels:{boxWidth:14, font:{size:11}}}, datalabels:{} }});
 
 // Duels - won vs lost (stacked)
 barChart(document.getElementById('chartDuels'), [
-  {label:'Won', data:team.map(t=>t.Duels_won), backgroundColor:COL.green},
-  {label:'Lost', data:team.map(t=>t.Duels_total - t.Duels_won), backgroundColor:COL.red},
+  {label:'Won', data:team.map(t=>t.Duels_won), backgroundColor:COL.green,
+    datalabels:{ anchor:'center', align:'center', color:'#fff', font:{weight:'700', size:11}, formatter:(v)=>v }},
+  {label:'Lost', data:team.map(t=>t.Duels_total - t.Duels_won), backgroundColor:COL.red,
+    datalabels:{ anchor:'center', align:'center', color:'#fff', font:{weight:'700', size:11},
+      formatter:(v,ctx)=>{ const won=ctx.chart.data.datasets[0].data[ctx.dataIndex]; const tot=won+v; return tot+'t · '+Math.round(won/tot*100)+'%'; } }},
 ], { scales:{ x:{stacked:true, grid:{display:false}}, y:{stacked:true, beginAtZero:true, grid:{color:'rgba(12,24,48,0.05)'}} },
-  plugins:{ legend:{position:'bottom', labels:{boxWidth:14, font:{size:11}}}, datalabels:{
-  color:'#fff', font:{weight:'700', size:10}, formatter:(v)=>v
-}}});
+  plugins:{ legend:{position:'bottom', labels:{boxWidth:14, font:{size:11}}}, datalabels:{} }});
 
 // ---- Pitch diagram: recoveries vs losses by zone (PDF-style green pitch) ----
 const zones = ['low','medium','high'];
@@ -1297,6 +1532,168 @@ function attemptLogin(){
 pinSubmit.addEventListener('click', attemptLogin);
 pinInput.addEventListener('keydown', e => { if(e.key==='Enter') attemptLogin(); });
 pinInput.addEventListener('input', () => { pinInput.value = pinInput.value.replace(/\D/g,'').slice(0,4); });
+
+// ===== LEAGUE COMPARISON REPORT =====
+// Update this object each week with fresh data from the Wyscout season report PDF
+const REPORT_DATA = {
+  lastUpdated: "Round 10 · June 2026",
+  standings: [
+    { pos:1, team:"Perth",         pts:24, p:10, w:7, d:3, l:0, gf:23, ga:2,  gd:21, xg:17.8, xga:4.3  },
+    { pos:2, team:"Fremantle City",pts:21, p:10, w:6, d:3, l:1, gf:25, ga:9,  gd:16, xg:18.6, xga:14.7 },
+    { pos:3, team:"Balcatta",      pts:19, p:10, w:5, d:4, l:1, gf:25, ga:8,  gd:16, xg:20.3, xga:7.6  },
+    { pos:4, team:"Perth RedStar", pts:15, p:10, w:4, d:3, l:3, gf:17, ga:12, gd:5,  xg:21.0, xga:10.6 },
+    { pos:5, team:"West NTC",      pts:14, p:10, w:3, d:5, l:2, gf:17, ga:13, gd:4,  xg:16.3, xga:15.5 },
+    { pos:6, team:"Subiaco",       pts:7,  p:10, w:2, d:1, l:7, gf:10, ga:22, gd:-12,xg:16.8, xga:18.8 },
+    { pos:7, team:"Sorrento",      pts:7,  p:10, w:2, d:1, l:7, gf:9,  ga:29, gd:-20,xg:7.9,  xga:27.9 },
+    { pos:8, team:"UWA Nedlands",  pts:2,  p:10, w:0, d:2, l:8, gf:4,  ga:34, gd:-30,xg:3.7,  xga:23.1 },
+  ],
+  teamStats: {
+    shots:         [{team:"Balcatta",val:19.14},{team:"Perth",val:16.74},{team:"Perth RedStar",val:16.22},{team:"Fremantle City",val:13.52},{team:"West NTC",val:13.32},{team:"Subiaco",val:13.03},{team:"Sorrento",val:5.77},{team:"UWA Nedlands",val:5.60}],
+    shotsAgainst:  [{team:"Perth",val:6.30},{team:"Balcatta",val:7.57},{team:"Perth RedStar",val:8.34},{team:"West NTC",val:10.27},{team:"Fremantle City",val:14.09},{team:"Subiaco",val:15.79},{team:"UWA Nedlands",val:18.91},{team:"Sorrento",val:22.43}],
+    possession:    [{team:"Balcatta",val:61.3},{team:"Perth",val:54.4},{team:"Perth RedStar",val:53.5},{team:"Fremantle City",val:52.4},{team:"West NTC",val:48.2},{team:"Subiaco",val:45.7},{team:"Sorrento",val:43.9},{team:"UWA Nedlands",val:39.7}],
+    passes:        [{team:"Balcatta",val:511.40},{team:"Perth",val:433.07},{team:"Fremantle City",val:401.41},{team:"Perth RedStar",val:394.13},{team:"West NTC",val:386.35},{team:"Subiaco",val:335.17},{team:"Sorrento",val:311.64},{team:"UWA Nedlands",val:288.38}],
+    progressive:   [{team:"Balcatta",val:89.37},{team:"Perth",val:82.95},{team:"West NTC",val:81.34},{team:"Perth RedStar",val:77.72},{team:"Subiaco",val:75.16},{team:"Fremantle City",val:74.02},{team:"Sorrento",val:67.48},{team:"UWA Nedlands",val:65.60}],
+    deepComp:      [{team:"Perth",val:8.09},{team:"Perth RedStar",val:7.41},{team:"Fremantle City",val:7.00},{team:"Balcatta",val:6.41},{team:"West NTC",val:5.99},{team:"Subiaco",val:5.04},{team:"Sorrento",val:2.84},{team:"UWA Nedlands",val:1.80}],
+    crosses:       [{team:"Perth",val:17.68},{team:"Balcatta",val:14.82},{team:"West NTC",val:11.99},{team:"Perth RedStar",val:11.53},{team:"Subiaco",val:11.04},{team:"Fremantle City",val:9.74},{team:"Sorrento",val:5.49},{team:"UWA Nedlands",val:4.23}],
+    dribbles:      [{team:"Fremantle City",val:31.10},{team:"Perth",val:22.19},{team:"West NTC",val:21.50},{team:"Subiaco",val:20.64},{team:"Perth RedStar",val:20.44},{team:"Balcatta",val:17.98},{team:"UWA Nedlands",val:15.32},{team:"Sorrento",val:14.57}],
+    touchesPenArea:[{team:"Perth",val:21.82},{team:"Perth RedStar",val:20.16},{team:"Fremantle City",val:19.38},{team:"West NTC",val:17.70},{team:"Balcatta",val:17.56},{team:"Subiaco",val:13.60},{team:"Sorrento",val:7.00},{team:"UWA Nedlands",val:5.07}],
+    ppda:          [{team:"Perth RedStar",val:5.83},{team:"Perth",val:6.18},{team:"Balcatta",val:7.41},{team:"Fremantle City",val:8.50},{team:"Subiaco",val:9.03},{team:"West NTC",val:9.69},{team:"UWA Nedlands",val:13.40},{team:"Sorrento",val:26.67}],
+    recoveries:    [{team:"Balcatta",val:98.62},{team:"Perth",val:97.99},{team:"Fremantle City",val:97.09},{team:"West NTC",val:96.95},{team:"Perth RedStar",val:95.34},{team:"Subiaco",val:86.00},{team:"UWA Nedlands",val:80.92},{team:"Sorrento",val:79.97}],
+    losses:        [{team:"Perth",val:123.20},{team:"Fremantle City",val:125.45},{team:"Balcatta",val:127.22},{team:"Subiaco",val:128.05},{team:"Sorrento",val:128.14},{team:"Perth RedStar",val:129.75},{team:"UWA Nedlands",val:130.25},{team:"West NTC",val:136.24}],
+  }
+};
+
+function buildReport(){
+  const wrap = document.getElementById('reportContent');
+  if(!wrap) return;
+
+  const PERTH = "Perth";
+
+  function perthRow(arr){ return arr.findIndex(r=>r.team===PERTH); }
+
+  // Standings table
+  const standHtml = `
+    <div class="report-intro">
+      ${(()=>{
+        const p = REPORT_DATA.standings.find(r=>r.team===PERTH);
+        return [
+          ['#'+p.pos, 'League position', ''],
+          [p.pts+' pts', 'Points', p.p+' matches'],
+          [p.w+'-'+p.d+'-'+p.l, 'W / D / L', ''],
+          [p.gf+':'+p.ga, 'Goals For:Against', 'GD '+( p.gd>0?'+':'')+p.gd],
+          [p.xg.toFixed(1)+' xG', 'Expected goals', 'xGA '+p.xga.toFixed(1)],
+        ].map(([v,l,s])=>`<div class="ri-item"><div class="ri-val">${v}</div><div class="ri-label">${l}</div>${s?'<div class="ri-sub">'+s+'</div>':''}</div>`).join('');
+      })()}
+    </div>
+    <div class="chart-card full" style="padding:0; overflow:hidden;">
+      <table class="league-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Team</th>
+            <th class="num">Pts</th>
+            <th class="num">P</th>
+            <th class="num">W</th>
+            <th class="num">D</th>
+            <th class="num">L</th>
+            <th class="num">GF</th>
+            <th class="num">GA</th>
+            <th class="num">GD</th>
+            <th class="num">xG</th>
+            <th class="num">xGA</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${REPORT_DATA.standings.map(r=>{
+            const isPerth = r.team === PERTH;
+            return `<tr class="${isPerth?'highlight-row':''}">
+              <td><span class="rank-num ${r.pos<=3?'top':''}">${r.pos}</span></td>
+              <td class="team-name">${isPerth?'<strong>'+r.team+'</strong>':r.team}</td>
+              <td class="num">${r.pts}</td>
+              <td class="num">${r.p}</td>
+              <td class="num">${r.w}</td>
+              <td class="num">${r.d}</td>
+              <td class="num">${r.l}</td>
+              <td class="num">${r.gf}</td>
+              <td class="num">${r.ga}</td>
+              <td class="num">${r.gd>0?'+':''}${r.gd}</td>
+              <td class="num">${r.xg.toFixed(1)}</td>
+              <td class="num">${r.xga.toFixed(1)}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>`;
+
+  // Mini comparison tables helper
+  function miniTable(title, arr, unit='', lowerIsBetter=false){
+    const max = Math.max(...arr.map(r=>r.val));
+    const min = Math.min(...arr.map(r=>r.val));
+    const range = max - min || 1;
+    const pi = arr.findIndex(r=>r.team===PERTH);
+    return `
+      <div class="report-mini-table">
+        <h4>${title}${unit?' ('+unit+')':''}</h4>
+        ${arr.map((r,i)=>{
+          const isP = r.team===PERTH;
+          const frac = lowerIsBetter ? (max-r.val)/range : (r.val-min)/range;
+          return `<div class="mini-row${isP?' perth-row':''}">
+            <span class="mini-rank">${i+1}</span>
+            <span style="flex:2; font-size:0.84rem; font-weight:${isP?'700':'400'}">${r.team}</span>
+            <div class="bar-wrap"><div class="bar-fill" style="width:${Math.max(4,frac*100).toFixed(0)}%"></div></div>
+            <span class="mini-val">${typeof r.val==='number'&&r.val%1!==0?r.val.toFixed(2):r.val}${unit==='%'?'%':''}</span>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  const attackHtml = `
+    <div class="report-grid">
+      ${miniTable('Shots per 90','shots' in REPORT_DATA.teamStats ? REPORT_DATA.teamStats.shots : [], 'avg/90')}
+      ${miniTable('Shots against per 90', REPORT_DATA.teamStats.shotsAgainst, 'avg/90', true)}
+      ${miniTable('Ball possession', REPORT_DATA.teamStats.possession, '%')}
+      ${miniTable('Passes per 90', REPORT_DATA.teamStats.passes, 'avg/90')}
+      ${miniTable('Progressive passes per 90', REPORT_DATA.teamStats.progressive, 'avg/90')}
+      ${miniTable('Deep completions per 90', REPORT_DATA.teamStats.deepComp, 'avg/90')}
+      ${miniTable('Crosses per 90', REPORT_DATA.teamStats.crosses, 'avg/90')}
+      ${miniTable('Dribbles per 90', REPORT_DATA.teamStats.dribbles, 'avg/90')}
+      ${miniTable('Touches in pen. area per 90', REPORT_DATA.teamStats.touchesPenArea, 'avg/90')}
+    </div>`;
+
+  const defenseHtml = `
+    <div class="report-grid">
+      ${miniTable('Pressing (PPDA) — lower = more intense', REPORT_DATA.teamStats.ppda, '', true)}
+      ${miniTable('Ball recoveries per 90', REPORT_DATA.teamStats.recoveries, 'avg/90')}
+      ${miniTable('Ball losses per 90 — lower = better', REPORT_DATA.teamStats.losses, '', true)}
+    </div>`;
+
+  // Tabs
+  wrap.innerHTML = `
+    <div class="report-update-info">
+      <span class="dot"></span>
+      <span>Last updated: ${REPORT_DATA.lastUpdated} · Data: Hudl Wyscout Season Report</span>
+    </div>
+    <div class="report-tabs">
+      <button class="report-tab active" data-tab="standings">Standings</button>
+      <button class="report-tab" data-tab="attack">Attack &amp; Passing</button>
+      <button class="report-tab" data-tab="defense">Defence &amp; Pressing</button>
+    </div>
+    <div class="report-panel active" id="rtab-standings">${standHtml}</div>
+    <div class="report-panel" id="rtab-attack">${attackHtml}</div>
+    <div class="report-panel" id="rtab-defense">${defenseHtml}</div>
+  `;
+
+  wrap.querySelectorAll('.report-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      wrap.querySelectorAll('.report-tab').forEach(b=>b.classList.remove('active'));
+      wrap.querySelectorAll('.report-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('rtab-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+}
+
+buildReport();
 
 // Active nav highlight
 const navLinks = document.querySelectorAll('nav a');
