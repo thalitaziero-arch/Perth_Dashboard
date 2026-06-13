@@ -1,20 +1,22 @@
-PERTH AZZURRI - PINs de Acesso Individual (Minha Área)
+PERTH AZZURRI - Individual Access PINs (My Area)
 ==================================================
 
 # 1  D. Schroeder       PIN: 1193
-#23  E. Ingrey          PIN: 1968
-#17  K. Mccartney       PIN: 1785
-# 5  E. Nossent         PIN: 1315
-# 7  R. Marshall        PIN: 1402
-# 8  T. Attree          PIN: 1413
-#14  A. Ottobrino       PIN: 1674
-#11  M. Boehm           PIN: 1511
-#10  M. Archibald       PIN: 1526
-# 8  D. McAllister      PIN: 1465
+# 3  G. Warburton       PIN: 1267
 # 4  C. Wainwright      PIN: 1317
+# 5  E. Nossent         PIN: 1315
+# 6  X. Dalton          PIN: 1339
+# 7  R. Marshall        PIN: 1402
+# 8  D. McAllister      PIN: 1465
 # 9  L. Tana            PIN: 1424
-#15  J. Flannery        PIN: 1698
+#10  M. Archibald       PIN: 1526
+#11  M. Boehm           PIN: 1511
+#12  A. Zindell         PIN: 1722
 #13  S. Mathers         PIN: 1611
+#14  A. Ottobrino       PIN: 1674
+#15  J. Flannery        PIN: 1698
+#16  T. Attree          PIN: 1413
+#17  K. Mccartney       PIN: 1785
 #18  M. Mccready        PIN: 1809
-#16  A. Zindell         PIN: 1722
-# 4  L. Continibali     PIN: 1330
+#23  E. Ingrey          PIN: 1968
+#44  L. Continibali     PIN: 1330
