@@ -1,11 +1,18 @@
+from pathlib import Path
 import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Perth Dashboard", layout="wide")
 
-EXCEL_FILE = "team_stats_perth.xlsx"
-HTML_FILE = "perth_azzurri_painel.html"
+BASE_DIR = Path(__file__).parent
+
+EXCEL_FILE = BASE_DIR / "team_stats_perth.xlsx"
+HTML_FILE = BASE_DIR / "perth_azzurri_painel.html"
+
+st.write("Excel path:", EXCEL_FILE)
+st.write("Excel exists:", EXCEL_FILE.exists())
+st.write("HTML exists:", HTML_FILE.exists())
 
 
 def clean_columns(df):
