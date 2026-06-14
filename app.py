@@ -10,9 +10,6 @@ BASE_DIR = Path(__file__).parent
 EXCEL_FILE = BASE_DIR / "team_stats_perth.xlsx"
 HTML_FILE = BASE_DIR / "perth_azzurri_painel.html"
 
-st.write("Excel path:", EXCEL_FILE)
-st.write("Excel exists:", EXCEL_FILE.exists())
-st.write("HTML exists:", HTML_FILE.exists())
 
 
 def clean_columns(df):
