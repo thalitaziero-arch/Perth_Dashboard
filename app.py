@@ -88,4 +88,4 @@ html = html.replace("54.6%", f"{possession}%")
 html = html.replace("75.4%", f"{pass_accuracy}%")
 html = html.replace("52.0%", f"{duel_win}%")
 
-components.html(html, height=5000, scrolling=True)
+components.html(html, height=5000, scrolling=False)
