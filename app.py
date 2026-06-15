@@ -89,7 +89,7 @@ with open(HTML_FILE, "r", encoding="utf-8") as f:
     html = f.read()
 
 # replace existing dashboard numbers
-html = html.replace("10", str(matches), 1)
+html = html.replace(">10<", f">{matches}<", 1)
 html = html.replace("7-3-0", record)
 html = html.replace("17.80", str(xg))
 html = html.replace("54.6%", f"{possession}%")
