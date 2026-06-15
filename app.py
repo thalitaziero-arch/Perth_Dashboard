@@ -5,6 +5,14 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Perth Dashboard", layout="wide")
 
+st.markdown("""
+<style>
+  iframe { display:block; }
+  .stApp { overflow: hidden; }
+  section.main > div { padding: 0 !important; }
+</style>
+""", unsafe_allow_html=True)
+
 BASE_DIR = Path(__file__).parent
 
 EXCEL_FILE = BASE_DIR / "team_stats_perth.xlsx"
