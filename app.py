@@ -9,7 +9,7 @@ st.markdown("""
 <style>
   iframe { display:block; }
   .stApp { overflow: hidden; }
-  section.main > div { padding: 0 !important; }
+  section.main > div { padding: 0 !important; max-width: 100% !important; }
 </style>
 """, unsafe_allow_html=True)
 
