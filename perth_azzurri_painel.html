@@ -1146,7 +1146,6 @@
     <div id="reportContent"></div>
   </section>
   </div><!-- /view-npl -->
-  </div><!-- /view-npl -->
 
 </main>
 
@@ -1491,7 +1490,8 @@ document.getElementById('shotsTableWrap').innerHTML = `
   const atkThird  = [19.75, 19.50, 12.89, 17.03, 15.56, 14.94,  6.34,  6.06];
   const colors    = teams.map(t => t==='Perth' ? COL.navy : 'rgba(22,40,79,0.18)');
 
-  new Chart(document.getElementById('chartPossRecoveries'), {
+  const elPR = document.getElementById('chartPossRecoveries');
+  if(elPR) { new Chart(elPR, {
     type: 'bar',
     data: {
       labels: teams,
@@ -1514,7 +1514,8 @@ document.getElementById('shotsTableWrap').innerHTML = `
       }
     }
   });
-  document.getElementById('chartPossRecoveries').style.height = '300px';
+  elPR.style.height = '300px';
+  }
 
   // -- PPDA all teams --
   const ppda = [
@@ -3917,122 +3918,6 @@ function renderHomeGoals(){
   el.innerHTML = card('Top Scorers', scorers, 'goals', 'goals') + card('Top Assists', assisters, 'assists', 'ast');
 }
 renderHomeGoals();
-
-// ── League Players Overview (page 14 style) ───────────────────────────────────
-(function(){
-  const isPerth = team => team === 'Perth';
-  const col = team => isPerth(team) ? 'rgba(22,40,79,0.9)' : 'rgba(22,40,79,0.18)';
-  const txtCol = team => isPerth(team) ? '#16284F' : '#999';
-
-  const makeChart = (id, data, valKey, maxOverride) => {
-    const el = document.getElementById(id);
-    if(!el) return;
-    const max = maxOverride || Math.max(...data.map(d=>d[valKey])) * 1.15;
-    new Chart(el, {
-      type: 'bar',
-      data: {
-        labels: data.map(d => (isPerth(d.team)?'★ ':'')+d.name),
-        datasets: [{ data: data.map(d=>d[valKey]), backgroundColor: data.map(d=>col(d.team)), borderRadius:4 }]
-      },
-      options: {
-        indexAxis:'y', responsive:true, maintainAspectRatio:false,
-        scales: {
-          x:{ beginAtZero:true, max, grid:{color:'rgba(12,24,48,.04)'}, ticks:{font:{size:10}} },
-          y:{ grid:{display:false}, ticks:{ font:{ size:11, weight: data.map(d=>isPerth(d.team)?'700':'400') }, color: data.map(d=>txtCol(d.team)) } }
-        },
-        plugins: {
-          legend:{display:false},
-          datalabels:{ anchor:'end', align:'right', color: data.map(d=>txtCol(d.team)), font:{size:10,weight:'600'}, formatter:v=>typeof v==='number'&&v%1!==0?v.toFixed(2):v }
-        }
-      }
-    });
-    el.style.height = '280px';
-  };
-
-  // Goals top 10
-  makeChart('chartLeagueGoals', [
-    {name:'J. Flannery',   team:'Perth',          val:8},
-    {name:'C. Doeglas',    team:'Balcatta',        val:8},
-    {name:'A. Meakins',    team:'Balcatta',        val:7},
-    {name:'A. Green',      team:'Fremantle City',  val:5},
-    {name:'J. Gale',       team:'Balcatta',        val:5},
-    {name:'T. Lala',       team:'Fremantle City',  val:4},
-    {name:'L. Wood',       team:'Fremantle City',  val:4},
-    {name:'P. Dowe',       team:'West NTC',        val:4},
-    {name:'R. Marshall',   team:'Perth',           val:4},
-    {name:'L. Heys',       team:'Fremantle City',  val:4},
-  ], 'val', 10);
-
-  // Assists top 10
-  makeChart('chartLeagueAssists', [
-    {name:'R. Marshall',   team:'Perth',           val:3},
-    {name:'C. Doeglas',    team:'Balcatta',        val:3},
-    {name:'D. McAllister', team:'Perth',           val:2},
-    {name:'E. Siah',       team:'Fremantle City',  val:2},
-    {name:'T. Satsuma',    team:'Perth RedStar',   val:2},
-    {name:'A. Green',      team:'Fremantle City',  val:2},
-    {name:'R. Walsh',      team:'Sorrento',        val:2},
-    {name:'S. Mathers',    team:'Perth',           val:2},
-    {name:'J. Gale',       team:'Balcatta',        val:2},
-    {name:'P. Derhun',     team:'Subiaco',         val:2},
-  ], 'val', 4);
-
-  // Shots top 10
-  makeChart('chartLeagueShots', [
-    {name:'C. Doeglas',    team:'Balcatta',        val:69},
-    {name:'A. Meakins',    team:'Balcatta',        val:52},
-    {name:'J. Flannery',   team:'Perth',           val:40},
-    {name:'C. Mcauliffe',  team:'West NTC',        val:38},
-    {name:'J. Ridley',     team:'Perth RedStar',   val:32},
-    {name:'L. Heys',       team:'Fremantle City',  val:26},
-    {name:'A. Green',      team:'Fremantle City',  val:24},
-    {name:'J. Duncanson',  team:'Balcatta',        val:23},
-    {name:'M. Archibald',  team:'Perth',           val:23},
-    {name:'R. Leota',      team:'Perth RedStar',   val:23},
-  ], 'val');
-
-  // Passes avg/90 top 10
-  makeChart('chartLeaguePasses', [
-    {name:'A. Van Heurck', team:'Balcatta',        val:74.95},
-    {name:'R. Jarvis',     team:'Balcatta',        val:63.20},
-    {name:'C. Bennett',    team:'Balcatta',        val:60.79},
-    {name:'K. Mccartney',  team:'Perth',           val:54.45},
-    {name:'A. Leek',       team:'Fremantle City',  val:54.33},
-    {name:'F. Murray-H.',  team:'Balcatta',        val:52.16},
-    {name:'E. Mastrantonio',team:'Subiaco',        val:50.63},
-    {name:'A. Meakins',    team:'Balcatta',        val:50.16},
-    {name:'P. Derhun',     team:'Subiaco',         val:48.98},
-    {name:'L. Tana',       team:'Perth',           val:48.65},
-  ], 'val');
-
-  // Duels avg/90 top 10
-  makeChart('chartLeagueDuels', [
-    {name:'K. Houlis',     team:'Perth RedStar',   val:31.94},
-    {name:'R. Leota',      team:'Perth RedStar',   val:25.00},
-    {name:'R. Kuzamba',    team:'West NTC',        val:24.91},
-    {name:'L. Heys',       team:'Fremantle City',  val:24.48},
-    {name:'J. Flannery',   team:'Perth',           val:24.32},
-    {name:'E. Mastrantonio',team:'Subiaco',        val:24.09},
-    {name:'S. Papalia',    team:'Sorrento',        val:23.69},
-    {name:'A. Green',      team:'Fremantle City',  val:23.36},
-    {name:'C. Rodrigo',    team:'UWA Nedlands',    val:22.42},
-    {name:'N. Taylor H.',  team:'Subiaco',         val:21.76},
-  ], 'val');
-
-  // Second assists top 10
-  makeChart('chartLeagueSecondAssists', [
-    {name:'G. Monteiro',   team:'Perth RedStar',   val:2},
-    {name:'C. Souza',      team:'Fremantle City',  val:2},
-    {name:'J. Gray',       team:'Perth RedStar',   val:1},
-    {name:'T. Attree',     team:'Perth',           val:1},
-    {name:'S. Leong',      team:'West NTC',        val:1},
-    {name:'C. Fonseca',    team:'West NTC',        val:1},
-    {name:'C. Adams',      team:'Fremantle City',  val:1},
-    {name:'C. Bennett',    team:'Balcatta',        val:1},
-    {name:'D. McAllister', team:'Perth',           val:1},
-    {name:'T. Satsuma',    team:'Perth RedStar',   val:1},
-  ], 'val', 3);
-})();
 
 // ── Home My Area PIN ──────────────────────────────────────────────────────────
 const pinInput2  = document.getElementById('pinInput2');
