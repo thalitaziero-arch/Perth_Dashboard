@@ -919,6 +919,42 @@
       <!-- rendered by JS -->
     </div>
 
+    <!-- Transitions -->
+    <div class="section-head" style="margin-bottom:16px;">
+      <h2>Transitions</h2>
+      <span class="tag">Ball possession recoveries · pressing intensity</span>
+    </div>
+    <div class="chart-grid" style="margin-bottom:40px;">
+      <div class="chart-card full">
+        <h3>Ball possession recoveries by zone</h3>
+        <p class="desc">Where Perth win the ball back per 90 min vs all teams in the league.</p>
+        <canvas id="chartPossRecoveriesHome"></canvas>
+      </div>
+      <div class="chart-card full">
+        <h3>Pressing intensity (PPDA)</h3>
+        <p class="desc">Lower = more aggressive press. Perth: <strong>6.18</strong> — 2nd best in the league.</p>
+        <canvas id="chartPPDAHome"></canvas>
+      </div>
+    </div>
+
+    <!-- Build Up -->
+    <div class="section-head" style="margin-bottom:16px;">
+      <h2>Build Up</h2>
+      <span class="tag">Top passers · progressive passes · avg/90</span>
+    </div>
+    <div class="chart-grid" style="margin-bottom:40px;">
+      <div class="chart-card">
+        <h3>Most passes given (avg/90)</h3>
+        <p class="desc">Top passers by volume this season.</p>
+        <canvas id="chartTopPassersHome"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Progressive passes (avg/90)</h3>
+        <p class="desc">Passes that move the ball significantly forward toward goal.</p>
+        <canvas id="chartProgPassesHome"></canvas>
+      </div>
+    </div>
+
     <!-- Video Analysis -->
     <div class="section-head" style="margin-bottom:16px;">
       <h2>Video Analysis</h2>
@@ -1058,14 +1094,6 @@
     </div>
   </section>
 
-  <section id="matches">
-    <div class="section-head">
-      <h2>Season Matches</h2>
-      <span class="tag" id="matches-tag"></span>
-    </div>
-    <div class="matches-list" id="matches-list"></div>
-  </section>
-
   <section id="details">
     <div class="section-head">
       <h2>Recoveries &amp; Losses</h2>
@@ -1080,17 +1108,52 @@
     </div>
   </section>
 
-  <section id="coach-notes">
+  <!-- ═══ TRANSITIONS ═══ -->
+  <section id="transitions">
     <div class="section-head">
-      <h2>Video Analysis</h2>
-      <span class="tag">Season playlist</span>
+      <h2>Transitions</h2>
+      <span class="tag">Ball possession recoveries · season averages per 90</span>
     </div>
-    <div class="chart-card full coach-card">
-      <div class="coach-video">
-        <span class="video-label">Video analysis</span>
-        <a href="https://www.youtube.com/playlist?list=PLCiTolkeqpjez7_B0boUsjfmc5PTbDfRP" id="coachVideoLink" class="video-link" target="_blank" rel="noopener noreferrer">▶ Watch on YouTube</a>
+    <div class="chart-grid">
+      <div class="chart-card full">
+        <h3>Ball possession recoveries by zone</h3>
+        <p class="desc">Where Perth win the ball back per 90 min vs league average. Perth recovers more in the middle and attacking thirds — reflecting high press and active transitions.</p>
+        <canvas id="chartPossRecoveries"></canvas>
+      </div>
+      <div class="chart-card full">
+        <h3>Pressing intensity (PPDA)</h3>
+        <p class="desc">Opponent passes allowed per defensive action in their own 60%. Lower = more aggressive press. Perth: <strong>6.18</strong> — 2nd best in the league.</p>
+        <canvas id="chartPPDA"></canvas>
       </div>
     </div>
+  </section>
+
+  <!-- ═══ BUILD UP ═══ -->
+  <section id="buildup">
+    <div class="section-head">
+      <h2>Build Up</h2>
+      <span class="tag">Top passers · progressive passes · season avg/90</span>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Most passes given (avg/90)</h3>
+        <p class="desc">Top passers by volume this season.</p>
+        <canvas id="chartTopPassers"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Progressive passes (avg/90)</h3>
+        <p class="desc">Passes that move the ball significantly forward toward goal.</p>
+        <canvas id="chartProgPasses"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section id="matches">
+    <div class="section-head">
+      <h2>Season Matches</h2>
+      <span class="tag" id="matches-tag"></span>
+    </div>
+    <div class="matches-list" id="matches-list"></div>
   </section>
 
   <section id="my-area">
@@ -1454,6 +1517,145 @@ document.getElementById('shotsTableWrap').innerHTML = `
       <span>${label}</span><span>${d.shots}</span><span>${d.on_target}</span><span>${d.pct.toFixed(1)}%</span><span>${d.xg.toFixed(2)}</span><span>${d.goals}</span>
     </div>`).join('')}
 </div>`;
+
+// ════════════════════════════════════════════════════════════════════════════
+// TRANSITIONS CHARTS
+// ════════════════════════════════════════════════════════════════════════════
+(function(){
+  const COL = { navy:'rgba(22,40,79,0.85)', red:'rgba(206,43,55,0.75)', green:'rgba(0,146,70,0.75)', muted:'rgba(22,40,79,0.15)' };
+
+  // -- Ball Possession Recoveries by zone (grouped: all 8 teams) --
+  // Data from NPL PDF p.7 — avg per 90
+  const teams = ['Perth','Balcatta','Fremantle City','West NTC','Perth RedStar','Subiaco','UWA Nedlands','Sorrento'];
+  const ownThird  = [33.20, 30.95, 39.37, 34.73, 29.25, 35.20, 43.31, 49.12];
+  const midThird  = [45.05, 48.17, 45.21, 45.19, 50.53, 35.87, 31.27, 24.79];
+  const atkThird  = [19.75, 19.50, 12.89, 17.03, 15.56, 14.94,  6.34,  6.06];
+  const colors    = teams.map(t => t==='Perth' ? COL.navy : 'rgba(22,40,79,0.18)');
+
+  new Chart(document.getElementById('chartPossRecoveries'), {
+    type: 'bar',
+    data: {
+      labels: teams,
+      datasets: [
+        { label: 'Own Third',  data: ownThird,  backgroundColor: teams.map(t=>t==='Perth'?'rgba(206,43,55,0.8)':'rgba(206,43,55,0.2)'),  borderRadius: 3, stack:'s' },
+        { label: 'Mid Third',  data: midThird,  backgroundColor: teams.map(t=>t==='Perth'?'rgba(22,40,79,0.85)':'rgba(22,40,79,0.2)'),  borderRadius: 3, stack:'s' },
+        { label: 'Atk Third',  data: atkThird,  backgroundColor: teams.map(t=>t==='Perth'?'rgba(0,146,70,0.85)':'rgba(0,146,70,0.25)'), borderRadius: 3, stack:'s' },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { stacked: true, grid:{ display:false } },
+        y: { stacked: true, beginAtZero:true, grid:{ color:'rgba(12,24,48,.05)' }, title:{ display:true, text:'Recoveries avg/90' } }
+      },
+      plugins: {
+        legend: { position:'bottom', labels:{ boxWidth:13, font:{size:11} } },
+        datalabels: { display:false },
+        tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}` } }
+      }
+    }
+  });
+  document.getElementById('chartPossRecoveries').style.height = '300px';
+
+  // -- PPDA all teams --
+  const ppda = [
+    { team:'Perth RedStar', val:5.83 },
+    { team:'Perth',         val:6.18 },
+    { team:'Balcatta',      val:7.25 },
+    { team:'Fremantle City',val:8.35 },
+    { team:'Subiaco',       val:9.03 },
+    { team:'West NTC',      val:9.69 },
+    { team:'UWA Nedlands',  val:13.40 },
+    { team:'Sorrento',      val:26.67 },
+  ];
+  new Chart(document.getElementById('chartPPDA'), {
+    type: 'bar',
+    data: {
+      labels: ppda.map(d=>d.team),
+      datasets: [{
+        label: 'PPDA (lower = more intense press)',
+        data: ppda.map(d=>d.val),
+        backgroundColor: ppda.map(d => d.team==='Perth' ? COL.navy : COL.muted),
+        borderRadius: 5
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      scales: { x: { beginAtZero: true, grid: { color: 'rgba(12,24,48,.05)' } }, y: { grid: { display: false } } },
+      plugins: { legend: { display: false },
+        datalabels: { anchor:'end', align:'right', color: d => d.dataIndex===1?'var(--azzurro-navy)':'#666', font:{size:11,weight:'600'}, formatter: v => v.toFixed(2) } }
+    }
+  });
+  document.getElementById('chartPPDA').style.height = '260px';
+})();
+
+// ════════════════════════════════════════════════════════════════════════════
+// BUILD UP CHARTS
+// ════════════════════════════════════════════════════════════════════════════
+(function(){
+  const COL = { navy:'rgba(22,40,79,0.85)', red:'rgba(206,43,55,0.75)', muted:'rgba(22,40,79,0.15)' };
+
+  // -- Top passers avg/90 --
+  const passers = [
+    { name:'K. Mccartney', val:54.45, acc:87 },
+    { name:'L. Tana',       val:48.65, acc:86 },
+    { name:'M. Boehm',      val:44.70, acc:73 },
+    { name:'D. McAllister', val:43.23, acc:74 },
+    { name:'S. Mathers',    val:42.49, acc:77 },
+    { name:'M. Archibald',  val:41.50, acc:70 },
+    { name:'J. Flannery',   val:37.96, acc:65 },
+    { name:'G. Warburton',  val:37.40, acc:76 },
+  ];
+  new Chart(document.getElementById('chartTopPassers'), {
+    type: 'bar',
+    data: {
+      labels: passers.map(d=>d.name),
+      datasets: [{
+        label: 'Passes avg/90',
+        data: passers.map(d=>d.val),
+        backgroundColor: COL.navy, borderRadius: 5
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      scales: { x: { beginAtZero: true, grid: { color:'rgba(12,24,48,.05)' } }, y: { grid:{ display:false } } },
+      plugins: { legend:{ display:false },
+        datalabels: { anchor:'end', align:'right', color:'#444', font:{size:11,weight:'600'}, formatter: v=>v.toFixed(1) } }
+    }
+  });
+  document.getElementById('chartTopPassers').style.height = '260px';
+
+  // -- Progressive passes avg/90 --
+  const prog = [
+    { name:'M. Boehm',      val:27.19 },
+    { name:'K. Mccartney',  val:27.07 },
+    { name:'J. Flannery',   val:17.82 },
+    { name:'M. Archibald',  val:11.95 },
+    { name:'S. Mathers',    val:11.34 },
+    { name:'D. McAllister', val:8.89  },
+    { name:'G. Warburton',  val:8.59  },
+    { name:'L. Tana',       val:7.46  },
+  ];
+  new Chart(document.getElementById('chartProgPasses'), {
+    type: 'bar',
+    data: {
+      labels: prog.map(d=>d.name),
+      datasets: [{
+        label: 'Progressive passes avg/90',
+        data: prog.map(d=>d.val),
+        backgroundColor: 'rgba(0,146,70,0.8)', borderRadius: 5
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      scales: { x: { beginAtZero: true, grid: { color:'rgba(12,24,48,.05)' } }, y: { grid:{ display:false } } },
+      plugins: { legend:{ display:false },
+        datalabels: { anchor:'end', align:'right', color:'#444', font:{size:11,weight:'600'}, formatter: v=>v.toFixed(1) } }
+    }
+  });
+  document.getElementById('chartProgPasses').style.height = '260px';
+})();
 
 // ---- My Area: PIN login ----
 const PLAYERS = [{"num": 17, "name": "K. Mccartney", "pos": "Defender", "matches": 11, "total_min": 1052, "avg_min": 96, "goals": 1, "xg": 0.88, "assists": 2, "xa": 1.08, "shots": "7/4", "shots_pct": 57.0, "passes": "579/502", "passes_pct": 87.0, "crosses": "1/0", "crosses_pct": 0.0, "dribbles": "2/0", "dribbles_pct": 0.0, "duels": "59/35", "duels_pct": 59.0, "losses_total": 74, "losses_own": 35, "recoveries": 108, "recoveries_opp": 21, "touches_pa": 4, "yc": 0, "rc": 0, "pin": 1785, "duels_detail": {"def_duels": "35 / 27", "def_pct": "77%", "off_duels": "8 / 0", "off_pct": "0%", "aerial": "8 / 4", "aerial_pct": "50%", "loose": "8 / 4", "loose_pct": "50%", "blocks": 3, "interceptions_clear": "37 / 28", "tackles": "-", "fouls": "2 / 0", "freekicks": 17, "setpieces": 3, "direct_fk_corners": "-", "throwins": 1}, "passing": {"forward": "238 / 178", "forward_pct": 75.0, "back": "31 / 30", "back_pct": 97.0, "lateral": "262 / 252", "lateral_pct": 96.0, "short_med": "474 / 444", "short_med_pct": 94.0, "long": "104 / 58", "long_pct": 56.0, "progressive": "115 / 81", "progressive_pct": 70.0, "final_third": "77 / 48", "final_third_pct": 62.0, "through": "3 / 2", "through_pct": 67.0, "deep_completions": 2, "key_passes": 2, "second_third_assists": "0 / 1", "shot_assists": 9}}, {"num": 5, "name": "E. Nossent", "pos": "Defender", "matches": 11, "total_min": 958, "avg_min": 87, "goals": 1, "xg": 1.33, "assists": 0, "xa": 0.45, "shots": "5/2", "shots_pct": 40.0, "passes": "306/223", "passes_pct": 73.0, "crosses": "17/2", "crosses_pct": 12.0, "dribbles": "4/2", "dribbles_pct": 50.0, "duels": "111/67", "duels_pct": 60.0, "losses_total": 93, "losses_own": 22, "recoveries": 81, "recoveries_opp": 25, "touches_pa": 10, "yc": 0, "rc": 0, "pin": 1315, "duels_detail": {"def_duels": "64 / 45", "def_pct": "70%", "off_duels": "25 / 9", "off_pct": "36%", "aerial": "11 / 5", "aerial_pct": "45%", "loose": "11 / 8", "loose_pct": "73%", "blocks": 4, "interceptions_clear": "49 / 19", "tackles": "2 / 1", "fouls": "2 / 1", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": 129}, "passing": {"forward": "141 / 95", "forward_pct": 67.0, "back": "47 / 44", "back_pct": 94.0, "lateral": "67 / 42", "lateral_pct": 63.0, "short_med": "251 / 203", "short_med_pct": 81.0, "long": "38 / 18", "long_pct": 47.0, "progressive": "71 / 47", "progressive_pct": 66.0, "final_third": "62 / 36", "final_third_pct": 58.0, "through": "2 / 1", "through_pct": 50.0, "deep_completions": 1, "key_passes": 1, "second_third_assists": "1 / 0", "shot_assists": 3}}, {"num": 7, "name": "R. Marshall", "pos": "Defender", "matches": 11, "total_min": 882, "avg_min": 80, "goals": 4, "xg": 3.33, "assists": 3, "xa": 0.54, "shots": "22/9", "shots_pct": 41.0, "passes": "302/210", "passes_pct": 70.0, "crosses": "30/5", "crosses_pct": 17.0, "dribbles": "31/16", "dribbles_pct": 52.0, "duels": "188/90", "duels_pct": 48.0, "losses_total": 130, "losses_own": 25, "recoveries": 50, "recoveries_opp": 31, "touches_pa": 37, "yc": 1, "rc": 0, "pin": 1402, "duels_detail": {"def_duels": "59 / 40", "def_pct": "68%", "off_duels": "79 / 29", "off_pct": "37%", "aerial": "22 / 10", "aerial_pct": "45%", "loose": "28 / 11", "loose_pct": "39%", "blocks": "-", "interceptions_clear": "26 / 12", "tackles": "1 / 1", "fouls": "14 / 8", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": 10}, "passing": {"forward": "97 / 66", "forward_pct": 68.0, "back": "71 / 63", "back_pct": 89.0, "lateral": "98 / 61", "lateral_pct": 62.0, "short_med": "239 / 189", "short_med_pct": 79.0, "long": "35 / 17", "long_pct": 49.0, "progressive": "56 / 39", "progressive_pct": 70.0, "final_third": "47 / 28", "final_third_pct": 60.0, "through": "8 / 4", "through_pct": 50.0, "deep_completions": 11, "key_passes": 5, "second_third_assists": "0 / 1", "shot_assists": 8}}, {"num": 16, "name": "T. Attree", "pos": "Defender", "matches": 11, "total_min": 338, "avg_min": 31, "goals": 0, "xg": 0.45, "assists": 1, "xa": 0.7, "shots": "6/2", "shots_pct": 33.0, "passes": "110/64", "passes_pct": 58.0, "crosses": "17/5", "crosses_pct": 29.0, "dribbles": "7/5", "dribbles_pct": 71.0, "duels": "52/30", "duels_pct": 58.0, "losses_total": 59, "losses_own": 9, "recoveries": 20, "recoveries_opp": 15, "touches_pa": 20, "yc": 1, "rc": 0, "pin": 1413, "duels_detail": {"def_duels": "32 / 21", "def_pct": "66%", "off_duels": "14 / 7", "off_pct": "50%", "aerial": "2 / 2", "aerial_pct": "100%", "loose": "4 / 0", "loose_pct": "0%", "blocks": "-", "interceptions_clear": "15 / 3", "tackles": "3 / 0", "fouls": "8 / 1", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "2", "throwins": 5}, "passing": {"forward": "28 / 14", "forward_pct": 50.0, "back": "24 / 20", "back_pct": 83.0, "lateral": "39 / 18", "lateral_pct": 46.0, "short_med": "82 / 55", "short_med_pct": 67.0, "long": "13 / 5", "long_pct": 38.0, "progressive": "23 / 17", "progressive_pct": 74.0, "final_third": "15 / 5", "final_third_pct": 33.0, "through": "2 / 0", "through_pct": 0.0, "deep_completions": 7, "key_passes": 2, "second_third_assists": "1 / 0", "shot_assists": 8}}, {"num": 14, "name": "A. Ottobrino", "pos": "Defender", "matches": 6, "total_min": 261, "avg_min": 44, "goals": 0, "xg": 0.0, "assists": 1, "xa": 0.03, "shots": "0/0", "shots_pct": 0.0, "passes": "96/73", "passes_pct": 76.0, "crosses": "2/0", "crosses_pct": 0.0, "dribbles": "0/0", "dribbles_pct": 0.0, "duels": "19/9", "duels_pct": 47.0, "losses_total": 32, "losses_own": 6, "recoveries": 25, "recoveries_opp": 17, "touches_pa": 2, "yc": 0, "rc": 0, "pin": 1674, "duels_detail": {"def_duels": "13 / 9", "def_pct": "69%", "off_duels": "2 / 0", "off_pct": "0%", "aerial": "2 / 0", "aerial_pct": "0%", "loose": "2 / 0", "loose_pct": "0%", "blocks": "-", "interceptions_clear": "15 / 2", "tackles": "-", "fouls": "2 / 0", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": 22}, "passing": {"forward": "42 / 31", "forward_pct": 74.0, "back": "7 / 7", "back_pct": 100.0, "lateral": "28 / 22", "lateral_pct": 79.0, "short_med": "84 / 67", "short_med_pct": 80.0, "long": "10 / 6", "long_pct": 60.0, "progressive": "27 / 25", "progressive_pct": 93.0, "final_third": "21 / 15", "final_third_pct": 71.0, "through": "2 / 0", "through_pct": 0.0, "deep_completions": 1, "key_passes": 1, "second_third_assists": "0 / 1", "shot_assists": 1}}, {"num": 11, "name": "M. Boehm", "pos": "Midfielder", "matches": 10, "total_min": 1046, "avg_min": 105, "goals": 2, "xg": 0.88, "assists": 1, "xa": 0.07, "shots": "13/3", "shots_pct": 23.0, "passes": "447/327", "passes_pct": 73.0, "crosses": "6/2", "crosses_pct": 33.0, "dribbles": "13/10", "dribbles_pct": 77.0, "duels": "144/98", "duels_pct": 68.0, "losses_total": 118, "losses_own": 44, "recoveries": 132, "recoveries_opp": 34, "touches_pa": 12, "yc": 1, "rc": 0, "pin": 1511, "duels_detail": {"def_duels": "68 / 58", "def_pct": "85%", "off_duels": "45 / 23", "off_pct": "51%", "aerial": "17 / 8", "aerial_pct": "47%", "loose": "14 / 9", "loose_pct": "64%", "blocks": 3, "interceptions_clear": "62 / 33", "tackles": "1 / 1", "fouls": "3 / 5", "freekicks": 2, "setpieces": "-", "direct_fk_corners": "-", "throwins": 1}, "passing": {"forward": "244 / 154", "forward_pct": 63.0, "back": "26 / 24", "back_pct": 92.0, "lateral": "136 / 115", "lateral_pct": 85.0, "short_med": "361 / 296", "short_med_pct": 82.0, "long": "80 / 29", "long_pct": 36.0, "progressive": "115 / 74", "progressive_pct": 64.0, "final_third": "86 / 47", "final_third_pct": 55.0, "through": "9 / 3", "through_pct": 33.0, "deep_completions": 5, "key_passes": 1, "second_third_assists": "-", "shot_assists": 5}}, {"num": 10, "name": "M. Archibald", "pos": "Midfielder", "matches": 11, "total_min": 1046, "avg_min": 95, "goals": 2, "xg": 2.35, "assists": 1, "xa": 1.75, "shots": "23/10", "shots_pct": 43.0, "passes": "324/227", "passes_pct": 70.0, "crosses": "12/4", "crosses_pct": 33.0, "dribbles": "14/8", "dribbles_pct": 57.0, "duels": "164/89", "duels_pct": 54.0, "losses_total": 119, "losses_own": 24, "recoveries": 76, "recoveries_opp": 49, "touches_pa": 19, "yc": 0, "rc": 0, "pin": 1526, "duels_detail": {"def_duels": "70 / 55", "def_pct": "79%", "off_duels": "57 / 17", "off_pct": "30%", "aerial": "10 / 3", "aerial_pct": "30%", "loose": "27 / 14", "loose_pct": "52%", "blocks": 1, "interceptions_clear": "35 / 9", "tackles": "1 / 1", "fouls": "11 / 4", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "9", "throwins": 2}, "passing": {"forward": "113 / 64", "forward_pct": 57.0, "back": "73 / 65", "back_pct": 89.0, "lateral": "66 / 48", "lateral_pct": 73.0, "short_med": "280 / 215", "short_med_pct": 77.0, "long": "32 / 8", "long_pct": 25.0, "progressive": "50 / 37", "progressive_pct": 74.0, "final_third": "64 / 36", "final_third_pct": 56.0, "through": "3 / 1", "through_pct": 33.0, "deep_completions": 10, "key_passes": 5, "second_third_assists": "-", "shot_assists": 13}}, {"num": 8, "name": "D. McAllister", "pos": "Midfielder", "matches": 11, "total_min": 1060, "avg_min": 96, "goals": 4, "xg": 1.04, "assists": 4, "xa": 1.74, "shots": "13/7", "shots_pct": 54.0, "passes": "221/163", "passes_pct": 74.0, "crosses": "16/8", "crosses_pct": 50.0, "dribbles": "16/8", "dribbles_pct": 50.0, "duels": "92/49", "duels_pct": 53.0, "losses_total": 63, "losses_own": 6, "recoveries": 39, "recoveries_opp": 27, "touches_pa": 29, "yc": 0, "rc": 0, "pin": 1465, "duels_detail": {"def_duels": "28 / 23", "def_pct": "82%", "off_duels": "49 / 18", "off_pct": "37%", "aerial": "3 / 1", "aerial_pct": "33%", "loose": "12 / 7", "loose_pct": "58%", "blocks": "-", "interceptions_clear": "16 / 1", "tackles": "-", "fouls": "2 / 1", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": 2}, "passing": {"forward": "72 / 45", "forward_pct": 63.0, "back": "52 / 50", "back_pct": 96.0, "lateral": "61 / 44", "lateral_pct": 72.0, "short_med": "186 / 146", "short_med_pct": 78.0, "long": "23 / 13", "long_pct": 57.0, "progressive": "34 / 25", "progressive_pct": 74.0, "final_third": "28 / 15", "final_third_pct": 54.0, "through": "2 / 0", "through_pct": 0.0, "deep_completions": 11, "key_passes": 4, "second_third_assists": "1 / 0", "shot_assists": 11}}, {"num": 4, "name": "C. Wainwright", "pos": "Midfielder", "matches": 5, "total_min": 491, "avg_min": 98, "goals": 1, "xg": 0.33, "assists": 0, "xa": 1.17, "shots": "4/3", "shots_pct": 75.0, "passes": "169/139", "passes_pct": 82.0, "crosses": "2/1", "crosses_pct": 50.0, "dribbles": "6/5", "dribbles_pct": 83.0, "duels": "81/49", "duels_pct": 60.0, "losses_total": 34, "losses_own": 10, "recoveries": 54, "recoveries_opp": 34, "touches_pa": 7, "yc": 1, "rc": 0, "pin": 1317, "duels_detail": {"def_duels": "36 / 28", "def_pct": "78%", "off_duels": "22 / 11", "off_pct": "50%", "aerial": "12 / 5", "aerial_pct": "42%", "loose": "11 / 5", "loose_pct": "45%", "blocks": "-", "interceptions_clear": "21 / 2", "tackles": "4 / 1", "fouls": "4 / 3", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": 1}, "passing": {"forward": "52 / 36", "forward_pct": 69.0, "back": "36 / 34", "back_pct": 94.0, "lateral": "57 / 50", "lateral_pct": 88.0, "short_med": "160 / 136", "short_med_pct": 85.0, "long": "7 / 2", "long_pct": 29.0, "progressive": "24 / 18", "progressive_pct": 75.0, "final_third": "34 / 24", "final_third_pct": 71.0, "through": "2 / 1", "through_pct": 50.0, "deep_completions": 5, "key_passes": 3, "second_third_assists": "-", "shot_assists": 4}}, {"num": 9, "name": "L. Tana", "pos": "Attacker", "matches": 11, "total_min": 1074, "avg_min": 98, "goals": 0, "xg": 0.16, "assists": 0, "xa": 0.08, "shots": "5/2", "shots_pct": 40.0, "passes": "507/438", "passes_pct": 86.0, "crosses": "10/2", "crosses_pct": 20.0, "dribbles": "15/11", "dribbles_pct": 73.0, "duels": "179/107", "duels_pct": 60.0, "losses_total": 109, "losses_own": 54, "recoveries": 145, "recoveries_opp": 44, "touches_pa": 2, "yc": 1, "rc": 0, "pin": 1424, "duels_detail": {"def_duels": "114 / 78", "def_pct": "68%", "off_duels": "43 / 21", "off_pct": "49%", "aerial": "8 / 4", "aerial_pct": "50%", "loose": "14 / 4", "loose_pct": "29%", "blocks": "-", "interceptions_clear": "74 / 11", "tackles": "-", "fouls": "11 / 7", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": 97}, "passing": {"forward": "208 / 166", "forward_pct": 80.0, "back": "86 / 78", "back_pct": 91.0, "lateral": "139 / 126", "lateral_pct": 91.0, "short_med": "482 / 429", "short_med_pct": 89.0, "long": "15 / 7", "long_pct": 47.0, "progressive": "89 / 65", "progressive_pct": 73.0, "final_third": "55 / 42", "final_third_pct": 76.0, "through": "2 / 0", "through_pct": 0.0, "deep_completions": 0, "key_passes": 0, "second_third_assists": "1 / 0", "shot_assists": 3}}, {"num": 15, "name": "J. Flannery", "pos": "Attacker", "matches": 11, "total_min": 1118, "avg_min": 102, "goals": 8, "xg": 4.26, "assists": 2, "xa": 1.92, "shots": "40/19", "shots_pct": 48.0, "passes": "422/273", "passes_pct": 65.0, "crosses": "56/16", "crosses_pct": 29.0, "dribbles": "61/33", "dribbles_pct": 54.0, "duels": "240/106", "duels_pct": 44.0, "losses_total": 197, "losses_own": 32, "recoveries": 71, "recoveries_opp": 47, "touches_pa": 41, "yc": 0, "rc": 0, "pin": 1698, "duels_detail": {"def_duels": "46 / 35", "def_pct": "76%", "off_duels": "146 / 52", "off_pct": "36%", "aerial": "18 / 7", "aerial_pct": "39%", "loose": "30 / 12", "loose_pct": "40%", "blocks": "-", "interceptions_clear": "42 / 6", "tackles": "3 / 3", "fouls": "3 / 5", "freekicks": 3, "setpieces": "-", "direct_fk_corners": "25", "throwins": 27}, "passing": {"forward": "112 / 59", "forward_pct": 53.0, "back": "97 / 87", "back_pct": 90.0, "lateral": "146 / 84", "lateral_pct": 58.0, "short_med": "321 / 236", "short_med_pct": 74.0, "long": "45 / 21", "long_pct": 47.0, "progressive": "89 / 61", "progressive_pct": 69.0, "final_third": "47 / 23", "final_third_pct": 49.0, "through": "6 / 0", "through_pct": 0.0, "deep_completions": 15, "key_passes": 6, "second_third_assists": "-", "shot_assists": 20}}, {"num": 13, "name": "S. Mathers", "pos": "Attacker", "matches": 9, "total_min": 948, "avg_min": 105, "goals": 1, "xg": 0.2, "assists": 2, "xa": 1.34, "shots": "9/3", "shots_pct": 33.0, "passes": "399/306", "passes_pct": 77.0, "crosses": "6/2", "crosses_pct": 33.0, "dribbles": "11/6", "dribbles_pct": 55.0, "duels": "132/68", "duels_pct": 52.0, "losses_total": 124, "losses_own": 43, "recoveries": 95, "recoveries_opp": 51, "touches_pa": 5, "yc": 1, "rc": 0, "pin": 1611, "duels_detail": {"def_duels": "64 / 45", "def_pct": "70%", "off_duels": "41 / 11", "off_pct": "27%", "aerial": "16 / 10", "aerial_pct": "63%", "loose": "11 / 2", "loose_pct": "18%", "blocks": "-", "interceptions_clear": "45 / 12", "tackles": "-", "fouls": "5 / 0", "freekicks": 2, "setpieces": "-", "direct_fk_corners": "26", "throwins": 13}, "passing": {"forward": "159 / 97", "forward_pct": 61.0, "back": "82 / 79", "back_pct": 96.0, "lateral": "106 / 93", "lateral_pct": 88.0, "short_med": "354 / 287", "short_med_pct": 81.0, "long": "39 / 17", "long_pct": 44.0, "progressive": "81 / 51", "progressive_pct": 63.0, "final_third": "77 / 48", "final_third_pct": 62.0, "through": "2 / 1", "through_pct": 50.0, "deep_completions": 2, "key_passes": 1, "second_third_assists": "-", "shot_assists": 12}}, {"num": 18, "name": "M. Mccready", "pos": "Attacker", "matches": 10, "total_min": 341, "avg_min": 34, "goals": 0, "xg": 0.03, "assists": 0, "xa": 0.07, "shots": "4/1", "shots_pct": 25.0, "passes": "120/85", "passes_pct": 71.0, "crosses": "4/1", "crosses_pct": 25.0, "dribbles": "7/3", "dribbles_pct": 43.0, "duels": "65/36", "duels_pct": 55.0, "losses_total": 46, "losses_own": 4, "recoveries": 26, "recoveries_opp": 12, "touches_pa": 8, "yc": 0, "rc": 0, "pin": 1809, "duels_detail": {"def_duels": "26 / 20", "def_pct": "77%", "off_duels": "28 / 11", "off_pct": "39%", "aerial": "3 / 2", "aerial_pct": "67%", "loose": "8 / 3", "loose_pct": "38%", "blocks": 1, "interceptions_clear": "9 / 1", "tackles": "-", "fouls": "1 / 2", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": "-"}, "passing": {"forward": "35 / 19", "forward_pct": 54.0, "back": "29 / 26", "back_pct": 90.0, "lateral": "36 / 23", "lateral_pct": 64.0, "short_med": "106 / 80", "short_med_pct": 75.0, "long": "10 / 4", "long_pct": 40.0, "progressive": "15 / 14", "progressive_pct": 93.0, "final_third": "17 / 7", "final_third_pct": 41.0, "through": "2 / 0", "through_pct": 0.0, "deep_completions": 4, "key_passes": 2, "second_third_assists": "-", "shot_assists": 4}}, {"num": 12, "name": "A. Zindell", "pos": "Attacker", "matches": 7, "total_min": 84, "avg_min": 12, "goals": 1, "xg": 1.1, "assists": 0, "xa": 0.0, "shots": "7/2", "shots_pct": 29.0, "passes": "13/9", "passes_pct": 69.0, "crosses": "0/0", "crosses_pct": 0.0, "dribbles": "7/4", "dribbles_pct": 57.0, "duels": "17/5", "duels_pct": 29.0, "losses_total": 7, "losses_own": 1, "recoveries": 2, "recoveries_opp": 1, "touches_pa": 7, "yc": 0, "rc": 0, "pin": 1722, "duels_detail": {"def_duels": "5 / 0", "def_pct": "0%", "off_duels": "11 / 4", "off_pct": "36%", "aerial": "-", "aerial_pct": "-", "loose": "1 / 1", "loose_pct": "100%", "blocks": "-", "interceptions_clear": "-", "tackles": "-", "fouls": "-", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": "-"}, "passing": {"forward": "2 / 1", "forward_pct": 50.0, "back": "6 / 5", "back_pct": 83.0, "lateral": "2 / 1", "lateral_pct": 50.0, "short_med": "12 / 9", "short_med_pct": 75.0, "long": "1 / 0", "long_pct": 0.0, "progressive": "1 / 0", "progressive_pct": 0.0, "final_third": "3 / 0", "final_third_pct": 0.0, "through": "1 / 0", "through_pct": 0.0, "deep_completions": 2, "key_passes": 1, "second_third_assists": "-", "shot_assists": 1}}, {"num": 44, "name": "L. Continibali", "pos": "Attacker", "matches": 2, "total_min": 32, "avg_min": 16, "goals": 0, "xg": 0.17, "assists": 0, "xa": 0.0, "shots": "1/0", "shots_pct": 0.0, "passes": "13/10", "passes_pct": 77.0, "crosses": "0/0", "crosses_pct": 0.0, "dribbles": "0/0", "dribbles_pct": 0.0, "duels": "3/1", "duels_pct": 33.0, "losses_total": 2, "losses_own": 0, "recoveries": 1, "recoveries_opp": 0, "touches_pa": 1, "yc": 0, "rc": 0, "pin": 1330, "duels_detail": {"def_duels": "2 / 1", "def_pct": "50%", "off_duels": "-", "off_pct": "-", "aerial": "-", "aerial_pct": "-", "loose": "1 / 0", "loose_pct": "0%", "blocks": "-", "interceptions_clear": "2 / 0", "tackles": "-", "fouls": "-", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": "-"}, "passing": {"forward": "4 / 2", "forward_pct": 50.0, "back": "3 / 3", "back_pct": 100.0, "lateral": "2 / 2", "lateral_pct": 100.0, "short_med": "12 / 10", "short_med_pct": 83.0, "long": "1 / 0", "long_pct": 0.0, "progressive": "1 / 0", "progressive_pct": 0.0, "final_third": "-", "final_third_pct": 0.0, "through": "-", "through_pct": 0.0, "deep_completions": 0, "key_passes": 0, "second_third_assists": "-", "shot_assists": 0}}, {"num": 3, "name": "G. Warburton", "pos": "Midfielder", "matches": 11, "total_min": 963, "avg_min": 88, "goals": 0, "xg": 0.68, "assists": 0, "xa": 0.36, "shots": "7/2", "shots_pct": 29.0, "passes": "283/216", "passes_pct": 76.0, "crosses": "5/0", "crosses_pct": 0.0, "dribbles": "7/4", "dribbles_pct": 57.0, "duels": "146/63", "duels_pct": 43.0, "losses_total": 86, "losses_own": 25, "recoveries": 73, "recoveries_opp": 49, "touches_pa": 17, "yc": 0, "rc": 0, "pin": 1267, "duels_detail": {"def_duels": "65 / 45", "def_pct": "69%", "off_duels": "48 / 8", "off_pct": "17%", "aerial": "13 / 3", "aerial_pct": "23%", "loose": "20 / 7", "loose_pct": "35%", "blocks": 1, "interceptions_clear": "28 / 8", "tackles": "1 / 0", "fouls": "11 / 2", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": 4}, "passing": {"forward": "82 / 54", "forward_pct": 66.0, "back": "72 / 66", "back_pct": 92.0, "lateral": "85 / 62", "lateral_pct": 73.0, "short_med": "259 / 207", "short_med_pct": 80.0, "long": "19 / 9", "long_pct": 47.0, "progressive": "44 / 29", "progressive_pct": 66.0, "final_third": "41 / 27", "final_third_pct": 66.0, "through": "-", "through_pct": 0.0, "deep_completions": 8, "key_passes": 3, "second_third_assists": "1 / 0", "shot_assists": 8}}, {"num": 6, "name": "X. Dalton", "pos": "Attacker", "matches": 9, "total_min": 300, "avg_min": 33, "goals": 0, "xg": 0.62, "assists": 0, "xa": 0.13, "shots": "12/4", "shots_pct": 33.0, "passes": "67/47", "passes_pct": 70.0, "crosses": "4/2", "crosses_pct": 50.0, "dribbles": "8/4", "dribbles_pct": 50.0, "duels": "45/25", "duels_pct": 56.0, "losses_total": 36, "losses_own": 4, "recoveries": 7, "recoveries_opp": 4, "touches_pa": 11, "yc": 0, "rc": 0, "pin": 1339, "duels_detail": {"def_duels": "14 / 12", "def_pct": "86%", "off_duels": "18 / 8", "off_pct": "44%", "aerial": "3 / 2", "aerial_pct": "67%", "loose": "10 / 3", "loose_pct": "30%", "blocks": 1, "interceptions_clear": "6 / 0", "tackles": "-", "fouls": "2 / 2", "freekicks": "-", "setpieces": "-", "direct_fk_corners": "-", "throwins": "-"}, "passing": {"forward": "14 / 8", "forward_pct": 57.0, "back": "28 / 20", "back_pct": 71.0, "lateral": "16 / 13", "lateral_pct": 81.0, "short_med": "59 / 44", "short_med_pct": 75.0, "long": "4 / 1", "long_pct": 25.0, "progressive": "7 / 6", "progressive_pct": 86.0, "final_third": "8 / 4", "final_third_pct": 50.0, "through": "-", "through_pct": 0.0, "deep_completions": 2, "key_passes": 1, "second_third_assists": "-", "shot_assists": 1}}, {"num": 1, "name": "D. Schroeder", "pos": "Goalkeeper", "matches": 9, "total_min": 861, "avg_min": 96, "goals": 0, "xg": 0.0, "assists": 0, "xa": null, "shots": "-", "shots_pct": null, "passes": "-", "passes_pct": null, "crosses": "-", "crosses_pct": null, "dribbles": "-", "dribbles_pct": null, "duels": "-", "duels_pct": null, "losses_total": 0, "losses_own": 0, "recoveries": 0, "recoveries_opp": 0, "touches_pa": 0, "yc": 0, "rc": 0, "pin": 1193, "duels_detail": {}, "passing": {}, "is_goalkeeper": true, "clean_sheets": 4, "goals_against_recent": 0}, {"num": 23, "name": "E. Ingrey", "pos": "Goalkeeper", "matches": 2, "total_min": 191, "avg_min": 96, "goals": 0, "xg": 0.0, "assists": 0, "xa": null, "shots": "-", "shots_pct": null, "passes": "-", "passes_pct": null, "crosses": "-", "crosses_pct": null, "dribbles": "-", "dribbles_pct": null, "duels": "-", "duels_pct": null, "losses_total": 0, "losses_own": 0, "recoveries": 0, "recoveries_opp": 0, "touches_pa": 0, "yc": 0, "rc": 0, "pin": 1968, "duels_detail": {}, "passing": {}, "is_goalkeeper": true}];
@@ -1880,6 +2082,81 @@ function showProfile(player, targetBox){
     }
   });
   } // end if(!isGK)
+
+  // ── NPL Rankings ─────────────────────────────────────────────────────────────
+  const NPL_RANKINGS = {
+    'J. Flannery': [
+      { category:'Goals', rank:1, value:'8 goals', total:0.81, unit:'avg/90' },
+      { category:'Shots', rank:3, value:'40 total', total:4.05, unit:'avg/90' },
+      { category:'Key passes', rank:4, value:'2.03', unit:'avg/90' },
+      { category:'Crosses', rank:1, value:'5.68', unit:'avg/90' },
+      { category:'Deep completions', rank:4, value:'1.52', unit:'avg/90' },
+      { category:'Attack contribution', rank:5, value:'0.87', unit:'xGChain/90' },
+    ],
+    'R. Marshall': [
+      { category:'Goals', rank:9, value:'4 goals', total:0.46, unit:'avg/90' },
+      { category:'Assists', rank:1, value:'3 assists', total:0.35, unit:'avg/90' },
+      { category:'Crosses', rank:5, value:'3.45', unit:'avg/90' },
+      { category:'Deep completions', rank:9, value:'1.27', unit:'avg/90' },
+    ],
+    'D. McAllister': [
+      { category:'Assists', rank:3, value:'2 assists', total:0.30, unit:'avg/90' },
+      { category:'Key passes', rank:6, value:'1.66', unit:'avg/90' },
+      { category:'Deep completions', rank:2, value:'1.66', unit:'avg/90' },
+      { category:'Crosses', rank:10, value:'2.42', unit:'avg/90' },
+      { category:'Passes to final third', rank:10, value:'9.02', unit:'avg/90' },
+    ],
+    'K. Mccartney': [
+      { category:'Passes', rank:4, value:'54.45', unit:'avg/90 · 87% acc' },
+      { category:'Direct free kicks', rank:6, value:'3/2 scored', unit:'' },
+    ],
+    'M. Archibald': [
+      { category:'Shots', rank:9, value:'23 total', total:2.69, unit:'avg/90' },
+      { category:'Key passes', rank:9, value:'1.52', unit:'avg/90' },
+      { category:'Attack contribution', rank:10, value:'0.76', unit:'xGChain/90' },
+    ],
+    'M. Boehm': [
+      { category:'Progressive passes', rank:3, value:'11.98', unit:'avg/90 · 64% acc' },
+      { category:'Passes to final third', rank:6, value:'8.96', unit:'avg/90 · 55% acc' },
+    ],
+    'S. Mathers': [
+      { category:'Assists', rank:8, value:'2 assists', total:0.23, unit:'avg/90' },
+      { category:'Passes to final third', rank:5, value:'9.02', unit:'avg/90 · 62% acc' },
+    ],
+    'L. Tana': [
+      { category:'Passes', rank:10, value:'48.65', unit:'avg/90 · 86% acc' },
+    ],
+    'T. Attree': [
+      { category:'Second assists', rank:4, value:'1', unit:'avg/90: 0.33' },
+    ],
+  };
+
+  const playerRankings = NPL_RANKINGS[player.name];
+  if(playerRankings && playerRankings.length > 0){
+    const rankColor = r => r === 1 ? '#C6A000' : r <= 3 ? 'var(--azzurro-navy)' : 'var(--muted)';
+    const rankLabel = r => r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : `#${r}`;
+    const rankCards = playerRankings.map(r => `
+      <div style="background:var(--card);border-radius:10px;padding:14px 16px;border-left:3px solid ${rankColor(r.rank)};">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-family:var(--font-mono);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">${r.category}</span>
+          <span style="font-size:1.1rem;font-weight:800;color:${rankColor(r.rank)};">${rankLabel(r.rank)} in WA NPL</span>
+        </div>
+        <div style="font-size:1.25rem;font-weight:700;color:var(--ink);">${r.value}</div>
+        ${r.unit ? `<div style="font-size:0.75rem;color:var(--muted);">${r.unit}</div>` : ''}
+      </div>`).join('');
+
+    const nplSection = document.createElement('section');
+    nplSection.style.cssText = 'margin-top:32px;';
+    nplSection.innerHTML = `
+      <div class="section-head" style="margin-bottom:16px;">
+        <h2 style="display:flex;align-items:center;gap:8px;">🏆 NPL Rankings <span style="font-size:0.75rem;font-weight:400;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;">You appear in the WA NPL Women league rankings</span></h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">
+        ${rankCards}
+      </div>
+      <p style="font-size:0.72rem;color:var(--muted);margin-top:10px;">Source: Hudl Wyscout Season Report · ${new Date().getFullYear()} WA NPL Women · Round 11</p>`;
+    box.appendChild(nplSection);
+  }
 
   document.getElementById('logoutBtn').addEventListener('click', ()=>{
     // hide whichever profile box is visible
@@ -3357,6 +3634,78 @@ function buildReport() {
     </div>
     <p style="font-size:.75rem;color:var(--muted);margin-top:8px;">xG = Expected Goals. xGA = Expected Goals Against. Source: Hudl Wyscout · ${REPORT_DATA.lastUpdated}</p>`;
 
+  // ── GOALS TAB HTML ──────────────────────────────────────────
+  const leagueGoals = [
+    { team:'Balcatta',      gf:26, xg:21.99, ga:8,  xga:8.74  },
+    { team:'Fremantle City',gf:25, xg:19.78, ga:10, xga:16.30 },
+    { team:'Perth',         gf:26, xg:17.81, ga:2,  xga:4.27  },
+    { team:'West NTC',      gf:17, xg:16.33, ga:16, xga:15.52 },
+    { team:'Perth RedStar', gf:17, xg:20.95, ga:12, xga:10.60 },
+    { team:'Subiaco',       gf:10, xg:16.79, ga:22, xga:18.75 },
+    { team:'Sorrento',      gf:9,  xg:7.89,  ga:29, xga:27.92 },
+    { team:'UWA Nedlands',  gf:3,  xg:3.67,  ga:34, xga:23.11 },
+  ];
+
+  const goalRow = (d) => {
+    const isP = d.team === PERTH;
+    const maxGf = Math.max(...leagueGoals.map(r=>r.gf));
+    const maxGa = Math.max(...leagueGoals.map(r=>r.ga));
+    return `<tr style="${isP?'background:rgba(22,40,79,0.06);font-weight:700;':''}border-bottom:1px solid rgba(22,40,79,0.06);">
+      <td style="padding:9px 12px;font-weight:${isP?'700':'500'};">${isP?'★ ':''}${d.team}</td>
+      <td style="padding:9px 12px;text-align:center;">${d.gf}</td>
+      <td style="padding:9px 12px;text-align:center;color:var(--muted);font-size:0.82rem;">${d.xg.toFixed(1)}</td>
+      <td style="padding:9px 12px;min-width:120px;">
+        <div style="height:8px;background:rgba(0,146,70,0.12);border-radius:4px;">
+          <div style="height:8px;width:${(d.gf/maxGf*100).toFixed(0)}%;background:${isP?'var(--azzurro-navy)':'rgba(0,146,70,0.5)'};border-radius:4px;"></div>
+        </div>
+      </td>
+      <td style="padding:9px 12px;text-align:center;">${d.ga}</td>
+      <td style="padding:9px 12px;text-align:center;color:var(--muted);font-size:0.82rem;">${d.xga.toFixed(1)}</td>
+      <td style="padding:9px 12px;min-width:120px;">
+        <div style="height:8px;background:rgba(206,43,55,0.1);border-radius:4px;">
+          <div style="height:8px;width:${(d.ga/maxGa*100).toFixed(0)}%;background:${isP?'rgba(206,43,55,0.8)':'rgba(206,43,55,0.35)'};border-radius:4px;"></div>
+        </div>
+      </td>
+    </tr>`;
+  };
+
+  const goalsHtml = `
+    ${perthStrip([
+      [pStand.gf, 'Goals scored', '#1 in league tied'],
+      [pStand.ga, 'Goals conceded', '#1 best defence'],
+      [(pStand.gd>0?'+':'')+pStand.gd, 'Goal difference', 'Best in league'],
+      [pStand.xg.toFixed(1), 'xG scored', ''],
+      [pStand.xga.toFixed(1), 'xG conceded', 'Lowest in league'],
+    ])}
+    <div class="chart-card full" style="padding:0;overflow:hidden;margin-bottom:20px;">
+      <table style="width:100%;border-collapse:collapse;font-family:var(--font-gibson);font-size:0.875rem;">
+        <thead>
+          <tr style="background:var(--azzurro-navy-deep);color:rgba(255,255,255,0.55);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;">
+            <th style="padding:10px 12px;text-align:left;">Team</th>
+            <th style="padding:10px 12px;text-align:center;">GF</th>
+            <th style="padding:10px 12px;text-align:center;">xG</th>
+            <th style="padding:10px 12px;text-align:left;"></th>
+            <th style="padding:10px 12px;text-align:center;">GA</th>
+            <th style="padding:10px 12px;text-align:center;">xGA</th>
+            <th style="padding:10px 12px;text-align:left;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[...leagueGoals].sort((a,b)=>b.gf-a.gf).map(goalRow).join('')}
+        </tbody>
+      </table>
+    </div>
+    <p style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Players overview · WA NPL Women · Perth highlighted ★</p>
+    <div class="report-grid">
+      <div class="chart-card"><h3>⚽ Goals</h3><canvas id="rtab-chart-goals" style="height:280px;"></canvas></div>
+      <div class="chart-card"><h3>🎯 Assists</h3><canvas id="rtab-chart-assists" style="height:280px;"></canvas></div>
+      <div class="chart-card"><h3>🔫 Shots (total)</h3><canvas id="rtab-chart-shots" style="height:280px;"></canvas></div>
+      <div class="chart-card"><h3>📤 Passes (avg/90)</h3><canvas id="rtab-chart-passes" style="height:280px;"></canvas></div>
+      <div class="chart-card"><h3>⚔️ Duels (avg/90)</h3><canvas id="rtab-chart-duels" style="height:280px;"></canvas></div>
+      <div class="chart-card"><h3>🏃 Second assists</h3><canvas id="rtab-chart-secondassists" style="height:280px;"></canvas></div>
+    </div>
+    <p style="font-size:.75rem;color:var(--muted);margin-top:8px;">Source: Hudl Wyscout Season Report · ${REPORT_DATA.lastUpdated}</p>`;
+
   // ── RENDER ──────────────────────────────────────────────────
   wrap.innerHTML = `
     <div class="report-update-info">
@@ -3366,13 +3715,14 @@ function buildReport() {
     <div class="report-tabs">
       <button class="report-tab active" data-tab="attack">⚽ Attack</button>
       <button class="report-tab" data-tab="defence">🛡 Defence</button>
-      <button class="report-tab" data-tab="standings">📊 Standings</button>
+      <button class="report-tab" data-tab="goals">🥅 Goals &amp; Players</button>
     </div>
     <div class="report-panel active" id="rtab-attack">${attackHtml}</div>
     <div class="report-panel" id="rtab-defence">${defenceHtml}</div>
-    <div class="report-panel" id="rtab-standings">${standHtml}</div>`;
+    <div class="report-panel" id="rtab-goals">${goalsHtml}</div>`;
 
   // ── TAB SWITCHING ───────────────────────────────────────────
+  let goalsChartsBuilt = false;
   wrap.querySelectorAll('.report-tab').forEach(btn => {
     btn.addEventListener('click', () => {
       wrap.querySelectorAll('.report-tab').forEach(b => b.classList.remove('active'));
@@ -3381,11 +3731,76 @@ function buildReport() {
       document.getElementById('rtab-'+btn.dataset.tab).classList.add('active');
       if (btn.dataset.tab === 'attack')  setTimeout(() => drawTimingChart('attack'), 60);
       if (btn.dataset.tab === 'defence') setTimeout(() => drawTimingChart('defence'), 60);
+      if (btn.dataset.tab === 'goals' && !goalsChartsBuilt) {
+        goalsChartsBuilt = true;
+        setTimeout(() => buildGoalsCharts(), 60);
+      }
     });
   });
 
   // Draw attack chart immediately
   setTimeout(() => drawTimingChart('attack'), 80);
+
+  // ── PLAYERS OVERVIEW CHARTS (Goals tab) ─────────────────────
+  function buildGoalsCharts() {
+    const isP = t => t === 'Perth';
+    const col = t => isP(t) ? 'rgba(22,40,79,0.9)' : 'rgba(22,40,79,0.18)';
+    const tc  = t => isP(t) ? '#16284F' : '#999';
+
+    const mkChart = (id, data) => {
+      const el = document.getElementById(id);
+      if(!el || el.chart) return;
+      const max = Math.max(...data.map(d=>d.v)) * 1.2;
+      const c = new Chart(el, {
+        type:'bar',
+        data:{
+          labels: data.map(d=>(isP(d.t)?'★ ':'')+d.n),
+          datasets:[{ data:data.map(d=>d.v), backgroundColor:data.map(d=>col(d.t)), borderRadius:4 }]
+        },
+        options:{
+          indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          scales:{
+            x:{beginAtZero:true, max, grid:{color:'rgba(12,24,48,.04)'}, ticks:{font:{size:10}}},
+            y:{grid:{display:false}, ticks:{font:{size:11}, color:data.map(d=>tc(d.t))}}
+          },
+          plugins:{ legend:{display:false}, datalabels:{anchor:'end',align:'right',color:data.map(d=>tc(d.t)),font:{size:10,weight:'600'},formatter:v=>typeof v==='number'&&v%1!==0?v.toFixed(2):v} }
+        }
+      });
+      el.style.height='280px';
+      el.chart = c;
+    };
+
+    mkChart('rtab-chart-goals',[
+      {n:'J. Flannery',t:'Perth',v:8},{n:'C. Doeglas',t:'Balcatta',v:8},{n:'A. Meakins',t:'Balcatta',v:7},
+      {n:'A. Green',t:'Fremantle City',v:5},{n:'J. Gale',t:'Balcatta',v:5},{n:'T. Lala',t:'Fremantle City',v:4},
+      {n:'L. Wood',t:'Fremantle City',v:4},{n:'P. Dowe',t:'West NTC',v:4},{n:'R. Marshall',t:'Perth',v:4},{n:'L. Heys',t:'Fremantle City',v:4}
+    ]);
+    mkChart('rtab-chart-assists',[
+      {n:'R. Marshall',t:'Perth',v:3},{n:'C. Doeglas',t:'Balcatta',v:3},{n:'D. McAllister',t:'Perth',v:2},
+      {n:'E. Siah',t:'Fremantle City',v:2},{n:'T. Satsuma',t:'Perth RedStar',v:2},{n:'A. Green',t:'Fremantle City',v:2},
+      {n:'R. Walsh',t:'Sorrento',v:2},{n:'S. Mathers',t:'Perth',v:2},{n:'J. Gale',t:'Balcatta',v:2},{n:'P. Derhun',t:'Subiaco',v:2}
+    ]);
+    mkChart('rtab-chart-shots',[
+      {n:'C. Doeglas',t:'Balcatta',v:69},{n:'A. Meakins',t:'Balcatta',v:52},{n:'J. Flannery',t:'Perth',v:40},
+      {n:'C. Mcauliffe',t:'West NTC',v:38},{n:'J. Ridley',t:'Perth RedStar',v:32},{n:'L. Heys',t:'Fremantle City',v:26},
+      {n:'A. Green',t:'Fremantle City',v:24},{n:'J. Duncanson',t:'Balcatta',v:23},{n:'M. Archibald',t:'Perth',v:23},{n:'R. Leota',t:'Perth RedStar',v:23}
+    ]);
+    mkChart('rtab-chart-passes',[
+      {n:'A. Van Heurck',t:'Balcatta',v:74.95},{n:'R. Jarvis',t:'Balcatta',v:63.20},{n:'C. Bennett',t:'Balcatta',v:60.79},
+      {n:'K. Mccartney',t:'Perth',v:54.45},{n:'A. Leek',t:'Fremantle City',v:54.33},{n:'F. Murray-H.',t:'Balcatta',v:52.16},
+      {n:'E. Mastrantonio',t:'Subiaco',v:50.63},{n:'A. Meakins',t:'Balcatta',v:50.16},{n:'P. Derhun',t:'Subiaco',v:48.98},{n:'L. Tana',t:'Perth',v:48.65}
+    ]);
+    mkChart('rtab-chart-duels',[
+      {n:'K. Houlis',t:'Perth RedStar',v:31.94},{n:'R. Leota',t:'Perth RedStar',v:25.00},{n:'R. Kuzamba',t:'West NTC',v:24.91},
+      {n:'L. Heys',t:'Fremantle City',v:24.48},{n:'J. Flannery',t:'Perth',v:24.32},{n:'E. Mastrantonio',t:'Subiaco',v:24.09},
+      {n:'S. Papalia',t:'Sorrento',v:23.69},{n:'A. Green',t:'Fremantle City',v:23.36},{n:'C. Rodrigo',t:'UWA Nedlands',v:22.42},{n:'N. Taylor H.',t:'Subiaco',v:21.76}
+    ]);
+    mkChart('rtab-chart-secondassists',[
+      {n:'G. Monteiro',t:'Perth RedStar',v:2},{n:'C. Souza',t:'Fremantle City',v:2},{n:'J. Gray',t:'Perth RedStar',v:1},
+      {n:'T. Attree',t:'Perth',v:1},{n:'S. Leong',t:'West NTC',v:1},{n:'C. Fonseca',t:'West NTC',v:1},
+      {n:'C. Adams',t:'Fremantle City',v:1},{n:'C. Bennett',t:'Balcatta',v:1},{n:'D. McAllister',t:'Perth',v:1},{n:'T. Satsuma',t:'Perth RedStar',v:1}
+    ]);
+  }
 
   // ── TIMING CHARTS ───────────────────────────────────────────
   function drawTimingChart(type) {
@@ -3507,6 +3922,158 @@ function renderHomeStandings(){
     </table>`;
 }
 renderHomeStandings();
+
+// ── Home Goals (top scorers + assists) ───────────────────────────────────────
+function renderHomeGoals(){
+  const el = document.getElementById('home-goals');
+  if(!el) return;
+
+  const scorers = [...PLAYERS]
+    .filter(p => p.goals > 0)
+    .sort((a,b) => b.goals - a.goals)
+    .slice(0, 8);
+
+  const assisters = [...PLAYERS]
+    .filter(p => p.assists > 0)
+    .sort((a,b) => b.assists - a.assists)
+    .slice(0, 8);
+
+  const card = (title, players, valueKey, label) => `
+    <div style="flex:1;min-width:260px;background:var(--card);border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+      <p style="font-family:var(--font-mono);font-size:0.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">${title}</p>
+      ${players.map((p,i) => {
+        const pct = players[0][valueKey] > 0 ? (p[valueKey]/players[0][valueKey])*100 : 0;
+        return `<div style="margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+            <span style="font-family:var(--font-gibson);font-size:0.88rem;font-weight:${i===0?'700':'500'};color:var(--ink);">${i===0?'★ ':''}${p.name}</span>
+            <span style="font-family:var(--font-mono);font-size:0.88rem;font-weight:700;color:${i===0?'var(--azzurro-navy)':'var(--ink)'};">${p[valueKey]} <span style="font-size:0.7rem;font-weight:400;color:var(--muted);">${label}</span></span>
+          </div>
+          <div style="height:4px;background:rgba(22,40,79,0.08);border-radius:2px;">
+            <div style="height:4px;width:${pct}%;background:${i===0?'var(--azzurro-navy)':'rgba(22,40,79,0.3)'};border-radius:2px;transition:width .4s;"></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  el.innerHTML = card('Top Scorers', scorers, 'goals', 'goals') + card('Top Assists', assisters, 'assists', 'ast');
+}
+renderHomeGoals();
+
+// ── League Players Overview (page 14 style) ───────────────────────────────────
+(function(){
+  const isPerth = team => team === 'Perth';
+  const col = team => isPerth(team) ? 'rgba(22,40,79,0.9)' : 'rgba(22,40,79,0.18)';
+  const txtCol = team => isPerth(team) ? '#16284F' : '#999';
+
+  const makeChart = (id, data, valKey, maxOverride) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const max = maxOverride || Math.max(...data.map(d=>d[valKey])) * 1.15;
+    new Chart(el, {
+      type: 'bar',
+      data: {
+        labels: data.map(d => (isPerth(d.team)?'★ ':'')+d.name),
+        datasets: [{ data: data.map(d=>d[valKey]), backgroundColor: data.map(d=>col(d.team)), borderRadius:4 }]
+      },
+      options: {
+        indexAxis:'y', responsive:true, maintainAspectRatio:false,
+        scales: {
+          x:{ beginAtZero:true, max, grid:{color:'rgba(12,24,48,.04)'}, ticks:{font:{size:10}} },
+          y:{ grid:{display:false}, ticks:{ font:{ size:11, weight: data.map(d=>isPerth(d.team)?'700':'400') }, color: data.map(d=>txtCol(d.team)) } }
+        },
+        plugins: {
+          legend:{display:false},
+          datalabels:{ anchor:'end', align:'right', color: data.map(d=>txtCol(d.team)), font:{size:10,weight:'600'}, formatter:v=>typeof v==='number'&&v%1!==0?v.toFixed(2):v }
+        }
+      }
+    });
+    el.style.height = '280px';
+  };
+
+  // Goals top 10
+  makeChart('chartLeagueGoals', [
+    {name:'J. Flannery',   team:'Perth',          val:8},
+    {name:'C. Doeglas',    team:'Balcatta',        val:8},
+    {name:'A. Meakins',    team:'Balcatta',        val:7},
+    {name:'A. Green',      team:'Fremantle City',  val:5},
+    {name:'J. Gale',       team:'Balcatta',        val:5},
+    {name:'T. Lala',       team:'Fremantle City',  val:4},
+    {name:'L. Wood',       team:'Fremantle City',  val:4},
+    {name:'P. Dowe',       team:'West NTC',        val:4},
+    {name:'R. Marshall',   team:'Perth',           val:4},
+    {name:'L. Heys',       team:'Fremantle City',  val:4},
+  ], 'val', 10);
+
+  // Assists top 10
+  makeChart('chartLeagueAssists', [
+    {name:'R. Marshall',   team:'Perth',           val:3},
+    {name:'C. Doeglas',    team:'Balcatta',        val:3},
+    {name:'D. McAllister', team:'Perth',           val:2},
+    {name:'E. Siah',       team:'Fremantle City',  val:2},
+    {name:'T. Satsuma',    team:'Perth RedStar',   val:2},
+    {name:'A. Green',      team:'Fremantle City',  val:2},
+    {name:'R. Walsh',      team:'Sorrento',        val:2},
+    {name:'S. Mathers',    team:'Perth',           val:2},
+    {name:'J. Gale',       team:'Balcatta',        val:2},
+    {name:'P. Derhun',     team:'Subiaco',         val:2},
+  ], 'val', 4);
+
+  // Shots top 10
+  makeChart('chartLeagueShots', [
+    {name:'C. Doeglas',    team:'Balcatta',        val:69},
+    {name:'A. Meakins',    team:'Balcatta',        val:52},
+    {name:'J. Flannery',   team:'Perth',           val:40},
+    {name:'C. Mcauliffe',  team:'West NTC',        val:38},
+    {name:'J. Ridley',     team:'Perth RedStar',   val:32},
+    {name:'L. Heys',       team:'Fremantle City',  val:26},
+    {name:'A. Green',      team:'Fremantle City',  val:24},
+    {name:'J. Duncanson',  team:'Balcatta',        val:23},
+    {name:'M. Archibald',  team:'Perth',           val:23},
+    {name:'R. Leota',      team:'Perth RedStar',   val:23},
+  ], 'val');
+
+  // Passes avg/90 top 10
+  makeChart('chartLeaguePasses', [
+    {name:'A. Van Heurck', team:'Balcatta',        val:74.95},
+    {name:'R. Jarvis',     team:'Balcatta',        val:63.20},
+    {name:'C. Bennett',    team:'Balcatta',        val:60.79},
+    {name:'K. Mccartney',  team:'Perth',           val:54.45},
+    {name:'A. Leek',       team:'Fremantle City',  val:54.33},
+    {name:'F. Murray-H.',  team:'Balcatta',        val:52.16},
+    {name:'E. Mastrantonio',team:'Subiaco',        val:50.63},
+    {name:'A. Meakins',    team:'Balcatta',        val:50.16},
+    {name:'P. Derhun',     team:'Subiaco',         val:48.98},
+    {name:'L. Tana',       team:'Perth',           val:48.65},
+  ], 'val');
+
+  // Duels avg/90 top 10
+  makeChart('chartLeagueDuels', [
+    {name:'K. Houlis',     team:'Perth RedStar',   val:31.94},
+    {name:'R. Leota',      team:'Perth RedStar',   val:25.00},
+    {name:'R. Kuzamba',    team:'West NTC',        val:24.91},
+    {name:'L. Heys',       team:'Fremantle City',  val:24.48},
+    {name:'J. Flannery',   team:'Perth',           val:24.32},
+    {name:'E. Mastrantonio',team:'Subiaco',        val:24.09},
+    {name:'S. Papalia',    team:'Sorrento',        val:23.69},
+    {name:'A. Green',      team:'Fremantle City',  val:23.36},
+    {name:'C. Rodrigo',    team:'UWA Nedlands',    val:22.42},
+    {name:'N. Taylor H.',  team:'Subiaco',         val:21.76},
+  ], 'val');
+
+  // Second assists top 10
+  makeChart('chartLeagueSecondAssists', [
+    {name:'G. Monteiro',   team:'Perth RedStar',   val:2},
+    {name:'C. Souza',      team:'Fremantle City',  val:2},
+    {name:'J. Gray',       team:'Perth RedStar',   val:1},
+    {name:'T. Attree',     team:'Perth',           val:1},
+    {name:'S. Leong',      team:'West NTC',        val:1},
+    {name:'C. Fonseca',    team:'West NTC',        val:1},
+    {name:'C. Adams',      team:'Fremantle City',  val:1},
+    {name:'C. Bennett',    team:'Balcatta',        val:1},
+    {name:'D. McAllister', team:'Perth',           val:1},
+    {name:'T. Satsuma',    team:'Perth RedStar',   val:1},
+  ], 'val', 3);
+})();
 
 // ── Home My Area PIN ──────────────────────────────────────────────────────────
 const pinInput2  = document.getElementById('pinInput2');
