@@ -890,17 +890,67 @@
 <nav>
   <div class="nav-inner">
     <div class="nav-page-tabs">
-      <a href="#summary" data-view="main" class="nav-page-tab active" id="tab-main">Season Summary</a>
+      <a href="#home" data-view="home" class="nav-page-tab active" id="tab-home">Home</a>
+      <a href="#summary" data-view="main" class="nav-page-tab" id="tab-main">Season Summary</a>
       <a href="#league-report" data-view="npl" class="nav-page-tab" id="tab-npl">NPL Comparison</a>
     </div>
-    <a href="#my-area" class="nav-cta" data-view="main">My Area</a>
+    <a href="#my-area" class="nav-cta" data-view="home" id="myCTALink">My Area</a>
   </div>
 </nav>
 
 <main>
 
+  <!-- ═══ HOME VIEW ═══ -->
+  <div id="view-home">
+
+  <section id="home" style="padding-top:8px;">
+
+    <!-- Updated badge -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
+      <span style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:.12em;text-transform:uppercase;background:var(--azzurro-navy);color:#fff;padding:5px 14px;border-radius:20px;">Round 11 · WA NPL Women 2026</span>
+      <span style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Last updated: 31 May 2026</span>
+    </div>
+
+    <!-- Standings -->
+    <div class="section-head" style="margin-bottom:16px;">
+      <h2>Standings</h2>
+    </div>
+    <div id="home-standings" style="margin-bottom:40px;overflow-x:auto;">
+      <!-- rendered by JS -->
+    </div>
+
+    <!-- Video Analysis -->
+    <div class="section-head" style="margin-bottom:16px;">
+      <h2>Video Analysis</h2>
+    </div>
+    <div class="coach-video" style="margin-bottom:40px;">
+      <span class="video-label">Match & Training footage</span>
+      <a href="https://www.youtube.com/playlist?list=PLCiTolkeqpjez7_B0boUsjfmc5PTbDfRP" id="coachVideoLink2" class="video-link" target="_blank" rel="noopener noreferrer">▶ Watch on YouTube</a>
+    </div>
+
+    <!-- My Area -->
+    <div class="section-head" style="margin-bottom:16px;">
+      <h2>My Area</h2>
+      <span class="tag">Individual player access</span>
+    </div>
+
+    <div id="loginBox2" class="login-box">
+      <p class="login-intro">Enter your 4-digit PIN to see your individual season stats and the team's overall data. Each player can only view her own profile.</p>
+      <div class="pin-input-wrap">
+        <input type="password" inputmode="numeric" maxlength="4" id="pinInput2" class="pin-input" placeholder="••••" autocomplete="off">
+        <button id="pinSubmit2" class="pin-btn">Log in</button>
+      </div>
+      <p class="pin-error" id="pinError2"></p>
+    </div>
+
+    <div id="playerProfile2" class="player-profile hidden"></div>
+
+  </section>
+
+  </div><!-- /view-home -->
+
   <!-- ═══ MAIN VIEW ═══ -->
-  <div id="view-main">
+  <div id="view-main" style="display:none;">
 
   <section id="summary">
     <div class="section-head">
@@ -1423,11 +1473,14 @@ function parseFrac(str){
   return [a||0, b||0];
 }
 
-function showProfile(player){
-  loginBox.style.display = 'none';
-  profileBox.classList.remove('hidden');
-  profileBox.style.display = '';
-  profileBox.style.flexDirection = '';
+function showProfile(player, targetBox){
+  const box = targetBox || profileBox;
+  if(!targetBox){
+    loginBox.style.display = 'none';
+    profileBox.classList.remove('hidden');
+    profileBox.style.display = '';
+    profileBox.style.flexDirection = '';
+  }
 
   const kpis = [
     {val: player.matches, label:'Matches'},
@@ -1748,7 +1801,7 @@ function showProfile(player){
     </div>
   `
 
-  profileBox.innerHTML = `
+  box.innerHTML = `
     <div class="profile-header">
       <div>
         <div class="meta">Welcome · ${player.pos}</div>
@@ -1829,10 +1882,15 @@ function showProfile(player){
   } // end if(!isGK)
 
   document.getElementById('logoutBtn').addEventListener('click', ()=>{
+    // hide whichever profile box is visible
     profileBox.classList.add('hidden');
     loginBox.style.display = 'block';
+    if(profileBox2) profileBox2.classList.add('hidden');
+    if(loginBox2) loginBox2.style.display = 'block';
     pinInput.value = '';
     pinError.textContent = '';
+    if(pinInput2) pinInput2.value = '';
+    if(pinError2) pinError2.textContent = '';
   });
 }
 
@@ -3371,47 +3429,113 @@ function buildReport() {
 
 
 // ===== VIEW SWITCHER =====
+const viewHome  = document.getElementById('view-home');
 const viewMain  = document.getElementById('view-main');
 const viewNpl   = document.getElementById('view-npl');
+const tabHome   = document.getElementById('tab-home');
 const tabMain   = document.getElementById('tab-main');
 const tabNpl    = document.getElementById('tab-npl');
 const myCTALink = document.querySelector('a.nav-cta');
 
 function showView(view) {
-  if (view === 'npl') {
-    viewMain.style.display = 'none';
-    viewNpl.style.display  = 'block';
-    window.scrollTo({top: 0, behavior: 'smooth'});
-    tabMain.classList.remove('active');
-    tabNpl.classList.add('active');
-    // Always rebuild report fresh
-    buildReport();
-  } else {
-    viewMain.style.display = 'block';
-    viewNpl.style.display  = 'none';
-    tabNpl.classList.remove('active');
-    tabMain.classList.add('active');
-  }
+  viewHome.style.display = view==='home' ? 'block' : 'none';
+  viewMain.style.display = view==='main' ? 'block' : 'none';
+  viewNpl.style.display  = view==='npl'  ? 'block' : 'none';
+  tabHome.classList.toggle('active', view==='home');
+  tabMain.classList.toggle('active', view==='main');
+  tabNpl.classList.toggle('active',  view==='npl');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(view==='npl') buildReport();
 }
 
+tabHome.addEventListener('click', e => { e.preventDefault(); showView('home'); });
 tabMain.addEventListener('click', e => { e.preventDefault(); showView('main'); });
 tabNpl.addEventListener('click',  e => { e.preventDefault(); showView('npl'); });
 
-// My Area CTA stays inside main view
+// My Area CTA
 if (myCTALink) {
   myCTALink.addEventListener('click', e => {
-    if (viewNpl.style.display !== 'none') {
-      e.preventDefault();
-      showView('main');
-      const target = document.getElementById('my-area');
-      if (target) setTimeout(() => target.scrollIntoView({behavior:'smooth'}), 60);
-    }
+    e.preventDefault();
+    showView('home');
+    setTimeout(() => {
+      const target = document.getElementById('home');
+      if (target) target.scrollIntoView({behavior:'smooth'});
+    }, 60);
   });
 }
 
 // Back button in NPL view
 const nplBack = document.getElementById('nplBackBtn');
-if (nplBack) nplBack.addEventListener('click', () => showView('main'));
+if (nplBack) nplBack.addEventListener('click', () => showView('home'));
+
+// ── Home Standings Table ──────────────────────────────────────────────────────
+function renderHomeStandings(){
+  const el = document.getElementById('home-standings');
+  if(!el || !REPORT_DATA || !REPORT_DATA.standings) return;
+  const rows = REPORT_DATA.standings.map(r=>{
+    const isPerth = r.team === 'Perth';
+    return `<tr style="${isPerth?'background:var(--azzurro-navy);color:#fff;':''}">
+      <td style="padding:9px 12px;text-align:center;font-weight:${isPerth?'700':'400'};">${r.pos}</td>
+      <td style="padding:9px 12px;font-weight:${isPerth?'700':'500'};">${isPerth?'★ ':''} ${r.team}</td>
+      <td style="padding:9px 12px;text-align:center;font-weight:${isPerth?'700':'600'};">${r.pts}</td>
+      <td style="padding:9px 12px;text-align:center;">${r.p}</td>
+      <td style="padding:9px 12px;text-align:center;">${r.w}</td>
+      <td style="padding:9px 12px;text-align:center;">${r.d}</td>
+      <td style="padding:9px 12px;text-align:center;">${r.l}</td>
+      <td style="padding:9px 12px;text-align:center;">${r.gf}:${r.ga}</td>
+      <td style="padding:9px 12px;text-align:center;">${r.gd>0?'+'+r.gd:r.gd}</td>
+      <td style="padding:9px 12px;text-align:center;">${r.xg?.toFixed(1)??'-'}</td>
+    </tr>`;
+  }).join('');
+  el.innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-family:var(--font-gibson);font-size:0.875rem;background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+      <thead>
+        <tr style="background:var(--azzurro-navy-deep);color:rgba(255,255,255,0.55);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;">
+          <th style="padding:10px 12px;">#</th>
+          <th style="padding:10px 12px;text-align:left;">Team</th>
+          <th style="padding:10px 12px;">Pts</th>
+          <th style="padding:10px 12px;">P</th>
+          <th style="padding:10px 12px;">W</th>
+          <th style="padding:10px 12px;">D</th>
+          <th style="padding:10px 12px;">L</th>
+          <th style="padding:10px 12px;">Goals</th>
+          <th style="padding:10px 12px;">GD</th>
+          <th style="padding:10px 12px;">xG</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+renderHomeStandings();
+
+// ── Home My Area PIN ──────────────────────────────────────────────────────────
+const pinInput2  = document.getElementById('pinInput2');
+const pinSubmit2 = document.getElementById('pinSubmit2');
+const pinError2  = document.getElementById('pinError2');
+const loginBox2  = document.getElementById('loginBox2');
+const profileBox2 = document.getElementById('playerProfile2');
+
+function attemptLogin2(){
+  const val = pinInput2.value.trim();
+  if(val.length !== 4 || !/^\d{4}$/.test(val)){
+    pinError2.textContent = 'Enter your 4-digit PIN.'; return;
+  }
+  const player = findPlayerByPin(val);
+  if(player){
+    pinError2.textContent = '';
+    loginBox2.style.display = 'none';
+    profileBox2.classList.remove('hidden');
+    showProfile(player, profileBox2);
+  } else {
+    pinError2.textContent = 'PIN not found. Check with the club staff.';
+  }
+}
+
+if(pinSubmit2) pinSubmit2.addEventListener('click', attemptLogin2);
+if(pinInput2){
+  pinInput2.addEventListener('keydown', e=>{ if(e.key==='Enter') attemptLogin2(); });
+  pinInput2.addEventListener('input', ()=>{ pinInput2.value = pinInput2.value.replace(/\D/g,'').slice(0,4); });
+}
 </script>
 
 </body>
