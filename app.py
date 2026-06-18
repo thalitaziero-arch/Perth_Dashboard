@@ -105,6 +105,19 @@ html = re.sub(
     flags=re.S
 )
 
+# Inject correct shooting totals from Excel
+perth_rows = [r for r in team_data if r["Team"] == "Perth"]
+sd_shots    = sum(r["Shots"] for r in perth_rows)
+sd_sot      = sum(r["Shots_on_target"] for r in perth_rows)
+sd_pct      = round(sd_sot / sd_shots * 100, 1) if sd_shots else 0
+sd_xg       = round(sum(r["xG"] for r in perth_rows), 2)
+sd_goals    = sum(r["Goals"] for r in perth_rows)
+sd_total    = f'{{"shots":{sd_shots},"on_target":{sd_sot},"pct":{sd_pct},"xg":{sd_xg},"goals":{sd_goals}}}'
+html = html.replace(
+    "const SD_TOTAL = {shots:0, on_target:0, pct:0, xg:0, goals:0};",
+    f"const SD_TOTAL = {sd_total};"
+)
+
 if PERTH_PDF.exists():
     doc = fitz.open(str(PERTH_PDF))
     pg = 14 if len(doc) <= 18 else 19

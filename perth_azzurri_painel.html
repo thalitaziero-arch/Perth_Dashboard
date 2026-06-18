@@ -1448,8 +1448,9 @@ document.getElementById('pitchWrap').innerHTML = `<div class="pitch">${pitchSVG}
 </div>`;
 
 // ---- Shot map (goal mouth) ----
+const SD_TOTAL = {shots:0, on_target:0, pct:0, xg:0, goals:0};
 const SD = {
-  total:{shots:178, on_target:73, pct:41.0, xg:17.82, goals:23},
+  total: SD_TOTAL,
   foot:{shots:159, on_target:64, pct:40.3, xg:15.74, goals:17},
   head:{shots:19, on_target:9, pct:47.4, xg:2.08, goals:6},
   inside:{shots:93, on_target:39, pct:41.9, xg:15.25, goals:18},
