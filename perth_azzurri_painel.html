@@ -2099,7 +2099,7 @@ function showProfile(player, targetBox){
       <div style="background:var(--card);border-radius:10px;padding:14px 16px;border-left:3px solid ${rankColor(r.rank)};">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
           <span style="font-family:var(--font-mono);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">${r.category}</span>
-          <span style="font-size:1.1rem;font-weight:800;color:${rankColor(r.rank)};">${rankLabel(r.rank)} in WA NPL</span>
+          <span style="font-size:1.1rem;font-weight:800;color:${rankColor(r.rank)};">${rankLabel(r.rank)} in WA NPLW</span>
         </div>
         <div style="font-size:1.25rem;font-weight:700;color:var(--ink);">${r.value}</div>
         ${r.unit ? `<div style="font-size:0.75rem;color:var(--muted);">${r.unit}</div>` : ''}
@@ -2109,12 +2109,12 @@ function showProfile(player, targetBox){
     nplSection.style.cssText = 'margin-top:32px;';
     nplSection.innerHTML = `
       <div class="section-head" style="margin-bottom:16px;">
-        <h2 style="display:flex;align-items:center;gap:8px;">🏆 NPL Rankings <span style="font-size:0.75rem;font-weight:400;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;">You appear in the WA NPL Women league rankings</span></h2>
+        <h2 style="display:flex;align-items:center;gap:8px;">🏆 NPLW Rankings <span style="font-size:0.75rem;font-weight:400;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;">You appear in the WA NPLW league rankings</span></h2>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">
         ${rankCards}
       </div>
-      <p style="font-size:0.72rem;color:var(--muted);margin-top:10px;">Source: Hudl Wyscout Season Report · ${new Date().getFullYear()} WA NPL Women · Round 11</p>`;
+      <p style="font-size:0.72rem;color:var(--muted);margin-top:10px;">Source: Hudl Wyscout Season Report · ${new Date().getFullYear()} WA NPLW · Round 11</p>`;
     box.appendChild(nplSection);
   }
 
@@ -3655,7 +3655,7 @@ function buildReport() {
         </tbody>
       </table>
     </div>
-    <p style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Players overview · WA NPL Women · Perth highlighted ★</p>
+    <p style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Players overview · WA NPLW · Perth highlighted ★</p>
     <div class="report-grid">
       <div class="chart-card"><h3>⚽ Goals</h3><canvas id="rtab-chart-goals" style="height:280px;"></canvas></div>
       <div class="chart-card"><h3>🎯 Assists</h3><canvas id="rtab-chart-assists" style="height:280px;"></canvas></div>

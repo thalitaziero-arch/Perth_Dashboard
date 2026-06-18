@@ -39,7 +39,10 @@ def build_dashboard_data(excel_path):
         'Duels_total':85,'Duels_won':86,'Duels_won_pct':87,
         'Fwd_passes_pct':128,
     }
-    rows = df.iloc[3:]
+    rows = df.iloc[3:].copy()
+    # forward-fill Date and Match (new Wyscout format only fills Perth's row)
+    rows.iloc[:, 65] = rows.iloc[:, 65].ffill()
+    rows.iloc[:, 66] = rows.iloc[:, 66].ffill()
     matches = {}
     for i, row in rows.iterrows():
         k = (str(row.iloc[65])[:10], str(row.iloc[66]))
@@ -48,8 +51,8 @@ def build_dashboard_data(excel_path):
     records = []
     for i, row in rows.iterrows():
         k = (str(row.iloc[65])[:10], str(row.iloc[66]))
-        def g(c):
-            v = row.iloc[c]
+        def g(c, _row=row):
+            v = _row.iloc[c]
             return None if str(v) in ('nan','NaN','None') else v
         records.append({
             'Round': round_map[k],
