@@ -990,16 +990,21 @@
       <div class="chart-card" id="spg-stat-card">
         <h3>Shots needed to score</h3>
         <p class="desc">Season total: how many shots we take per goal scored.</p>
-        <div id="spgNumberDisplay" style="display:flex;align-items:center;justify-content:center;flex-direction:column;padding:32px 16px;gap:8px;">
-          <div style="font-family:var(--font-gibson);font-weight:800;font-size:4rem;line-height:1;color:var(--azzurro-navy);" id="spgBigNumber">—</div>
-          <div style="font-family: var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">shots per goal · season avg</div>
-          <div style="font-family: var(--font-mono);font-size:0.82rem;color:var(--muted);margin-top:4px;" id="spgSubLine">— shots · — goals</div>
+        <div id="spgNumberDisplay" style="display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px 16px;gap:4px;">
+          <div style="font-family:var(--font-gibson);font-weight:800;font-size:2.4rem;line-height:1;color:var(--azzurro-navy);" id="spgBigNumber">—</div>
+          <div style="font-family: var(--font-mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">shots per goal · season avg</div>
+          <div style="font-family: var(--font-mono);font-size:0.75rem;color:var(--muted);margin-top:2px;" id="spgSubLine">— shots · — goals</div>
         </div>
       </div>
       <div class="chart-card">
         <h3>Duels: won vs. lost</h3>
         <p class="desc">Distribution of individual duels contested in each match.</p>
         <canvas id="chartDuels"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Shots by time interval</h3>
+        <p class="desc">Total shots taken in each 15-minute interval of the match.</p>
+        <canvas id="chartShotsTime"></canvas>
       </div>
     </div>
 
@@ -1041,17 +1046,12 @@
     </div>
     <div class="chart-grid">
 
-      <div class="chart-card">
-        <h3>Shots by time interval</h3>
-        <p class="desc">Total shots taken in each 15-minute interval of the match.</p>
-        <canvas id="chartShotsTime"></canvas>
-      </div>
-      <div class="chart-card" id="finishingImgCard" style="display:none;">
+      <div class="chart-card full" id="finishingImgCard" style="display:none;">
         <h3>Shots on Goalkeeper</h3>
         <p class="desc">Season-long distribution of shots: goals, on target and misses.</p>
         <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;">
-          <img id="finishingImg1" src="" style="flex:1;min-width:240px;border-radius:8px;" />
-          <img id="finishingImg2" src="" style="flex:1;min-width:240px;border-radius:8px;" />
+          <img id="finishingImg1" src="" style="flex:1;min-width:300px;border-radius:8px;" />
+          <img id="finishingImg2" src="" style="flex:1;min-width:300px;border-radius:8px;" />
         </div>
       </div>
       <div class="chart-card full">
