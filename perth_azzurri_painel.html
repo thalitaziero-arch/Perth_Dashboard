@@ -1377,12 +1377,16 @@ lineChart(document.getElementById('chartPasses'), [
 })();
 
 // Duels - won vs lost (stacked)
+const avgDuelsTotal = Math.round(team.reduce((s,t)=>s+t.Duels_total,0)/team.length);
 barChart(document.getElementById('chartDuels'), [
   {label:'Won', data:team.map(t=>t.Duels_won), backgroundColor:COL.green,
     datalabels:{ anchor:'center', align:'center', color:'#fff', font:{weight:'700', size:11}, formatter:(v)=>v }},
   {label:'Lost', data:team.map(t=>t.Duels_total - t.Duels_won), backgroundColor:COL.red,
     datalabels:{ anchor:'center', align:'center', color:'#fff', font:{weight:'700', size:11},
       formatter:(v,ctx)=>{ const won=ctx.chart.data.datasets[0].data[ctx.dataIndex]; const tot=won+v; return tot+'t · '+Math.round(won/tot*100)+'%'; } }},
+  {label:'Avg total ('+avgDuelsTotal+')', data:team.map(()=>avgDuelsTotal), type:'line',
+    borderColor:'rgba(22,40,79,0.6)', borderDash:[6,4], borderWidth:2, pointRadius:0, fill:false,
+    datalabels:{display:false}},
 ], { scales:{ x:{stacked:true, grid:{display:false}}, y:{stacked:true, beginAtZero:true, grid:{color:'rgba(12,24,48,0.05)'}} },
   plugins:{ legend:{position:'bottom', labels:{boxWidth:14, font:{size:11}}}, datalabels:{} }});
 
@@ -1461,12 +1465,19 @@ if(document.getElementById('goalMapWrap')) document.getElementById('goalMapWrap'
 // ---- Shots by time bucket ----
 const timeLabels = ["1-15'","16-30'","31-45+'","46-60'","61-75'","76-120+'"];
 const shotsByTime = [19,25,27,33,37,37];
+const avgShotsTime = Math.round(shotsByTime.reduce((a,b)=>a+b,0)/shotsByTime.length);
 new Chart(document.getElementById('chartShotsTime'), {
   type:'bar',
-  data:{ labels: timeLabels, datasets:[{ label:'Shots', data: shotsByTime, backgroundColor: COL.navy }] },
+  data:{ labels: timeLabels, datasets:[
+    { label:'Shots', data: shotsByTime, backgroundColor: COL.navy,
+      datalabels:{ anchor:'end', align:'top', color:COL.navy, font:{weight:'700', size:11}, formatter:(v)=>v } },
+    { label:'Avg ('+avgShotsTime+')', data: shotsByTime.map(()=>avgShotsTime), type:'line',
+      borderColor:'rgba(206,43,55,0.7)', borderDash:[6,4], borderWidth:2, pointRadius:0, fill:false,
+      datalabels:{display:false} }
+  ]},
   options:{
     responsive:true, maintainAspectRatio:true,
-    plugins:{ legend:{display:false}, datalabels:{ anchor:'end', align:'top', color:COL.navy, font:{weight:'700', size:11}, formatter:(v)=>v } },
+    plugins:{ legend:{position:'bottom', labels:{boxWidth:14, font:{size:11}}}, datalabels:{} },
     scales:{ y:{ beginAtZero:true, grid:{color:'rgba(12,24,48,0.05)'} }, x:{ grid:{display:false} } }
   }
 });
