@@ -83,12 +83,12 @@ def build_dashboard_data(excel_path):
     return sorted(records, key=lambda r: (r['Round'], r['Team']))
 
 
-# ── 2. Extrair página de um PDF como imagem base64 ───────────────────────────
-def pdf_page_to_base64(pdf_path, page_num=14, dpi=150):
+# ── 2. Extrair figura recortada de um PDF como base64 ────────────────────────
+def pdf_crop_to_base64(pdf_path, page_num, x0, y0, x1, y1, scale=2.0):
     doc = fitz.open(str(pdf_path))
     page = doc[page_num - 1]
-    mat = fitz.Matrix(dpi / 72, dpi / 72)
-    pix = page.get_pixmap(matrix=mat)
+    mat = fitz.Matrix(scale, scale)
+    pix = page.get_pixmap(matrix=mat, clip=fitz.Rect(x0, y0, x1, y1))
     return base64.b64encode(pix.tobytes("png")).decode()
 
 
@@ -107,9 +107,13 @@ html = re.sub(
 
 if PERTH_PDF.exists():
     doc = fitz.open(str(PERTH_PDF))
-    finishing_page = 14 if len(doc) <= 18 else 19
+    pg = 14 if len(doc) <= 18 else 19
     doc.close()
-    finishing_b64 = pdf_page_to_base64(PERTH_PDF, page_num=finishing_page)
-    html = html.replace('const FINISHING_IMG = "";', f'const FINISHING_IMG = "{finishing_b64}";')
+    # Fig 1: shots on goalkeeper (goal face) — top-left of the finishing page
+    img1 = pdf_crop_to_base64(PERTH_PDF, pg, x0=0,   y0=55,  x1=298, y1=245)
+    # Fig 2: field shot map — middle-left of the finishing page
+    img2 = pdf_crop_to_base64(PERTH_PDF, pg, x0=0,   y0=245, x1=298, y1=475)
+    html = html.replace('const FINISHING_IMG1 = "";', f'const FINISHING_IMG1 = "{img1}";')
+    html = html.replace('const FINISHING_IMG2 = "";', f'const FINISHING_IMG2 = "{img2}";')
 
 components.html(html, height=15000, scrolling=False)
