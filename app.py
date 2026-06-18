@@ -109,8 +109,9 @@ if PERTH_PDF.exists():
     doc = fitz.open(str(PERTH_PDF))
     pg = 14 if len(doc) <= 18 else 19
     doc.close()
-    # Shots on goalkeeper (goal face) — top-left of the finishing page
-    img1 = pdf_crop_to_base64(PERTH_PDF, pg, x0=0, y0=55, x1=298, y1=245)
+    img1 = pdf_crop_to_base64(PERTH_PDF, pg, x0=0, y0=55,  x1=298, y1=245)
+    img2 = pdf_crop_to_base64(PERTH_PDF, pg, x0=0, y0=245, x1=298, y1=475)
     html = html.replace('const FINISHING_IMG1 = "";', f'const FINISHING_IMG1 = "{img1}";')
+    html = html.replace('const FINISHING_IMG2 = "";', f'const FINISHING_IMG2 = "{img2}";')
 
 components.html(html, height=15000, scrolling=False)
