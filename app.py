@@ -105,13 +105,11 @@ html = re.sub(
     flags=re.S
 )
 
-components.html(html, height=15000, scrolling=False)
-
-# ── 4. Figura: Finishing (shots na goleira + mapa do campo) ──────────────────
 if PERTH_PDF.exists():
-    st.divider()
     doc = fitz.open(str(PERTH_PDF))
     finishing_page = 14 if len(doc) <= 18 else 19
     doc.close()
-    img = pdf_page_to_base64(PERTH_PDF, page_num=finishing_page)
-    st.image(f"data:image/png;base64,{img}", use_container_width=True)
+    finishing_b64 = pdf_page_to_base64(PERTH_PDF, page_num=finishing_page)
+    html = html.replace('const FINISHING_IMG = "";', f'const FINISHING_IMG = "{finishing_b64}";')
+
+components.html(html, height=15000, scrolling=False)
