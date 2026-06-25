@@ -64,7 +64,7 @@
         "accelerations": 52,
         "decelerations": 37,
         "hmld": 478.01,
-        "position": "Attackers (8"
+        "position": "Attackers"
       },
       {
         "name": "Epril",
@@ -94,7 +94,7 @@
         "accelerations": 51,
         "decelerations": 48,
         "hmld": 990.76,
-        "position": "Attackers (8"
+        "position": "Attackers"
       },
       {
         "name": "Kim",
@@ -114,7 +114,7 @@
         "accelerations": 15,
         "decelerations": 14,
         "hmld": 388.21,
-        "position": "Attackers (8"
+        "position": "Attackers"
       },
       {
         "name": "Louise",
@@ -144,7 +144,7 @@
         "accelerations": 49,
         "decelerations": 48,
         "hmld": 981.88,
-        "position": "Attackers (8"
+        "position": "Attackers"
       },
       {
         "name": "Sam",
@@ -174,7 +174,7 @@
         "accelerations": 25,
         "decelerations": 22,
         "hmld": 646.2,
-        "position": "Attackers (8, 9 & 10)"
+        "position": "Attackers"
       }
     ]
   }
