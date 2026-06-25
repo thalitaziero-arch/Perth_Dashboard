@@ -185,6 +185,7 @@ def _single(s):
 
 
 SNAPSHOT_FILE = BASE_DIR / "perth_sc_last5_snapshot.json"
+APPLIED_LOG = BASE_DIR / "perth_sc_applied_matches.json"
 
 # Fields tracked as (numerator, denominator) pairs in Table A/B/C, so they can
 # be added/subtracted numerically when isolating a single match's contribution
@@ -310,18 +311,35 @@ def step2c_update_players(dashboard_df):
         # Perth_SC.pdf filtered to exactly one match (e.g. by date range in
         # Wyscout) — the parsed numbers are already that match's contribution,
         # no diffing needed; just add them onto the existing season totals.
-        updated = 0
-        for name, base in base_players.items():
-            player = dict(base)
-            if name in pdf_data and not base.get("is_goalkeeper"):
-                delta = _numeric_record(pdf_data[name])
-                player = _apply_delta_to_player(player, delta)
-                updated += 1
-            elif base.get("is_goalkeeper") and matches_by_name.get(name):
-                player["matches"] = player.get("matches", 0) + 1
-            players.append(player)
-        print(f"   {updated} jogadores atualizados com os dados deste jogo único "
-              f"(rodada {current_round}).")
+        # Guard against double-counting: identify the match (from the cover
+        # page) and skip if it was already applied in a previous run.
+        import fitz
+        doc = fitz.open(str(PERTH_PDF))
+        match_signature = doc[0].get_text().strip().splitlines()
+        match_signature = match_signature[2] if len(match_signature) > 2 else doc[0].get_text().strip()
+        doc.close()
+        applied = json.loads(APPLIED_LOG.read_text()) if APPLIED_LOG.exists() else []
+
+        if match_signature in applied:
+            print(f"   Esse jogo ('{match_signature}') já foi somado aos totais antes "
+                  f"(visto em execução anterior) — não vou somar de novo. Estatísticas "
+                  f"de jogadores mantidas como estão.")
+            players = list(base_players.values())
+        else:
+            updated = 0
+            for name, base in base_players.items():
+                player = dict(base)
+                if name in pdf_data and not base.get("is_goalkeeper"):
+                    delta = _numeric_record(pdf_data[name])
+                    player = _apply_delta_to_player(player, delta)
+                    updated += 1
+                elif base.get("is_goalkeeper") and matches_by_name.get(name):
+                    player["matches"] = player.get("matches", 0) + 1
+                players.append(player)
+            applied.append(match_signature)
+            APPLIED_LOG.write_text(json.dumps(applied, ensure_ascii=False, indent=2), encoding="utf-8")
+            print(f"   {updated} jogadores atualizados com os dados deste jogo único "
+                  f"(rodada {current_round}, '{match_signature}').")
     elif full_season:
         # the PDF already covers (close to) the whole season — use it as the
         # direct source of truth, same as before.
@@ -531,7 +549,7 @@ def step4_publish_to_github(round_num):
     files = [
         "perth_azzurri_painel.html", "atualizar_painel.py", "extract_wyscout.py",
         "npl_comparison_data.json", "team_stats_perth.xlsx", "Perth_SC.pdf",
-        "NPL_Comparison.pdf", "perth_sc_last5_snapshot.json",
+        "NPL_Comparison.pdf", "perth_sc_last5_snapshot.json", "perth_sc_applied_matches.json",
     ]
     existing = [f for f in files if (BASE_DIR / f).exists()]
     subprocess.run(["git", "add"] + existing, cwd=BASE_DIR, check=True)
