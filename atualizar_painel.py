@@ -459,7 +459,54 @@ def step2b_update_shots_images():
     return img1, img2
 
 
-def step3_inject_html(dashboard_df, img1=None, img2=None, players=None, gps=None):
+def step2d_update_npl_images():
+    print("2d) Recortando figuras 'Goals', 'Attacks by flanks' e 'Corners distribution' (NPL_Comparison.pdf)...")
+    if not NPL_PDF.exists():
+        print(f"   Aviso: {NPL_PDF.name} não encontrado, pulando esta etapa.")
+        return None, None, None
+    import fitz  # pymupdf
+
+    def find_page(marker):
+        doc = fitz.open(str(NPL_PDF))
+        pg = None
+        for i in range(len(doc)):
+            if marker in doc[i].get_text():
+                pg = i + 1
+                break
+        doc.close()
+        return pg
+
+    def crop(page_num, x0, y0, x1, y1, scale=4.5):
+        doc = fitz.open(str(NPL_PDF))
+        page = doc[page_num - 1]
+        mat = fitz.Matrix(scale, scale)
+        pix = page.get_pixmap(matrix=mat, clip=fitz.Rect(x0, y0, x1, y1))
+        png = pix.tobytes("png")
+        doc.close()
+        return base64.b64encode(png).decode()
+
+    pg_goals = find_page("Attacks by flanks")  # same page as 'Goals'
+    img_flanks = img_goals = None
+    if pg_goals:
+        img_flanks = crop(pg_goals, x0=0, y0=320, x1=298, y1=450)
+        img_goals = crop(pg_goals, x0=297, y0=320, x1=595, y1=450)
+        print(f"   Figuras 'Attacks by flanks' e 'Goals' extraídas da página {pg_goals}.")
+    else:
+        print("   Aviso: não encontrei a página 'Attacks by flanks' / 'Goals'.")
+
+    pg_corners = find_page("Corners distribution")
+    img_corners = None
+    if pg_corners:
+        img_corners = crop(pg_corners, x0=5, y0=65, x1=300, y1=215)
+        print(f"   Figura 'Corners distribution' extraída da página {pg_corners}.")
+    else:
+        print("   Aviso: não encontrei a página 'Corners distribution'.")
+
+    return img_flanks, img_goals, img_corners
+
+
+def step3_inject_html(dashboard_df, img1=None, img2=None, players=None, gps=None,
+                       npl_flanks_img=None, npl_goals_img=None, npl_corners_img=None):
     print("3) Gravando dados no perth_azzurri_painel.html...")
     shutil.copy(HTML_FILE, HTML_FILE.with_suffix(".bak.html"))
 
@@ -520,6 +567,12 @@ def step3_inject_html(dashboard_df, img1=None, img2=None, players=None, gps=None
         html = re.sub(r'const FINISHING_IMG1 = "[^"]*";', f'const FINISHING_IMG1 = "{img1}";', html)
     if img2:
         html = re.sub(r'const FINISHING_IMG2 = "[^"]*";', f'const FINISHING_IMG2 = "{img2}";', html)
+    if npl_flanks_img:
+        html = re.sub(r'const NPL_FLANKS_IMG = "[^"]*";', f'const NPL_FLANKS_IMG = "{npl_flanks_img}";', html)
+    if npl_goals_img:
+        html = re.sub(r'const NPL_GOALS_IMG = "[^"]*";', f'const NPL_GOALS_IMG = "{npl_goals_img}";', html)
+    if npl_corners_img:
+        html = re.sub(r'const NPL_CORNERS_IMG = "[^"]*";', f'const NPL_CORNERS_IMG = "{npl_corners_img}";', html)
 
     if players is not None:
         html = re.sub(
@@ -650,7 +703,8 @@ if __name__ == "__main__":
     step2_update_npl_json(dd)
     img1, img2 = step2b_update_shots_images()
     players = step2c_update_players(dd)
+    npl_flanks_img, npl_goals_img, npl_corners_img = step2d_update_npl_images()
     gps = step5_update_gps()
-    step3_inject_html(dd, img1, img2, players, gps)
+    step3_inject_html(dd, img1, img2, players, gps, npl_flanks_img, npl_goals_img, npl_corners_img)
     step4_publish_to_github(int(dd["Round"].max()))
     print("\nPronto! Abra perth_azzurri_painel.html no navegador para confirmar.")
