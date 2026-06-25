@@ -1,0 +1,181 @@
+[
+  {
+    "signature": "23/06/2026|Training|",
+    "date": "23/06/2026",
+    "type": "Training",
+    "opponent": null,
+    "round": "Round (Game)",
+    "players": [
+      {
+        "name": "Ailsa",
+        "total_distance": 5774.12,
+        "hsr": 0,
+        "max_speed": 19.58,
+        "accelerations": 14,
+        "decelerations": 14,
+        "hmld": 411.35,
+        "position": "Midfielders"
+      },
+      {
+        "name": "Charli",
+        "total_distance": 7291.53,
+        "hsr": 68.36,
+        "max_speed": 22.78,
+        "accelerations": 36,
+        "decelerations": 40,
+        "hmld": 856.36,
+        "position": "Midfielders"
+      },
+      {
+        "name": "Dale",
+        "total_distance": 4313.48,
+        "hsr": 12.03,
+        "max_speed": 22.26,
+        "accelerations": 52,
+        "decelerations": 38,
+        "hmld": 252.24,
+        "position": "Goalkeeper"
+      },
+      {
+        "name": "Daisy",
+        "total_distance": 5911.91,
+        "hsr": 76.06,
+        "max_speed": 23.35,
+        "accelerations": 28,
+        "decelerations": 17,
+        "hmld": 544.71,
+        "position": "Midfielders"
+      },
+      {
+        "name": "Emme",
+        "total_distance": 4101.67,
+        "hsr": 0.55,
+        "max_speed": 19.86,
+        "accelerations": 74,
+        "decelerations": 58,
+        "hmld": 245.71,
+        "position": "Goalkeeper"
+      },
+      {
+        "name": "Ella",
+        "total_distance": 6950.08,
+        "hsr": 85.21,
+        "max_speed": 24.55,
+        "accelerations": 52,
+        "decelerations": 37,
+        "hmld": 478.01,
+        "position": "Attackers (8"
+      },
+      {
+        "name": "Epril",
+        "total_distance": 5939.23,
+        "hsr": 30.93,
+        "max_speed": 21.64,
+        "accelerations": 9,
+        "decelerations": 9,
+        "hmld": 332.93,
+        "position": "Defenders"
+      },
+      {
+        "name": "Grace",
+        "total_distance": 6476.03,
+        "hsr": 40.49,
+        "max_speed": 20.82,
+        "accelerations": 23,
+        "decelerations": 14,
+        "hmld": 403.01,
+        "position": "Midfielders"
+      },
+      {
+        "name": "Jessica",
+        "total_distance": 6997.18,
+        "hsr": 80.77,
+        "max_speed": 25.01,
+        "accelerations": 51,
+        "decelerations": 48,
+        "hmld": 990.76,
+        "position": "Attackers (8"
+      },
+      {
+        "name": "Kim",
+        "total_distance": 5992.87,
+        "hsr": 29.96,
+        "max_speed": 26.23,
+        "accelerations": 17,
+        "decelerations": 13,
+        "hmld": 311.58,
+        "position": "Defenders"
+      },
+      {
+        "name": "Lauren",
+        "total_distance": 6066.98,
+        "hsr": 20.23,
+        "max_speed": 20.52,
+        "accelerations": 15,
+        "decelerations": 14,
+        "hmld": 388.21,
+        "position": "Attackers (8"
+      },
+      {
+        "name": "Louise",
+        "total_distance": 6342.21,
+        "hsr": 29.97,
+        "max_speed": 23.32,
+        "accelerations": 12,
+        "decelerations": 15,
+        "hmld": 635.58,
+        "position": "Defenders"
+      },
+      {
+        "name": "Macey",
+        "total_distance": 6563.66,
+        "hsr": 87.26,
+        "max_speed": 25.29,
+        "accelerations": 39,
+        "decelerations": 50,
+        "hmld": 792.35,
+        "position": "Midfielders"
+      },
+      {
+        "name": "Ruby",
+        "total_distance": 7036.88,
+        "hsr": 85.1,
+        "max_speed": 26.21,
+        "accelerations": 49,
+        "decelerations": 48,
+        "hmld": 981.88,
+        "position": "Attackers (8"
+      },
+      {
+        "name": "Sam",
+        "total_distance": 6977.62,
+        "hsr": 73.52,
+        "max_speed": 22.35,
+        "accelerations": 39,
+        "decelerations": 38,
+        "hmld": 862,
+        "position": "Midfielders"
+      },
+      {
+        "name": "Tristen",
+        "total_distance": 6731.04,
+        "hsr": 49.1,
+        "max_speed": 24.34,
+        "accelerations": 44,
+        "decelerations": 68,
+        "hmld": 741.36,
+        "position": "Defenders"
+      },
+      {
+        "name": "Xuri",
+        "total_distance": 6004.46,
+        "hsr": 39.59,
+        "max_speed": 20.99,
+        "accelerations": 25,
+        "decelerations": 22,
+        "hmld": 646.2,
+        "position": "Attackers (8, 9 & 10)"
+      }
+    ]
+  }
+]

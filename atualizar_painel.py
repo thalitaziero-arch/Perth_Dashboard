@@ -60,6 +60,8 @@ NPL_PDF = BASE_DIR / "NPL_Comparison.pdf"
 NPL_JSON = BASE_DIR / "npl_comparison_data.json"
 EXTRACT_SCRIPT = BASE_DIR / "extract_wyscout.py"
 PERTH_PDF = BASE_DIR / "Perth_SC.pdf"
+GPS_FILE = BASE_DIR / "Perth_SC_GPS_Weekly_Update_v3.xlsx"
+GPS_HISTORY_FILE = BASE_DIR / "gps_history.json"
 
 TS_COLS = {
     "Date": 0, "Match": 1, "Competition": 2, "Duration": 3, "Team": 4, "Scheme": 5,
@@ -457,7 +459,7 @@ def step2b_update_shots_images():
     return img1, img2
 
 
-def step3_inject_html(dashboard_df, img1=None, img2=None, players=None):
+def step3_inject_html(dashboard_df, img1=None, img2=None, players=None, gps=None):
     print("3) Gravando dados no perth_azzurri_painel.html...")
     shutil.copy(HTML_FILE, HTML_FILE.with_suffix(".bak.html"))
 
@@ -526,6 +528,17 @@ def step3_inject_html(dashboard_df, img1=None, img2=None, players=None):
             html, flags=re.S,
         )
 
+    if gps is not None:
+        for const_name, key in [
+            ("GPS_HISTORY", "history"), ("GPS_BENCHMARKS", "benchmarks"),
+            ("GPS_BY_POSITION", "by_position"), ("GPS_REFERENCES", "references"),
+        ]:
+            html = re.sub(
+                rf"const {const_name} = \[.*?\];",
+                f"const {const_name} = " + json.dumps(gps[key], ensure_ascii=False) + ";",
+                html, flags=re.S,
+            )
+
     # valida antes de salvar
     for name, pat in [
         ("DATA", r"const DATA = (\[.*?\]);"),
@@ -533,6 +546,7 @@ def step3_inject_html(dashboard_df, img1=None, img2=None, players=None):
         ("REPORT_DATA", r"const REPORT_DATA = (\{.*?\});"),
         ("PLAYERS", r"const PLAYERS = (\[.*?\]);"),
         ("NPL_RANKINGS", r"const NPL_RANKINGS = (\{.*?\});"),
+        ("GPS_HISTORY", r"const GPS_HISTORY = (\[.*?\]);"),
     ]:
         m = re.search(pat, html, re.S)
         if not m:
@@ -544,12 +558,73 @@ def step3_inject_html(dashboard_df, img1=None, img2=None, players=None):
     print(f"   Rounds no painel: {sorted(set(r['Round'] for r in records))}")
 
 
+def step5_update_gps():
+    print("5) Atualizando dados de Treino (GPS)...")
+    if not GPS_FILE.exists():
+        print(f"   Aviso: {GPS_FILE.name} não encontrado, pulando esta etapa.")
+        return None
+    import openpyxl
+    wb = openpyxl.load_workbook(GPS_FILE, data_only=True)
+    ws = wb["GPS Data"]
+
+    session_type = ws["B4"].value
+    date_val = ws["E4"].value
+    opponent = ws["H4"].value
+    round_val = ws["J4"].value
+    date_str = date_val.strftime("%Y-%m-%d") if hasattr(date_val, "strftime") else str(date_val)
+
+    players = []
+    r = 7
+    while ws.cell(r, 1).value:
+        players.append({
+            "name": ws.cell(r, 1).value,
+            "total_distance": ws.cell(r, 2).value,
+            "hsr": ws.cell(r, 3).value,
+            "max_speed": ws.cell(r, 4).value,
+            "accelerations": ws.cell(r, 5).value,
+            "decelerations": ws.cell(r, 6).value,
+            "hmld": ws.cell(r, 7).value,
+            "position": ws.cell(r, 8).value or None,
+        })
+        r += 1
+
+    signature = f"{date_str}|{session_type}|{opponent or ''}"
+    history = json.loads(GPS_HISTORY_FILE.read_text()) if GPS_HISTORY_FILE.exists() else []
+    if any(s["signature"] == signature for s in history):
+        print(f"   Essa sessão ('{signature}') já estava no histórico — não duplicada.")
+    else:
+        history.append({
+            "signature": signature, "date": date_str, "type": session_type,
+            "opponent": opponent, "round": round_val, "players": players,
+        })
+        history.sort(key=lambda s: s["date"])
+        GPS_HISTORY_FILE.write_text(json.dumps(history, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"   Sessão de {date_str} ({session_type}) adicionada ao histórico "
+              f"({len(history)} sessões no total).")
+
+    def sheet_rows(name, max_rows=20):
+        s = wb[name]
+        rows = []
+        for row in s.iter_rows(min_row=1, max_row=max_rows, values_only=True):
+            if any(v is not None for v in row):
+                rows.append([v for v in row if v is not None])
+        return rows
+
+    return {
+        "history": history,
+        "benchmarks": sheet_rows("GPS Benchmarks"),
+        "by_position": sheet_rows("By Position"),
+        "references": sheet_rows("References"),
+    }
+
+
 def step4_publish_to_github(round_num):
     print("4) Publicando no GitHub (site online)...")
     files = [
         "perth_azzurri_painel.html", "atualizar_painel.py", "extract_wyscout.py", "app.py",
         "npl_comparison_data.json", "team_stats_perth.xlsx", "Perth_SC.pdf",
         "NPL_Comparison.pdf", "perth_sc_last5_snapshot.json", "perth_sc_applied_matches.json",
+        "Perth_SC_GPS_Weekly_Update_v3.xlsx", "gps_history.json",
     ]
     existing = [f for f in files if (BASE_DIR / f).exists()]
     subprocess.run(["git", "add"] + existing, cwd=BASE_DIR, check=True)
@@ -575,6 +650,7 @@ if __name__ == "__main__":
     step2_update_npl_json(dd)
     img1, img2 = step2b_update_shots_images()
     players = step2c_update_players(dd)
-    step3_inject_html(dd, img1, img2, players)
+    gps = step5_update_gps()
+    step3_inject_html(dd, img1, img2, players, gps)
     step4_publish_to_github(int(dd["Round"].max()))
     print("\nPronto! Abra perth_azzurri_painel.html no navegador para confirmar.")
