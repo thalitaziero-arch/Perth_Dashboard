@@ -21,6 +21,241 @@
     "L. Continibali": 1
   },
   "records": {
+    "L. Continibali": {
+      "A": {
+        "total_min": "3",
+        "goals_xg": "-",
+        "assists_xa": "0 / 0.01",
+        "shots": "-",
+        "passes": "3 / 2 67%",
+        "crosses": "2 / 1 50%",
+        "dribbles": "1 / 1 100%",
+        "duels": "1 / 1 100%",
+        "losses": "-",
+        "recoveries": "1 / 1",
+        "touches_pa": "-",
+        "cards": "-"
+      },
+      "B": {
+        "total_min": "3",
+        "def_duels": "-",
+        "off_duels": "1 / 1 100%",
+        "aerial": "-",
+        "loose": "-",
+        "blocks": "-",
+        "interceptions_clear": "-",
+        "tackles": "-",
+        "fouls": "-",
+        "freekicks": "-",
+        "setpieces": "-",
+        "direct_fk_corners": "-",
+        "corners_served": "-",
+        "throwins": "-"
+      },
+      "C": {
+        "total_min": "3",
+        "forward": "-",
+        "back": "-",
+        "lateral": "2 / 2 100%",
+        "short_med": "1 / 1 100%",
+        "long": "-",
+        "progressive": "1 / 1 100%",
+        "final_third": "-",
+        "through": "-",
+        "deep_completions": "-",
+        "key_passes": "1",
+        "second_third_assists": "-",
+        "shot_assists": "1"
+      }
+    },
+    "J. Flannery": {
+      "A": {
+        "total_min": "444",
+        "goals_xg": "3 / 2.22",
+        "assists_xa": "1 / 0.81",
+        "shots": "18 / 8 44%",
+        "passes": "225 / 130 58%",
+        "crosses": "26 / 2 8%",
+        "dribbles": "26 / 15 58%",
+        "duels": "127 / 46 36%",
+        "losses": "129 / 25",
+        "recoveries": "33 / 24",
+        "touches_pa": "18",
+        "cards": "-"
+      },
+      "B": {
+        "total_min": "444",
+        "def_duels": "17 / 13 76%",
+        "off_duels": "87 / 27 31%",
+        "aerial": "14 / 3 21%",
+        "loose": "9 / 3 33%",
+        "blocks": "-",
+        "interceptions_clear": "23 / 3",
+        "tackles": "-",
+        "fouls": "3 / 2",
+        "freekicks": "-",
+        "setpieces": "-",
+        "direct_fk_corners": "10",
+        "corners_served": "11",
+        "throwins": "-"
+      },
+      "C": {
+        "total_min": "444",
+        "forward": "68 / 32 47%",
+        "back": "45 / 39 87%",
+        "lateral": "70 / 35 50%",
+        "short_med": "173 / 116 67%",
+        "long": "26 / 12 46%",
+        "progressive": "45 / 28 62%",
+        "final_third": "31 / 12 39%",
+        "through": "4 / 0 0%",
+        "deep_completions": "10",
+        "key_passes": "2",
+        "second_third_assists": "-",
+        "shot_assists": "10"
+      }
+    },
+    "C. Wainwright": {
+      "A": {
+        "total_min": "453",
+        "goals_xg": "1 / 0.69",
+        "assists_xa": "1 / 1.47",
+        "shots": "10 / 4 40%",
+        "passes": "255 / 210 82%",
+        "crosses": "3 / 1 33%",
+        "dribbles": "8 / 6 75%",
+        "duels": "108 / 57 53%",
+        "losses": "53 / 12",
+        "recoveries": "72 / 49",
+        "touches_pa": "12",
+        "cards": "3 / 0"
+      },
+      "B": {
+        "total_min": "453",
+        "def_duels": "49 / 32 65%",
+        "off_duels": "29 / 12 41%",
+        "aerial": "13 / 5 38%",
+        "loose": "17 / 8 47%",
+        "blocks": "-",
+        "interceptions_clear": "29 / 2",
+        "tackles": "8 / 2 25%",
+        "fouls": "11 / 3",
+        "freekicks": "-",
+        "setpieces": "-",
+        "direct_fk_corners": "-",
+        "corners_served": "3",
+        "throwins": "-"
+      },
+      "C": {
+        "total_min": "453",
+        "forward": "77 / 51 66%",
+        "back": "55 / 51 93%",
+        "lateral": "92 / 84 91%",
+        "short_med": "238 / 204 86%",
+        "long": "14 / 5 36%",
+        "progressive": "37 / 27 73%",
+        "final_third": "45 / 32 71%",
+        "through": "2 / 1 50%",
+        "deep_completions": "7",
+        "key_passes": "4",
+        "second_third_assists": "-",
+        "shot_assists": "7"
+      }
+    },
+    "E. Nossent": {
+      "A": {
+        "total_min": "439",
+        "goals_xg": "0 / 0.48",
+        "assists_xa": "0 / 0.03",
+        "shots": "1 / 0 0%",
+        "passes": "142 / 102 72%",
+        "crosses": "4 / 0 0%",
+        "dribbles": "2 / 2 100%",
+        "duels": "45 / 31 69%",
+        "losses": "57 / 16",
+        "recoveries": "35 / 11",
+        "touches_pa": "3",
+        "cards": "-"
+      },
+      "B": {
+        "total_min": "439",
+        "def_duels": "30 / 22 73%",
+        "off_duels": "9 / 5 56%",
+        "aerial": "5 / 3 60%",
+        "loose": "1 / 1 100%",
+        "blocks": "2",
+        "interceptions_clear": "17 / 6",
+        "tackles": "-",
+        "fouls": "-",
+        "freekicks": "-",
+        "setpieces": "-",
+        "direct_fk_corners": "-",
+        "corners_served": "67",
+        "throwins": "-"
+      },
+      "C": {
+        "total_min": "439",
+        "forward": "71 / 46 65%",
+        "back": "27 / 25 93%",
+        "lateral": "30 / 18 60%",
+        "short_med": "116 / 92 79%",
+        "long": "22 / 10 45%",
+        "progressive": "27 / 14 52%",
+        "final_third": "26 / 13 50%",
+        "through": "-",
+        "deep_completions": "1",
+        "key_passes": "-",
+        "second_third_assists": "1 / 0",
+        "shot_assists": "1"
+      }
+    },
+    "L. Tana": {
+      "A": {
+        "total_min": "472",
+        "goals_xg": "0 / 0.03",
+        "assists_xa": "0 / 0.09",
+        "shots": "2 / 1 50%",
+        "passes": "251 / 222 88%",
+        "crosses": "8 / 1 13%",
+        "dribbles": "11 / 6 55%",
+        "duels": "91 / 45 49%",
+        "losses": "51 / 20",
+        "recoveries": "77 / 34",
+        "touches_pa": "3",
+        "cards": "1 / 0"
+      },
+      "B": {
+        "total_min": "472",
+        "def_duels": "51 / 34 67%",
+        "off_duels": "28 / 10 36%",
+        "aerial": "3 / 0 0%",
+        "loose": "9 / 1 11%",
+        "blocks": "1",
+        "interceptions_clear": "38 / 9",
+        "tackles": "-",
+        "fouls": "6 / 3",
+        "freekicks": "-",
+        "setpieces": "-",
+        "direct_fk_corners": "-",
+        "corners_served": "65",
+        "throwins": "-"
+      },
+      "C": {
+        "total_min": "472",
+        "forward": "104 / 86 83%",
+        "back": "47 / 45 96%",
+        "lateral": "61 / 53 87%",
+        "short_med": "236 / 215 91%",
+        "long": "7 / 6 86%",
+        "progressive": "39 / 32 82%",
+        "final_third": "28 / 22 79%",
+        "through": "1 / 0 0%",
+        "deep_completions": "-",
+        "key_passes": "-",
+        "second_third_assists": "1 / 0",
+        "shot_assists": "4"
+      }
+    },
     "T. Attree": {
       "A": {
         "total_min": "214",
@@ -115,51 +350,51 @@
         "shot_assists": "-"
       }
     },
-    "J. Flannery": {
+    "K. Mccartney": {
       "A": {
-        "total_min": "444",
-        "goals_xg": "3 / 2.22",
-        "assists_xa": "1 / 0.81",
-        "shots": "18 / 8 44%",
-        "passes": "225 / 130 58%",
-        "crosses": "26 / 2 8%",
-        "dribbles": "26 / 15 58%",
-        "duels": "127 / 46 36%",
-        "losses": "129 / 25",
-        "recoveries": "33 / 24",
-        "touches_pa": "18",
+        "total_min": "472",
+        "goals_xg": "1 / 0.77",
+        "assists_xa": "2 / 0.60",
+        "shots": "5 / 3 60%",
+        "passes": "369 / 316 86%",
+        "crosses": "-",
+        "dribbles": "-",
+        "duels": "20 / 12 60%",
+        "losses": "46 / 13",
+        "recoveries": "59 / 18",
+        "touches_pa": "3",
         "cards": "-"
       },
       "B": {
-        "total_min": "444",
-        "def_duels": "17 / 13 76%",
-        "off_duels": "87 / 27 31%",
-        "aerial": "14 / 3 21%",
-        "loose": "9 / 3 33%",
-        "blocks": "-",
-        "interceptions_clear": "23 / 3",
+        "total_min": "472",
+        "def_duels": "15 / 11 73%",
+        "off_duels": "1 / 0 0%",
+        "aerial": "2 / 0 0%",
+        "loose": "2 / 1 50%",
+        "blocks": "3",
+        "interceptions_clear": "16 / 7",
         "tackles": "-",
-        "fouls": "3 / 2",
-        "freekicks": "-",
-        "setpieces": "-",
-        "direct_fk_corners": "10",
-        "corners_served": "11",
+        "fouls": "3 / 0",
+        "freekicks": "9",
+        "setpieces": "3",
+        "direct_fk_corners": "-",
+        "corners_served": "-",
         "throwins": "-"
       },
       "C": {
-        "total_min": "444",
-        "forward": "68 / 32 47%",
-        "back": "45 / 39 87%",
-        "lateral": "70 / 35 50%",
-        "short_med": "173 / 116 67%",
-        "long": "26 / 12 46%",
-        "progressive": "45 / 28 62%",
-        "final_third": "31 / 12 39%",
-        "through": "4 / 0 0%",
-        "deep_completions": "10",
-        "key_passes": "2",
-        "second_third_assists": "-",
-        "shot_assists": "10"
+        "total_min": "472",
+        "forward": "143 / 101 71%",
+        "back": "23 / 21 91%",
+        "lateral": "168 / 164 98%",
+        "short_med": "302 / 284 94%",
+        "long": "67 / 32 48%",
+        "progressive": "64 / 48 75%",
+        "final_third": "56 / 33 59%",
+        "through": "4 / 1 25%",
+        "deep_completions": "1",
+        "key_passes": "1",
+        "second_third_assists": "0 / 1",
+        "shot_assists": "3"
       }
     },
     "M. Boehm": {
@@ -209,53 +444,6 @@
         "shot_assists": "1"
       }
     },
-    "S. Mathers": {
-      "A": {
-        "total_min": "377",
-        "goals_xg": "0 / 0.03",
-        "assists_xa": "0 / 0.78",
-        "shots": "3 / 0 0%",
-        "passes": "208 / 155 75%",
-        "crosses": "3 / 0 0%",
-        "dribbles": "8 / 5 63%",
-        "duels": "59 / 30 51%",
-        "losses": "58 / 17",
-        "recoveries": "49 / 32",
-        "touches_pa": "4",
-        "cards": "-"
-      },
-      "B": {
-        "total_min": "377",
-        "def_duels": "29 / 20 69%",
-        "off_duels": "26 / 7 27%",
-        "aerial": "2 / 2 100%",
-        "loose": "2 / 1 50%",
-        "blocks": "-",
-        "interceptions_clear": "29 / 7",
-        "tackles": "-",
-        "fouls": "3 / 0",
-        "freekicks": "-",
-        "setpieces": "-",
-        "direct_fk_corners": "16",
-        "corners_served": "3",
-        "throwins": "8"
-      },
-      "C": {
-        "total_min": "377",
-        "forward": "75 / 44 59%",
-        "back": "44 / 44 100%",
-        "lateral": "48 / 35 73%",
-        "short_med": "189 / 148 78%",
-        "long": "16 / 7 44%",
-        "progressive": "34 / 21 62%",
-        "final_third": "45 / 31 69%",
-        "through": "1 / 0 0%",
-        "deep_completions": "1",
-        "key_passes": "-",
-        "second_third_assists": "-",
-        "shot_assists": "9"
-      }
-    },
     "M. Mccready": {
       "A": {
         "total_min": "102",
@@ -303,53 +491,6 @@
         "shot_assists": "-"
       }
     },
-    "K. Mccartney": {
-      "A": {
-        "total_min": "472",
-        "goals_xg": "1 / 0.77",
-        "assists_xa": "2 / 0.60",
-        "shots": "5 / 3 60%",
-        "passes": "369 / 316 86%",
-        "crosses": "-",
-        "dribbles": "-",
-        "duels": "20 / 12 60%",
-        "losses": "46 / 13",
-        "recoveries": "59 / 18",
-        "touches_pa": "3",
-        "cards": "-"
-      },
-      "B": {
-        "total_min": "472",
-        "def_duels": "15 / 11 73%",
-        "off_duels": "1 / 0 0%",
-        "aerial": "2 / 0 0%",
-        "loose": "2 / 1 50%",
-        "blocks": "3",
-        "interceptions_clear": "16 / 7",
-        "tackles": "-",
-        "fouls": "3 / 0",
-        "freekicks": "9",
-        "setpieces": "3",
-        "direct_fk_corners": "-",
-        "corners_served": "-",
-        "throwins": "-"
-      },
-      "C": {
-        "total_min": "472",
-        "forward": "143 / 101 71%",
-        "back": "23 / 21 91%",
-        "lateral": "168 / 164 98%",
-        "short_med": "302 / 284 94%",
-        "long": "67 / 32 48%",
-        "progressive": "64 / 48 75%",
-        "final_third": "56 / 33 59%",
-        "through": "4 / 1 25%",
-        "deep_completions": "1",
-        "key_passes": "1",
-        "second_third_assists": "0 / 1",
-        "shot_assists": "3"
-      }
-    },
     "R. Marshall": {
       "A": {
         "total_min": "423",
@@ -394,6 +535,53 @@
         "deep_completions": "7",
         "key_passes": "3",
         "second_third_assists": "0 / 1",
+        "shot_assists": "3"
+      }
+    },
+    "G. Warburton": {
+      "A": {
+        "total_min": "183",
+        "goals_xg": "0 / 0.16",
+        "assists_xa": "0 / 0.22",
+        "shots": "3 / 1 33%",
+        "passes": "88 / 60 68%",
+        "crosses": "4 / 0 0%",
+        "dribbles": "3 / 2 67%",
+        "duels": "38 / 18 47%",
+        "losses": "32 / 4",
+        "recoveries": "21 / 17",
+        "touches_pa": "9",
+        "cards": "-"
+      },
+      "B": {
+        "total_min": "183",
+        "def_duels": "16 / 10 63%",
+        "off_duels": "11 / 3 27%",
+        "aerial": "2 / 0 0%",
+        "loose": "9 / 5 56%",
+        "blocks": "-",
+        "interceptions_clear": "9 / 0",
+        "tackles": "-",
+        "fouls": "6 / 0",
+        "freekicks": "-",
+        "setpieces": "-",
+        "direct_fk_corners": "-",
+        "corners_served": "1",
+        "throwins": "-"
+      },
+      "C": {
+        "total_min": "183",
+        "forward": "29 / 15 52%",
+        "back": "22 / 21 95%",
+        "lateral": "24 / 14 58%",
+        "short_med": "80 / 56 70%",
+        "long": "4 / 4 100%",
+        "progressive": "14 / 9 64%",
+        "final_third": "14 / 9 64%",
+        "through": "-",
+        "deep_completions": "4",
+        "key_passes": "-",
+        "second_third_assists": "-",
         "shot_assists": "3"
       }
     },
@@ -444,53 +632,6 @@
         "shot_assists": "5"
       }
     },
-    "E. Nossent": {
-      "A": {
-        "total_min": "439",
-        "goals_xg": "0 / 0.48",
-        "assists_xa": "0 / 0.03",
-        "shots": "1 / 0 0%",
-        "passes": "142 / 102 72%",
-        "crosses": "4 / 0 0%",
-        "dribbles": "2 / 2 100%",
-        "duels": "45 / 31 69%",
-        "losses": "57 / 16",
-        "recoveries": "35 / 11",
-        "touches_pa": "3",
-        "cards": "-"
-      },
-      "B": {
-        "total_min": "439",
-        "def_duels": "30 / 22 73%",
-        "off_duels": "9 / 5 56%",
-        "aerial": "5 / 3 60%",
-        "loose": "1 / 1 100%",
-        "blocks": "2",
-        "interceptions_clear": "17 / 6",
-        "tackles": "-",
-        "fouls": "-",
-        "freekicks": "-",
-        "setpieces": "-",
-        "direct_fk_corners": "-",
-        "corners_served": "67",
-        "throwins": "-"
-      },
-      "C": {
-        "total_min": "439",
-        "forward": "71 / 46 65%",
-        "back": "27 / 25 93%",
-        "lateral": "30 / 18 60%",
-        "short_med": "116 / 92 79%",
-        "long": "22 / 10 45%",
-        "progressive": "27 / 14 52%",
-        "final_third": "26 / 13 50%",
-        "through": "-",
-        "deep_completions": "1",
-        "key_passes": "-",
-        "second_third_assists": "1 / 0",
-        "shot_assists": "1"
-      }
-    },
     "A. Zindell": {
       "A": {
         "total_min": "11",
@@ -536,53 +677,6 @@
         "key_passes": "-",
         "second_third_assists": "-",
         "shot_assists": "-"
-      }
-    },
-    "C. Wainwright": {
-      "A": {
-        "total_min": "453",
-        "goals_xg": "1 / 0.69",
-        "assists_xa": "1 / 1.47",
-        "shots": "10 / 4 40%",
-        "passes": "255 / 210 82%",
-        "crosses": "3 / 1 33%",
-        "dribbles": "8 / 6 75%",
-        "duels": "108 / 57 53%",
-        "losses": "53 / 12",
-        "recoveries": "72 / 49",
-        "touches_pa": "12",
-        "cards": "3 / 0"
-      },
-      "B": {
-        "total_min": "453",
-        "def_duels": "49 / 32 65%",
-        "off_duels": "29 / 12 41%",
-        "aerial": "13 / 5 38%",
-        "loose": "17 / 8 47%",
-        "blocks": "-",
-        "interceptions_clear": "29 / 2",
-        "tackles": "8 / 2 25%",
-        "fouls": "11 / 3",
-        "freekicks": "-",
-        "setpieces": "-",
-        "direct_fk_corners": "-",
-        "corners_served": "3",
-        "throwins": "-"
-      },
-      "C": {
-        "total_min": "453",
-        "forward": "77 / 51 66%",
-        "back": "55 / 51 93%",
-        "lateral": "92 / 84 91%",
-        "short_med": "238 / 204 86%",
-        "long": "14 / 5 36%",
-        "progressive": "37 / 27 73%",
-        "final_third": "45 / 32 71%",
-        "through": "2 / 1 50%",
-        "deep_completions": "7",
-        "key_passes": "4",
-        "second_third_assists": "-",
-        "shot_assists": "7"
       }
     },
     "X. Dalton": {
@@ -632,100 +726,6 @@
         "shot_assists": "-"
       }
     },
-    "L. Continibali": {
-      "A": {
-        "total_min": "3",
-        "goals_xg": "-",
-        "assists_xa": "0 / 0.01",
-        "shots": "-",
-        "passes": "3 / 2 67%",
-        "crosses": "2 / 1 50%",
-        "dribbles": "1 / 1 100%",
-        "duels": "1 / 1 100%",
-        "losses": "-",
-        "recoveries": "1 / 1",
-        "touches_pa": "-",
-        "cards": "-"
-      },
-      "B": {
-        "total_min": "3",
-        "def_duels": "-",
-        "off_duels": "1 / 1 100%",
-        "aerial": "-",
-        "loose": "-",
-        "blocks": "-",
-        "interceptions_clear": "-",
-        "tackles": "-",
-        "fouls": "-",
-        "freekicks": "-",
-        "setpieces": "-",
-        "direct_fk_corners": "-",
-        "corners_served": "-",
-        "throwins": "-"
-      },
-      "C": {
-        "total_min": "3",
-        "forward": "-",
-        "back": "-",
-        "lateral": "2 / 2 100%",
-        "short_med": "1 / 1 100%",
-        "long": "-",
-        "progressive": "1 / 1 100%",
-        "final_third": "-",
-        "through": "-",
-        "deep_completions": "-",
-        "key_passes": "1",
-        "second_third_assists": "-",
-        "shot_assists": "1"
-      }
-    },
-    "G. Warburton": {
-      "A": {
-        "total_min": "183",
-        "goals_xg": "0 / 0.16",
-        "assists_xa": "0 / 0.22",
-        "shots": "3 / 1 33%",
-        "passes": "88 / 60 68%",
-        "crosses": "4 / 0 0%",
-        "dribbles": "3 / 2 67%",
-        "duels": "38 / 18 47%",
-        "losses": "32 / 4",
-        "recoveries": "21 / 17",
-        "touches_pa": "9",
-        "cards": "-"
-      },
-      "B": {
-        "total_min": "183",
-        "def_duels": "16 / 10 63%",
-        "off_duels": "11 / 3 27%",
-        "aerial": "2 / 0 0%",
-        "loose": "9 / 5 56%",
-        "blocks": "-",
-        "interceptions_clear": "9 / 0",
-        "tackles": "-",
-        "fouls": "6 / 0",
-        "freekicks": "-",
-        "setpieces": "-",
-        "direct_fk_corners": "-",
-        "corners_served": "1",
-        "throwins": "-"
-      },
-      "C": {
-        "total_min": "183",
-        "forward": "29 / 15 52%",
-        "back": "22 / 21 95%",
-        "lateral": "24 / 14 58%",
-        "short_med": "80 / 56 70%",
-        "long": "4 / 4 100%",
-        "progressive": "14 / 9 64%",
-        "final_third": "14 / 9 64%",
-        "through": "-",
-        "deep_completions": "4",
-        "key_passes": "-",
-        "second_third_assists": "-",
-        "shot_assists": "3"
-      }
-    },
     "D. McAllister": {
       "A": {
         "total_min": "453",
@@ -773,51 +773,51 @@
         "shot_assists": "8"
       }
     },
-    "L. Tana": {
+    "S. Mathers": {
       "A": {
-        "total_min": "472",
+        "total_min": "377",
         "goals_xg": "0 / 0.03",
-        "assists_xa": "0 / 0.09",
-        "shots": "2 / 1 50%",
-        "passes": "251 / 222 88%",
-        "crosses": "8 / 1 13%",
-        "dribbles": "11 / 6 55%",
-        "duels": "91 / 45 49%",
-        "losses": "51 / 20",
-        "recoveries": "77 / 34",
-        "touches_pa": "3",
-        "cards": "1 / 0"
+        "assists_xa": "0 / 0.78",
+        "shots": "3 / 0 0%",
+        "passes": "208 / 155 75%",
+        "crosses": "3 / 0 0%",
+        "dribbles": "8 / 5 63%",
+        "duels": "59 / 30 51%",
+        "losses": "58 / 17",
+        "recoveries": "49 / 32",
+        "touches_pa": "4",
+        "cards": "-"
       },
       "B": {
-        "total_min": "472",
-        "def_duels": "51 / 34 67%",
-        "off_duels": "28 / 10 36%",
-        "aerial": "3 / 0 0%",
-        "loose": "9 / 1 11%",
-        "blocks": "1",
-        "interceptions_clear": "38 / 9",
+        "total_min": "377",
+        "def_duels": "29 / 20 69%",
+        "off_duels": "26 / 7 27%",
+        "aerial": "2 / 2 100%",
+        "loose": "2 / 1 50%",
+        "blocks": "-",
+        "interceptions_clear": "29 / 7",
         "tackles": "-",
-        "fouls": "6 / 3",
+        "fouls": "3 / 0",
         "freekicks": "-",
         "setpieces": "-",
-        "direct_fk_corners": "-",
-        "corners_served": "65",
-        "throwins": "-"
+        "direct_fk_corners": "16",
+        "corners_served": "3",
+        "throwins": "8"
       },
       "C": {
-        "total_min": "472",
-        "forward": "104 / 86 83%",
-        "back": "47 / 45 96%",
-        "lateral": "61 / 53 87%",
-        "short_med": "236 / 215 91%",
-        "long": "7 / 6 86%",
-        "progressive": "39 / 32 82%",
-        "final_third": "28 / 22 79%",
+        "total_min": "377",
+        "forward": "75 / 44 59%",
+        "back": "44 / 44 100%",
+        "lateral": "48 / 35 73%",
+        "short_med": "189 / 148 78%",
+        "long": "16 / 7 44%",
+        "progressive": "34 / 21 62%",
+        "final_third": "45 / 31 69%",
         "through": "1 / 0 0%",
-        "deep_completions": "-",
+        "deep_completions": "1",
         "key_passes": "-",
-        "second_third_assists": "1 / 0",
-        "shot_assists": "4"
+        "second_third_assists": "-",
+        "shot_assists": "9"
       }
     }
   }
