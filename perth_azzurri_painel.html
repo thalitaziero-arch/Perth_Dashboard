@@ -1148,7 +1148,7 @@
   <section id="training-report">
     <div class="npl-back-bar">
       <button class="npl-back-btn" id="trainingBackBtn">← Back to Dashboard</button>
-      <span class="npl-page-title">Training · Treinos e Jogos</span>
+      <span class="npl-page-title">GPS - Strength &amp; Conditioning</span>
     </div>
 
     <div class="chart-grid" style="margin-top:16px;">
@@ -1157,20 +1157,24 @@
         <p class="desc" id="gpsLatestSessionDesc">—</p>
         <div id="gpsDataTableWrap" style="overflow-x:auto;"></div>
         <div style="margin-top:14px;padding:12px 14px;background:var(--azzurro-cream);border-radius:8px;font-size:0.8rem;color:var(--muted);line-height:1.5;">
-          <strong style="color:var(--ink);">O que significam as métricas:</strong><br>
-          <strong>Total Distance</strong> — distância total percorrida.
-          <strong>HSR (High Speed Running)</strong> — distância em corrida de alta velocidade (sprints/arrancadas); mede capacidade explosiva.
-          <strong>Max Speed</strong> — velocidade máxima atingida.
-          <strong>Accelerations / Decelerations</strong> — número de arrancadas e frenagens bruscas.
-          <strong>HMLD (High Metabolic Load Distance)</strong> — distância percorrida em momentos de alto custo metabólico (inclui sprints e mudanças de ritmo); mede carga real de esforço/fadiga.
-          <br>Não existe "o melhor": HSR indica perfil de sprint/intensidade ofensiva, HMLD indica carga geral e risco de fadiga — o ideal é olhar os dois juntos.
+          <strong style="color:var(--ink);">What the metrics mean:</strong><br>
+          <strong>Total Distance</strong> — total distance covered.
+          <strong>HSR (High Speed Running)</strong> — distance covered at high speed (sprints/bursts); measures explosive sprint capacity.
+          <strong>Max Speed</strong> — top speed reached.
+          <strong>Accelerations / Decelerations</strong> — number of sharp speed changes (bursts and sudden braking).
+          <strong>HMLD (High Metabolic Load Distance)</strong> — distance covered during high metabolic cost efforts (sprints plus rapid changes of pace); measures overall workload/fatigue.
+          <br>Neither is "better": HSR reflects sprint/attacking intensity, HMLD reflects overall load and fatigue risk — both should be looked at together.
         </div>
       </div>
 
       <div class="chart-card full">
-        <h3>Comparison by Position</h3>
-        <p class="desc">Team average and rank within each position group, latest session.</p>
+        <h3>Comparison vs. Elite Benchmarks (by Position)</h3>
+        <p class="desc">Team average per position group, latest session, compared against elite reference ranges. Goalkeepers are excluded.</p>
         <div id="gpsComparisonWrap"></div>
+        <div style="margin-top:14px;padding:12px 14px;background:var(--azzurro-cream);border-radius:8px;font-size:0.8rem;color:var(--muted);line-height:1.5;">
+          <strong style="color:var(--ink);">Why compare by position?</strong><br>
+          Players are compared within their own position group — and against elite benchmarks, not against each other — because each role has different physical and tactical demands. This creates fairer comparisons and helps players understand the expectations of their specific role.
+        </div>
       </div>
 
       <div class="chart-card">
@@ -2116,7 +2120,7 @@ function showProfile(player, targetBox){
 
   // ── NPL Rankings ─────────────────────────────────────────────────────────────
     const NPL_RANKINGS = {"J. Flannery": [{"category": "Goals", "rank": 1, "value": "8 total", "unit": "0.67 avg/90 · xG 4.36"}, {"category": "Assists", "rank": 3, "value": "3 total", "unit": "0.25 avg/90 · xA 2.31"}, {"category": "Shots", "rank": 3, "value": "45 total", "unit": "3.77 avg/90 · xG/Shot 0.1"}, {"category": "Duels", "rank": 5, "value": "24.16 42%", "unit": "avg/90"}, {"category": "Key passes", "rank": 4, "value": "2.01", "unit": "avg/90"}, {"category": "Deep completions", "rank": 4, "value": "1.51", "unit": "avg/90"}, {"category": "Crosses", "rank": 1, "value": "5.62 24%", "unit": "avg/90"}, {"category": "Attack contribution", "rank": 9, "value": "0.77", "unit": "avg/90"}, {"category": "Touches in penalty area", "rank": 7, "value": "3.69", "unit": "avg/90"}, {"category": "Offsides", "rank": 3, "value": "1.51", "unit": "avg/90"}, {"category": "Dribbles", "rank": 2, "value": "6.12 53%", "unit": "avg/90"}, {"category": "Offensive duels", "rank": 5, "value": "15.35 36%", "unit": "avg/90"}, {"category": "Aerial duels", "rank": 5, "value": "2.18 27%", "unit": "avg/90"}, {"category": "Corners", "rank": 7, "value": "2.18 66%", "unit": "avg/90"}], "R. Marshall": [{"category": "Goals", "rank": 10, "value": "4 total", "unit": "0.37 avg/90 · xG 3.45"}, {"category": "Assists", "rank": 2, "value": "3 total", "unit": "0.28 avg/90 · xA 0.54"}, {"category": "Shots", "rank": 10, "value": "25 total", "unit": "2.32 avg/90 · xG/Shot 0.14"}, {"category": "Crosses", "rank": 7, "value": "2.78 17%", "unit": "avg/90"}, {"category": "Touches in penalty area", "rank": 9, "value": "3.62", "unit": "avg/90"}, {"category": "Aerial duels", "rank": 4, "value": "2.32 40%", "unit": "avg/90"}, {"category": "Fouls", "rank": 7, "value": "1.30 avg/90", "unit": "YC 1 · RC 0"}], "D. McAllister": [{"category": "Assists", "rank": 8, "value": "2 total", "unit": "0.23 avg/90 · xA 2.07"}, {"category": "Key passes", "rank": 8, "value": "1.51", "unit": "avg/90"}, {"category": "Deep completions", "rank": 2, "value": "1.74", "unit": "avg/90"}, {"category": "Touches in penalty area", "rank": 4, "value": "4.18", "unit": "avg/90"}, {"category": "Offsides", "rank": 2, "value": "1.74", "unit": "avg/90"}], "E. Lincoln": [{"category": "Second assists", "rank": 4, "value": "1 total", "unit": "0.52 avg/90 · 3rd assists 0"}], "T. Attree": [{"category": "Second assists", "rank": 8, "value": "1 total", "unit": "0.24 avg/90 · 3rd assists 0"}], "K. Mccartney": [{"category": "Passes", "rank": 4, "value": "57.07 86%", "unit": "avg/90"}, {"category": "Direct free kicks", "rank": 2, "value": "4/3 75%", "unit": "total"}, {"category": "Indirect free kicks", "rank": 2, "value": "1.26", "unit": "avg/90"}], "C. Wainwright": [{"category": "Passes", "rank": 8, "value": "49.56 81%", "unit": "avg/90"}, {"category": "Deep completions", "rank": 9, "value": "1.25", "unit": "avg/90"}, {"category": "Passes to final third", "rank": 5, "value": "9.13 67%", "unit": "avg/90"}, {"category": "Defensive duels", "rank": 7, "value": "9.66 69%", "unit": "avg/90"}, {"category": "Aerial duels", "rank": 1, "value": "2.50 36%", "unit": "avg/90"}, {"category": "Recoveries", "rank": 5, "value": "13.96", "unit": "avg/90"}, {"category": "Sliding tackles", "rank": 2, "value": "1.43", "unit": "avg/90"}, {"category": "Fouls", "rank": 1, "value": "1.97 avg/90", "unit": "YC 3 · RC 0"}], "S. Mathers": [{"category": "Key passes", "rank": 6, "value": "1.60", "unit": "avg/90"}, {"category": "Passes to final third", "rank": 2, "value": "9.60 63%", "unit": "avg/90"}, {"category": "Corners", "rank": 4, "value": "3.29 60%", "unit": "avg/90"}], "M. Archibald": [{"category": "Key passes", "rank": 7, "value": "1.52", "unit": "avg/90"}, {"category": "Deep completions", "rank": 10, "value": "1.17", "unit": "avg/90"}, {"category": "Fouls", "rank": 8, "value": "1.29 avg/90", "unit": "YC 0 · RC 0"}], "M. Boehm": [{"category": "Passes to final third", "rank": 7, "value": "8.96 55%", "unit": "avg/90"}, {"category": "Progressive passes", "rank": 3, "value": "11.98 64%", "unit": "avg/90"}, {"category": "Aerial duels", "rank": 9, "value": "1.77 47%", "unit": "avg/90"}, {"category": "Recoveries", "rank": 6, "value": "13.75", "unit": "avg/90"}, {"category": "Interceptions", "rank": 8, "value": "6.46", "unit": "avg/90"}], "L. Tana": [{"category": "Defensive duels", "rank": 2, "value": "10.63 68%", "unit": "avg/90"}, {"category": "Recoveries", "rank": 3, "value": "14.15", "unit": "avg/90"}, {"category": "Interceptions", "rank": 3, "value": "7.03", "unit": "avg/90"}], "E. Nossent": [{"category": "Throw ins", "rank": 4, "value": "13.00", "unit": "avg/90"}], "G. Warburton": [{"category": "Fouls", "rank": 4, "value": "1.58 avg/90", "unit": "YC 0 · RC 0"}]};
-                              
+                                
   const playerRankings = NPL_RANKINGS[player.name];
   if(playerRankings && playerRankings.length > 0){
     const rankColor = r => r === 1 ? '#C6A000' : r <= 3 ? 'var(--azzurro-navy)' : 'var(--muted)';
@@ -2680,34 +2684,47 @@ function buildTrainingReport() {
        <tbody>${dataRows}</tbody>
      </table>`;
 
-  // -- Comparison by position group --
+  // -- Comparison vs elite benchmarks, by position group (no goalkeepers, no player-vs-player) --
+  const isGK = pos => (pos || '').toLowerCase().includes('goalkeeper');
   const groups = {};
-  latest.players.forEach(p => {
+  latest.players.filter(p => !isGK(p.position)).forEach(p => {
     const g = p.position || 'Unassigned';
     (groups[g] = groups[g] || []).push(p);
   });
   const avg = (arr, k) => arr.reduce((s, p) => s + (p[k] || 0), 0) / arr.length;
+  const metricCols2 = [
+    ['total_distance','Total Distance'], ['hsr','HSR'], ['max_speed','Max Speed'],
+    ['accelerations','Accel'], ['decelerations','Decel'], ['hmld','HMLD'],
+  ];
+  const byPosLookup = {};
+  GPS_BY_POSITION.slice(1).forEach(r => { byPosLookup[r[0]] = r; });
+  const matchBenchmark = group => {
+    const g = group.toLowerCase();
+    return Object.entries(byPosLookup).find(([k]) => g.startsWith(k.toLowerCase().slice(0,5)))?.[1];
+  };
   const comparisonHtml = Object.entries(groups).map(([group, players]) => {
-    const sorted = [...players].sort((a, b) => (b.total_distance||0) - (a.total_distance||0));
-    const rows = sorted.map((p, i) => `<tr>
-        <td style="padding:6px 10px;">${i===0?'🥇 ':''}${p.name}</td>
-        <td style="padding:6px 10px;text-align:center;">${p.total_distance ?? '—'}</td>
-        <td style="padding:6px 10px;text-align:center;">${p.hsr ?? '—'}</td>
-        <td style="padding:6px 10px;text-align:center;">${p.max_speed ?? '—'}</td>
-      </tr>`).join('');
+    const bench = matchBenchmark(group);
+    const teamRow = `<tr>
+        <td style="padding:6px 10px;font-weight:600;">Team Average</td>
+        ${metricCols2.map(([k]) => `<td style="padding:6px 10px;text-align:center;">${avg(players,k).toFixed(1)}</td>`).join('')}
+      </tr>`;
+    const benchRow = bench ? `<tr style="color:var(--muted);">
+        <td style="padding:6px 10px;">Elite Benchmark</td>
+        <td style="padding:6px 10px;text-align:center;">${bench[1]}</td>
+        <td style="padding:6px 10px;text-align:center;">${bench[2]}</td>
+        <td style="padding:6px 10px;text-align:center;" colspan="3">—</td>
+      </tr>` : '';
     return `<div style="margin-bottom:18px;">
         <div style="font-weight:700;color:var(--azzurro-navy);margin-bottom:6px;">${group}
-          <span style="font-size:0.75rem;font-weight:400;color:var(--muted);">
-            · avg distance ${avg(players,'total_distance').toFixed(0)} · avg HSR ${avg(players,'hsr').toFixed(1)}
-          </span>
+          <span style="font-size:0.75rem;font-weight:400;color:var(--muted);">· ${players.length} players</span>
         </div>
         <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
           <thead><tr style="color:var(--muted);text-align:left;">
-            <th style="padding:6px 10px;">Player</th><th style="padding:6px 10px;">Total Distance</th>
-            <th style="padding:6px 10px;">HSR</th><th style="padding:6px 10px;">Max Speed</th>
+            <th style="padding:6px 10px;"></th>${metricCols2.map(([,l]) => `<th style="padding:6px 10px;">${l}</th>`).join('')}
           </tr></thead>
-          <tbody>${rows}</tbody>
+          <tbody>${teamRow}${benchRow}</tbody>
         </table>
+        ${bench ? `<p style="font-size:0.72rem;color:var(--muted);margin-top:4px;">Primary focus: ${bench[3]}</p>` : ''}
       </div>`;
   }).join('');
   document.getElementById('gpsComparisonWrap').innerHTML = comparisonHtml;
