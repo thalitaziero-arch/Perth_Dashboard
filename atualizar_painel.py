@@ -547,7 +547,7 @@ def step3_inject_html(dashboard_df, img1=None, img2=None, players=None):
 def step4_publish_to_github(round_num):
     print("4) Publicando no GitHub (site online)...")
     files = [
-        "perth_azzurri_painel.html", "atualizar_painel.py", "extract_wyscout.py",
+        "perth_azzurri_painel.html", "atualizar_painel.py", "extract_wyscout.py", "app.py",
         "npl_comparison_data.json", "team_stats_perth.xlsx", "Perth_SC.pdf",
         "NPL_Comparison.pdf", "perth_sc_last5_snapshot.json", "perth_sc_applied_matches.json",
     ]
