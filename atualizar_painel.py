@@ -20,6 +20,8 @@ COMO USAR (toda semana):
      aplicar os dados.
   4. Rode:
          python3 atualizar_painel.py
+     Isso já publica automaticamente no GitHub (o site online atualiza
+     em 1-2 minutos). Não precisa rodar git add/commit/push manualmente.
   5. Abra `perth_azzurri_painel.html` no navegador e confira.
 
 O script:
@@ -524,10 +526,37 @@ def step3_inject_html(dashboard_df, img1=None, img2=None, players=None):
     print(f"   Rounds no painel: {sorted(set(r['Round'] for r in records))}")
 
 
+def step4_publish_to_github(round_num):
+    print("4) Publicando no GitHub (site online)...")
+    files = [
+        "perth_azzurri_painel.html", "atualizar_painel.py", "extract_wyscout.py",
+        "npl_comparison_data.json", "team_stats_perth.xlsx", "Perth_SC.pdf",
+        "NPL_Comparison.pdf", "perth_sc_last5_snapshot.json",
+    ]
+    existing = [f for f in files if (BASE_DIR / f).exists()]
+    subprocess.run(["git", "add"] + existing, cwd=BASE_DIR, check=True)
+    result = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=BASE_DIR)
+    if result.returncode == 0:
+        print("   Nada novo para publicar (site já está atualizado).")
+        return
+    subprocess.run(
+        ["git", "commit", "-m", f"Atualização semanal — Round {round_num}"],
+        cwd=BASE_DIR, check=True,
+    )
+    push = subprocess.run(["git", "push"], cwd=BASE_DIR, capture_output=True, text=True)
+    if push.returncode != 0:
+        print("   AVISO: não consegui enviar para o GitHub automaticamente.")
+        print("   " + push.stderr.strip().replace("\n", "\n   "))
+        print("   Rode manualmente: git push")
+    else:
+        print("   Publicado! O site deve atualizar em 1-2 minutos.")
+
+
 if __name__ == "__main__":
     dd = step1_update_excel()
     step2_update_npl_json(dd)
     img1, img2 = step2b_update_shots_images()
     players = step2c_update_players(dd)
     step3_inject_html(dd, img1, img2, players)
+    step4_publish_to_github(int(dd["Round"].max()))
     print("\nPronto! Abra perth_azzurri_painel.html no navegador para confirmar.")
