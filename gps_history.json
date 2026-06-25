@@ -14,7 +14,8 @@
         "accelerations": 14,
         "decelerations": 14,
         "hmld": 411.35,
-        "position": "Midfielders"
+        "position": "Midfielders",
+        "detail": "Back injury"
       },
       {
         "name": "Charli",
@@ -24,7 +25,8 @@
         "accelerations": 36,
         "decelerations": 40,
         "hmld": 856.36,
-        "position": "Midfielders"
+        "position": "Midfielders",
+        "detail": null
       },
       {
         "name": "Dale",
@@ -34,7 +36,8 @@
         "accelerations": 52,
         "decelerations": 38,
         "hmld": 252.24,
-        "position": "Goalkeeper"
+        "position": "Goalkeeper",
+        "detail": null
       },
       {
         "name": "Daisy",
@@ -44,7 +47,8 @@
         "accelerations": 28,
         "decelerations": 17,
         "hmld": 544.71,
-        "position": "Midfielders"
+        "position": "Midfielders",
+        "detail": null
       },
       {
         "name": "Emme",
@@ -54,7 +58,8 @@
         "accelerations": 74,
         "decelerations": 58,
         "hmld": 245.71,
-        "position": "Goalkeeper"
+        "position": "Goalkeeper",
+        "detail": null
       },
       {
         "name": "Ella",
@@ -64,7 +69,8 @@
         "accelerations": 52,
         "decelerations": 37,
         "hmld": 478.01,
-        "position": "Attackers"
+        "position": "Attackers",
+        "detail": null
       },
       {
         "name": "Epril",
@@ -74,7 +80,8 @@
         "accelerations": 9,
         "decelerations": 9,
         "hmld": 332.93,
-        "position": "Defenders"
+        "position": "Defenders",
+        "detail": null
       },
       {
         "name": "Grace",
@@ -84,7 +91,8 @@
         "accelerations": 23,
         "decelerations": 14,
         "hmld": 403.01,
-        "position": "Midfielders"
+        "position": "Midfielders",
+        "detail": null
       },
       {
         "name": "Jessica",
@@ -94,7 +102,8 @@
         "accelerations": 51,
         "decelerations": 48,
         "hmld": 990.76,
-        "position": "Attackers"
+        "position": "Attackers",
+        "detail": null
       },
       {
         "name": "Kim",
@@ -104,7 +113,8 @@
         "accelerations": 17,
         "decelerations": 13,
         "hmld": 311.58,
-        "position": "Defenders"
+        "position": "Defenders",
+        "detail": null
       },
       {
         "name": "Lauren",
@@ -114,7 +124,8 @@
         "accelerations": 15,
         "decelerations": 14,
         "hmld": 388.21,
-        "position": "Attackers"
+        "position": "Attackers",
+        "detail": null
       },
       {
         "name": "Louise",
@@ -124,7 +135,8 @@
         "accelerations": 12,
         "decelerations": 15,
         "hmld": 635.58,
-        "position": "Defenders"
+        "position": "Defenders",
+        "detail": null
       },
       {
         "name": "Macey",
@@ -134,7 +146,8 @@
         "accelerations": 39,
         "decelerations": 50,
         "hmld": 792.35,
-        "position": "Midfielders"
+        "position": "Midfielders",
+        "detail": null
       },
       {
         "name": "Ruby",
@@ -144,7 +157,8 @@
         "accelerations": 49,
         "decelerations": 48,
         "hmld": 981.88,
-        "position": "Attackers"
+        "position": "Attackers",
+        "detail": null
       },
       {
         "name": "Sam",
@@ -154,7 +168,8 @@
         "accelerations": 39,
         "decelerations": 38,
         "hmld": 862,
-        "position": "Midfielders"
+        "position": "Midfielders",
+        "detail": null
       },
       {
         "name": "Tristen",
@@ -164,7 +179,8 @@
         "accelerations": 44,
         "decelerations": 68,
         "hmld": 741.36,
-        "position": "Defenders"
+        "position": "Defenders",
+        "detail": null
       },
       {
         "name": "Xuri",
@@ -174,7 +190,8 @@
         "accelerations": 25,
         "decelerations": 22,
         "hmld": 646.2,
-        "position": "Attackers"
+        "position": "Attackers",
+        "detail": null
       }
     ]
   }

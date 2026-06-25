@@ -629,6 +629,9 @@ def step5_update_gps():
     players = []
     r = 7
     while ws.cell(r, 1).value:
+        position = ws.cell(r, 8).value or None
+        if position and position.startswith("Attackers ("):
+            position = "Attackers"
         players.append({
             "name": ws.cell(r, 1).value,
             "total_distance": ws.cell(r, 2).value,
@@ -637,7 +640,8 @@ def step5_update_gps():
             "accelerations": ws.cell(r, 5).value,
             "decelerations": ws.cell(r, 6).value,
             "hmld": ws.cell(r, 7).value,
-            "position": ws.cell(r, 8).value or None,
+            "position": position,
+            "detail": ws.cell(r, 9).value or None,
         })
         r += 1
 
