@@ -623,7 +623,7 @@ def step5_update_gps():
     session_type = ws["B4"].value
     date_val = ws["E4"].value
     opponent = ws["H4"].value
-    round_val = ws["J4"].value
+    round_val = ws["K4"].value
     date_str = date_val.strftime("%Y-%m-%d") if hasattr(date_val, "strftime") else str(date_val)
 
     players = []
