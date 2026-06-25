@@ -117,16 +117,15 @@ def parse_standings(page):
             continue
         pos, team, pts, p, w, d, l, gf, ga, gd, xg, xga = m.groups()
         team = team.strip()
-        # Bold rendering sometimes doubles each digit, e.g. "2244" -> "24"
-        pts_clean = pts
-        if len(pts) >= 4 and len(pts) % 2 == 0:
-            candidate = "".join(pts[i] for i in range(0, len(pts), 2))
-            if all(pts[i] == pts[i + 1] for i in range(0, len(pts), 2)):
-                pts_clean = candidate
+        # Bold rendering in the PDF can double/glue digits (e.g. "30" -> "3030",
+        # or "7" -> "77"). Points are deterministic from the standard scoring
+        # rule (3 per win, 1 per draw), so recompute instead of trusting the
+        # raw extracted text — far more robust than pattern-matching the glitch.
+        pts_clean = 3 * int(w) + int(d)
         out.append({
             "pos": int(pos),
             "team": team,
-            "pts": int(pts_clean),
+            "pts": pts_clean,
             "p": int(p),
             "w": int(w),
             "d": int(d),
@@ -605,6 +604,229 @@ def parse_page7(page):
 
 
 # ──────────────────────────────────────────────────────────────────────────
+# Perth_SC.pdf — per-player season stats (Team Report, pages 2-4)
+# ──────────────────────────────────────────────────────────────────────────
+#
+# IMPORTANT: this report must be generated in Wyscout with the date/match
+# filter set to "all matches" / full season — NOT "last 5 matches" (the
+# default). The parser below replaces season totals outright; it does not
+# accumulate, so if the PDF only covers a subset of games the numbers will
+# be wrong.
+
+TABLE_A_FIELDS = [
+    "total_min", "goals_xg", "assists_xa", "shots", "passes", "crosses",
+    "dribbles", "duels", "losses", "recoveries", "touches_pa", "cards",
+]
+TABLE_B_FIELDS = [
+    "total_min", "def_duels", "off_duels", "aerial", "loose", "blocks",
+    "interceptions_clear", "tackles", "fouls", "freekicks", "setpieces",
+    "direct_fk_corners", "corners_served", "throwins",
+]
+TABLE_C_FIELDS = [
+    "total_min", "forward", "back", "lateral", "short_med", "long",
+    "progressive", "final_third", "through", "deep_completions",
+    "key_passes", "second_third_assists", "shot_assists",
+]
+
+
+def _split_player_blocks(lines, player_names):
+    """Split a page's lines into per-player value blocks, using known
+    player names as block boundaries (more robust than guessing field
+    counts, since Wyscout sometimes omits a trailing dash for empty cells)."""
+    name_idx = [i for i, l in enumerate(lines) if l.strip() in player_names]
+    blocks = {}
+    for j, i in enumerate(name_idx):
+        name = lines[i].strip()
+        end = name_idx[j + 1] - 1 if j + 1 < len(name_idx) else len(lines)
+        # the line right before the next name is that name's leading number;
+        # don't include it in the value block
+        blocks[name] = [l.strip() for l in lines[i + 1:end]]
+    return blocks
+
+
+def _map_fields(values, field_names):
+    """Map a variable-length value list onto field_names. Wyscout sometimes
+    drops a trailing empty cell instead of printing '-', so pad on the right."""
+    values = list(values) + ["-"] * (len(field_names) - len(values))
+    return dict(zip(field_names, values[: len(field_names)]))
+
+
+def _table_segments(lines):
+    """Wyscout repeats a 'Player\\n...column headers...' footer after each
+    table on the page. Split the page into per-table line ranges using
+    those footers as separators, so a player name that appears in two
+    different tables on the same page isn't mixed up."""
+    footer_starts = [i for i, l in enumerate(lines) if l.strip() == "Player"]
+    bounds = []
+    seg_start = 0
+    for f in footer_starts:
+        bounds.append((seg_start, f))
+        # next table's data starts at the first purely-numeric line after the footer
+        j = f + 1
+        while j < len(lines) and not lines[j].strip().isdigit():
+            j += 1
+        seg_start = j
+    if seg_start < len(lines):
+        bounds.append((seg_start, len(lines)))
+    return bounds
+
+
+def parse_perth_sc_overview(pdf_path, player_names):
+    """Page 2 of Perth_SC.pdf: one row per player with Position, Age, Foot,
+    Matches(total), Minutes(total/avg), Goals, Assists, Cards, Subs. The
+    leading squad number is sometimes merged onto the name line (e.g.
+    '23 E. Ingrey') and sometimes on its own line — handle both forms.
+    Returns {name: matches_total (int)}."""
+    import fitz
+    doc = fitz.open(str(pdf_path))
+    lines = doc[1].get_text().splitlines()
+    doc.close()
+
+    idxs = []
+    for i, l in enumerate(lines):
+        l2 = l.strip()
+        m = re.match(r"^\d+\s+(.+)$", l2)
+        cand = m.group(1) if m else l2
+        if cand in player_names:
+            idxs.append((i, cand))
+
+    out = {}
+    for j, (i, name) in enumerate(idxs):
+        end = idxs[j + 1][0] if j + 1 < len(idxs) else len(lines)
+        vals = [l.strip() for l in lines[i + 1:end]]
+        # matches(total) is the integer token right before the first token
+        # ending in "'" (total minutes)
+        for k, v in enumerate(vals):
+            if v.endswith("'") and k > 0 and vals[k - 1].isdigit():
+                out[name] = int(vals[k - 1])
+                break
+    return out
+
+
+def parse_perth_sc_pdf(pdf_path, player_names):
+    """Parses Perth_SC.pdf (Wyscout Team Report) pages 2-4 into per-player
+    season-stat dicts. `player_names` should be the full current roster
+    (e.g. names already known from the dashboard) used to find row boundaries."""
+    import fitz
+    doc = fitz.open(str(pdf_path))
+    # Tables A (season summary), B (duel details) and C (passing details) are
+    # always pages 3-4 of the report, in that order — but depending on roster
+    # size they may all fit on page 3, or spill onto page 4. Concatenate both
+    # pages' lines and split into table segments generically, so either
+    # layout works.
+    combined_lines = doc[2].get_text().splitlines() + doc[3].get_text().splitlines()
+    doc.close()
+    segs = _table_segments(combined_lines)
+    table_a = _split_player_blocks(combined_lines[segs[0][0]:segs[0][1]], player_names) if len(segs) > 0 else {}
+    table_b = _split_player_blocks(combined_lines[segs[1][0]:segs[1][1]], player_names) if len(segs) > 1 else {}
+    table_c = _split_player_blocks(combined_lines[segs[2][0]:segs[2][1]], player_names) if len(segs) > 2 else {}
+
+    out = {}
+    for name in player_names:
+        rec = {}
+        if name in table_a:
+            rec["A"] = _map_fields(table_a[name], TABLE_A_FIELDS)
+        if name in table_b:
+            rec["B"] = _map_fields(table_b[name], TABLE_B_FIELDS)
+        if name in table_c:
+            rec["C"] = _map_fields(table_c[name], TABLE_C_FIELDS)
+        if rec:
+            out[name] = rec
+    return out
+
+
+# ──────────────────────────────────────────────────────────────────────────
+# Player rankings (pages 14-18: "Players: Overview / Attack / Defence / Set pieces")
+# ──────────────────────────────────────────────────────────────────────────
+
+THREE_VAL_CATEGORIES = {"Goals", "Assists", "Shots", "Second assists", "Fouls"}
+TEAMS_BY_LEN = sorted(TEAMS, key=len, reverse=True)
+
+
+def _split_name_team(combined):
+    for t in TEAMS_BY_LEN:
+        if combined.endswith(t):
+            return combined[: -len(t)].strip(), t
+    return combined, None
+
+
+def parse_player_rankings(pages):
+    """pages: list of page.extract_text() strings for pages 14-18 (idx 13-17)."""
+    all_lines = []
+    for text in pages:
+        all_lines.extend(text.splitlines())
+
+    # find category boundaries: a line is a category title if the *next*
+    # line starts with '↓' (the column header marker).
+    titles = []
+    for i, line in enumerate(all_lines):
+        if i + 1 < len(all_lines) and all_lines[i + 1].startswith("↓"):
+            titles.append(i)
+
+    records = []
+    for ti, title_idx in enumerate(titles):
+        category = all_lines[title_idx].strip()
+        end = titles[ti + 1] if ti + 1 < len(titles) else len(all_lines)
+        value_count = 3 if category in THREE_VAL_CATEGORIES else 1
+        i = title_idx + 1
+        rank = 0
+        while i < end:
+            line = all_lines[i].strip()
+            if i + 1 < end and all_lines[i + 1].strip() in TEAMS:
+                name, team = line, all_lines[i + 1].strip()
+                vals = [all_lines[i + 2 + k].strip() for k in range(value_count)]
+                rank += 1
+                records.append({"category": category, "rank": rank, "name": name,
+                                 "team": team, "values": vals})
+                i += 2 + value_count
+            elif line.isdigit() and 4 <= int(line) <= 10 and i + 1 < end:
+                name, team = _split_name_team(all_lines[i + 1].strip())
+                if team:
+                    vals = [all_lines[i + 2 + k].strip() for k in range(value_count)]
+                    rank = int(line)
+                    records.append({"category": category, "rank": rank, "name": name,
+                                     "team": team, "values": vals})
+                    i += 2 + value_count
+                    continue
+                i += 1
+            else:
+                i += 1
+    return records
+
+
+CATEGORY_LABELS = {
+    "Goals": "xG", "Assists": "xA", "Shots": "xG/Shot",
+    "Second assists": "3rd assists",
+}
+
+
+TOTAL_UNIT_CATEGORIES = {"Direct free kicks", "Penalties"}
+
+
+def build_npl_rankings(records):
+    """Group Perth players' top-10 appearances into the NPL_RANKINGS shape
+    used by the dashboard: {player_name: [{category, rank, value, unit}, ...]}."""
+    out = {}
+    for r in records:
+        if r["team"] != "Perth":
+            continue
+        cat, vals = r["category"], r["values"]
+        if cat == "Fouls":
+            value, unit = f"{vals[0]} avg/90", f"YC {vals[1]} · RC {vals[2]}"
+        elif cat in THREE_VAL_CATEGORIES:
+            label = CATEGORY_LABELS.get(cat, "")
+            value = f"{vals[0]} total"
+            unit = f"{vals[1]} avg/90" + (f" · {label} {vals[2]}" if label else "")
+        else:
+            value = vals[0]
+            unit = "total" if cat in TOTAL_UNIT_CATEGORIES else "avg/90"
+        out.setdefault(r["name"], []).append({
+            "category": cat, "rank": r["rank"], "value": value, "unit": unit,
+        })
+    return out
+
+
+# ──────────────────────────────────────────────────────────────────────────
 # Main extraction
 # ──────────────────────────────────────────────────────────────────────────
 
@@ -665,6 +887,21 @@ def extract(pdf_path, round_label=None):
         team_stats["recoveries"] = recoveries
 
         data["teamStats"] = team_stats
+
+    # Pages 14-18 — player rankings. These pages lay out two ranking tables
+    # side by side; pdfplumber's reading order interleaves them, so we use
+    # pymupdf (fitz) here instead, which preserves the correct sequence.
+    try:
+        import fitz
+        doc = fitz.open(pdf_path)
+        if len(doc) >= 18:
+            pages_text = [doc[i].get_text() for i in range(13, 18)]
+            records = parse_player_rankings(pages_text)
+            data["playerRankings"] = build_npl_rankings(records)
+        doc.close()
+    except ImportError:
+        print("Aviso: pymupdf não instalado, pulando extração de player rankings "
+              "(pip install pymupdf --break-system-packages).")
 
     return data
 
