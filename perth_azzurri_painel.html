@@ -645,6 +645,20 @@
     .hero img.crest{width:88px; height:88px;}
     section{padding:40px 0;}
     .match-row{grid-template-columns:70px 1fr; grid-template-areas:"r i" ". res"; }
+    nav .nav-inner{padding:0 10px; gap:8px;}
+    .nav-page-tabs{
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      max-width:100%;
+      flex-shrink:1;
+      scrollbar-width:none;
+    }
+    .nav-page-tabs::-webkit-scrollbar{display:none;}
+    a.nav-page-tab{
+      padding:8px 14px !important;
+      font-size:0.7rem !important;
+      letter-spacing:0.03em !important;
+    }
   }
 
   /* ===== League Report Section ===== */
@@ -2144,7 +2158,7 @@ function showProfile(player, targetBox){
 
   // ── NPL Rankings ─────────────────────────────────────────────────────────────
     const NPL_RANKINGS = {"J. Flannery": [{"category": "Goals", "rank": 1, "value": "8 total", "unit": "0.67 avg/90 · xG 4.36"}, {"category": "Assists", "rank": 3, "value": "3 total", "unit": "0.25 avg/90 · xA 2.31"}, {"category": "Shots", "rank": 3, "value": "45 total", "unit": "3.77 avg/90 · xG/Shot 0.1"}, {"category": "Duels", "rank": 5, "value": "24.16 42%", "unit": "avg/90"}, {"category": "Key passes", "rank": 4, "value": "2.01", "unit": "avg/90"}, {"category": "Deep completions", "rank": 4, "value": "1.51", "unit": "avg/90"}, {"category": "Crosses", "rank": 1, "value": "5.62 24%", "unit": "avg/90"}, {"category": "Attack contribution", "rank": 9, "value": "0.77", "unit": "avg/90"}, {"category": "Touches in penalty area", "rank": 7, "value": "3.69", "unit": "avg/90"}, {"category": "Offsides", "rank": 3, "value": "1.51", "unit": "avg/90"}, {"category": "Dribbles", "rank": 2, "value": "6.12 53%", "unit": "avg/90"}, {"category": "Offensive duels", "rank": 5, "value": "15.35 36%", "unit": "avg/90"}, {"category": "Aerial duels", "rank": 5, "value": "2.18 27%", "unit": "avg/90"}, {"category": "Corners", "rank": 7, "value": "2.18 66%", "unit": "avg/90"}], "R. Marshall": [{"category": "Goals", "rank": 10, "value": "4 total", "unit": "0.37 avg/90 · xG 3.45"}, {"category": "Assists", "rank": 2, "value": "3 total", "unit": "0.28 avg/90 · xA 0.54"}, {"category": "Shots", "rank": 10, "value": "25 total", "unit": "2.32 avg/90 · xG/Shot 0.14"}, {"category": "Crosses", "rank": 7, "value": "2.78 17%", "unit": "avg/90"}, {"category": "Touches in penalty area", "rank": 9, "value": "3.62", "unit": "avg/90"}, {"category": "Aerial duels", "rank": 4, "value": "2.32 40%", "unit": "avg/90"}, {"category": "Fouls", "rank": 7, "value": "1.30 avg/90", "unit": "YC 1 · RC 0"}], "D. McAllister": [{"category": "Assists", "rank": 8, "value": "2 total", "unit": "0.23 avg/90 · xA 2.07"}, {"category": "Key passes", "rank": 8, "value": "1.51", "unit": "avg/90"}, {"category": "Deep completions", "rank": 2, "value": "1.74", "unit": "avg/90"}, {"category": "Touches in penalty area", "rank": 4, "value": "4.18", "unit": "avg/90"}, {"category": "Offsides", "rank": 2, "value": "1.74", "unit": "avg/90"}], "E. Lincoln": [{"category": "Second assists", "rank": 4, "value": "1 total", "unit": "0.52 avg/90 · 3rd assists 0"}], "T. Attree": [{"category": "Second assists", "rank": 8, "value": "1 total", "unit": "0.24 avg/90 · 3rd assists 0"}], "K. Mccartney": [{"category": "Passes", "rank": 4, "value": "57.07 86%", "unit": "avg/90"}, {"category": "Direct free kicks", "rank": 2, "value": "4/3 75%", "unit": "total"}, {"category": "Indirect free kicks", "rank": 2, "value": "1.26", "unit": "avg/90"}], "C. Wainwright": [{"category": "Passes", "rank": 8, "value": "49.56 81%", "unit": "avg/90"}, {"category": "Deep completions", "rank": 9, "value": "1.25", "unit": "avg/90"}, {"category": "Passes to final third", "rank": 5, "value": "9.13 67%", "unit": "avg/90"}, {"category": "Defensive duels", "rank": 7, "value": "9.66 69%", "unit": "avg/90"}, {"category": "Aerial duels", "rank": 1, "value": "2.50 36%", "unit": "avg/90"}, {"category": "Recoveries", "rank": 5, "value": "13.96", "unit": "avg/90"}, {"category": "Sliding tackles", "rank": 2, "value": "1.43", "unit": "avg/90"}, {"category": "Fouls", "rank": 1, "value": "1.97 avg/90", "unit": "YC 3 · RC 0"}], "S. Mathers": [{"category": "Key passes", "rank": 6, "value": "1.60", "unit": "avg/90"}, {"category": "Passes to final third", "rank": 2, "value": "9.60 63%", "unit": "avg/90"}, {"category": "Corners", "rank": 4, "value": "3.29 60%", "unit": "avg/90"}], "M. Archibald": [{"category": "Key passes", "rank": 7, "value": "1.52", "unit": "avg/90"}, {"category": "Deep completions", "rank": 10, "value": "1.17", "unit": "avg/90"}, {"category": "Fouls", "rank": 8, "value": "1.29 avg/90", "unit": "YC 0 · RC 0"}], "M. Boehm": [{"category": "Passes to final third", "rank": 7, "value": "8.96 55%", "unit": "avg/90"}, {"category": "Progressive passes", "rank": 3, "value": "11.98 64%", "unit": "avg/90"}, {"category": "Aerial duels", "rank": 9, "value": "1.77 47%", "unit": "avg/90"}, {"category": "Recoveries", "rank": 6, "value": "13.75", "unit": "avg/90"}, {"category": "Interceptions", "rank": 8, "value": "6.46", "unit": "avg/90"}], "L. Tana": [{"category": "Defensive duels", "rank": 2, "value": "10.63 68%", "unit": "avg/90"}, {"category": "Recoveries", "rank": 3, "value": "14.15", "unit": "avg/90"}, {"category": "Interceptions", "rank": 3, "value": "7.03", "unit": "avg/90"}], "E. Nossent": [{"category": "Throw ins", "rank": 4, "value": "13.00", "unit": "avg/90"}], "G. Warburton": [{"category": "Fouls", "rank": 4, "value": "1.58 avg/90", "unit": "YC 0 · RC 0"}]};
-                                                                                      
+                                                                                        
   const playerRankings = NPL_RANKINGS[player.name];
   if(playerRankings && playerRankings.length > 0){
     const rankColor = r => r === 1 ? '#C6A000' : r <= 3 ? 'var(--azzurro-navy)' : 'var(--muted)';
