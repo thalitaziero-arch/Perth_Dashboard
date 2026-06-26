@@ -255,7 +255,7 @@ def _apply_delta_to_player(player, delta):
         n0, d0, _ = _ratio((player.get(field_str_key) or "0/0").replace("/", " / "))
         n, d = n0 + dn, d0 + dd
         player[field_str_key] = f"{n}/{d}"
-        player[field_pct_key] = round(n / d * 100, 1) if d else None
+        player[field_pct_key] = round(d / n * 100, 1) if n else None
 
     for f in RATIO_FIELDS_A:
         merge_ratio(f, f + "_pct", delta.get(f + "_n", 0), delta.get(f + "_d", 0))
@@ -274,14 +274,14 @@ def _apply_delta_to_player(player, delta):
         n, d = n0 + delta.get(f + "_n", 0), d0 + delta.get(f + "_d", 0)
         dd2[f] = f"{n} / {d}"
         pct_key = "def_pct" if f == "def_duels" else "off_pct" if f == "off_duels" else f + "_pct"
-        dd2[pct_key] = f"{round(n / d * 100)}%" if d else "-"
+        dd2[pct_key] = f"{round(d / n * 100)}%" if n else "-"
 
     pp = player.setdefault("passing", {})
     for f in RATIO_FIELDS_C:
         n0, d0, _ = _ratio((pp.get(f) or "0 / 0"))
         n, d = n0 + delta.get(f + "_n", 0), d0 + delta.get(f + "_d", 0)
         pp[f] = f"{n} / {d}"
-        pp[f + "_pct"] = round(n / d * 100, 1) if d else 0.0
+        pp[f + "_pct"] = round(d / n * 100, 1) if n else 0.0
     pp["deep_completions"] = pp.get("deep_completions", 0) + delta.get("deep_completions", 0)
     pp["key_passes"] = pp.get("key_passes", 0) + delta.get("key_passes", 0)
     pp["shot_assists"] = pp.get("shot_assists", 0) + delta.get("shot_assists", 0)
@@ -363,7 +363,7 @@ def step2c_update_players(dashboard_df):
                 for f in RATIO_FIELDS_A:
                     n, d = num.get(f + "_n", 0), num.get(f + "_d", 0)
                     player[f] = f"{n}/{d}"
-                    player[f + "_pct"] = round(n / d * 100, 1) if d else None
+                    player[f + "_pct"] = round(d / n * 100, 1) if n else None
                 player["losses_total"], player["losses_own"] = num.get("losses_n", 0), num.get("losses_d", 0)
                 player["recoveries"], player["recoveries_opp"] = num.get("recoveries_n", 0), num.get("recoveries_d", 0)
                 player["touches_pa"] = num.get("touches_pa", 0)
@@ -373,12 +373,12 @@ def step2c_update_players(dashboard_df):
                     n, d = num.get(f + "_n", 0), num.get(f + "_d", 0)
                     dd2[f] = f"{n} / {d}"
                     pct_key = "def_pct" if f == "def_duels" else "off_pct" if f == "off_duels" else f + "_pct"
-                    dd2[pct_key] = f"{round(n / d * 100)}%" if d else "-"
+                    dd2[pct_key] = f"{round(d / n * 100)}%" if n else "-"
                 pp = player.setdefault("passing", {})
                 for f in RATIO_FIELDS_C:
                     n, d = num.get(f + "_n", 0), num.get(f + "_d", 0)
                     pp[f] = f"{n} / {d}"
-                    pp[f + "_pct"] = round(n / d * 100, 1) if d else 0.0
+                    pp[f + "_pct"] = round(d / n * 100, 1) if n else 0.0
                 pp["deep_completions"] = num.get("deep_completions", 0)
                 pp["key_passes"] = num.get("key_passes", 0)
                 pp["shot_assists"] = num.get("shot_assists", 0)
