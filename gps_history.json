@@ -7,7 +7,7 @@
     "round": null,
     "players": [
       {
-        "name": "Ailsa",
+        "name": "A. Zindell",
         "total_distance": 5774.12,
         "hsr": 0,
         "max_speed": 19.58,
@@ -18,7 +18,7 @@
         "detail": "Back injury"
       },
       {
-        "name": "Charli",
+        "name": "C. Wainwright",
         "total_distance": 7291.53,
         "hsr": 68.36,
         "max_speed": 22.78,
@@ -29,7 +29,7 @@
         "detail": null
       },
       {
-        "name": "Dale",
+        "name": "D. Schroeder",
         "total_distance": 4313.48,
         "hsr": 12.03,
         "max_speed": 22.26,
@@ -40,7 +40,7 @@
         "detail": null
       },
       {
-        "name": "Daisy",
+        "name": "D. McAllister",
         "total_distance": 5911.91,
         "hsr": 76.06,
         "max_speed": 23.35,
@@ -51,7 +51,7 @@
         "detail": null
       },
       {
-        "name": "Emme",
+        "name": "E. Ingrey",
         "total_distance": 4101.67,
         "hsr": 0.55,
         "max_speed": 19.86,
@@ -62,7 +62,7 @@
         "detail": null
       },
       {
-        "name": "Ella",
+        "name": "E. Lincoln",
         "total_distance": 6950.08,
         "hsr": 85.21,
         "max_speed": 24.55,
@@ -73,7 +73,7 @@
         "detail": null
       },
       {
-        "name": "Epril",
+        "name": "E. Nossent",
         "total_distance": 5939.23,
         "hsr": 30.93,
         "max_speed": 21.64,
@@ -84,7 +84,7 @@
         "detail": null
       },
       {
-        "name": "Grace",
+        "name": "G. Warburton",
         "total_distance": 6476.03,
         "hsr": 40.49,
         "max_speed": 20.82,
@@ -95,7 +95,7 @@
         "detail": null
       },
       {
-        "name": "Jessica",
+        "name": "J. Flannery",
         "total_distance": 6997.18,
         "hsr": 80.77,
         "max_speed": 25.01,
@@ -106,7 +106,7 @@
         "detail": null
       },
       {
-        "name": "Kim",
+        "name": "K. Mccartney",
         "total_distance": 5992.87,
         "hsr": 29.96,
         "max_speed": 26.23,
@@ -117,7 +117,7 @@
         "detail": null
       },
       {
-        "name": "Lauren",
+        "name": "L. Continibali",
         "total_distance": 6066.98,
         "hsr": 20.23,
         "max_speed": 20.52,
@@ -128,7 +128,7 @@
         "detail": null
       },
       {
-        "name": "Louise",
+        "name": "L. Tana",
         "total_distance": 6342.21,
         "hsr": 29.97,
         "max_speed": 23.32,
@@ -139,7 +139,7 @@
         "detail": null
       },
       {
-        "name": "Macey",
+        "name": "M. Boehm",
         "total_distance": 6563.66,
         "hsr": 87.26,
         "max_speed": 25.29,
@@ -150,7 +150,7 @@
         "detail": null
       },
       {
-        "name": "Ruby",
+        "name": "R. Marshall",
         "total_distance": 7036.88,
         "hsr": 85.1,
         "max_speed": 26.21,
@@ -161,7 +161,7 @@
         "detail": null
       },
       {
-        "name": "Sam",
+        "name": "S. Mathers",
         "total_distance": 6977.62,
         "hsr": 73.52,
         "max_speed": 22.35,
@@ -172,7 +172,7 @@
         "detail": null
       },
       {
-        "name": "Tristen",
+        "name": "T. Attree",
         "total_distance": 6731.04,
         "hsr": 49.1,
         "max_speed": 24.34,
@@ -183,7 +183,7 @@
         "detail": null
       },
       {
-        "name": "Xuri",
+        "name": "X. Dalton",
         "total_distance": 6004.46,
         "hsr": 39.59,
         "max_speed": 20.99,
