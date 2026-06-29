@@ -139,7 +139,7 @@
         "detail": null
       },
       {
-        "name": "M. Boehm",
+        "name": "Macey",
         "total_distance": 6563.66,
         "hsr": 87.26,
         "max_speed": 25.29,
@@ -190,6 +190,169 @@
         "accelerations": 25,
         "decelerations": 22,
         "hmld": 646.2,
+        "position": "Attackers",
+        "detail": null
+      }
+    ]
+  },
+  {
+    "signature": "28/06/2026|Match|Fremantle City",
+    "date": "28/06/2026",
+    "type": "Match",
+    "opponent": "Fremantle City",
+    "round": 13,
+    "players": [
+      {
+        "name": "C. Wainwright",
+        "total_distance": 12298.64,
+        "hsr": 391.54,
+        "max_speed": 24.03,
+        "accelerations": 28,
+        "decelerations": 67,
+        "hmld": 1783.12,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "D. McAllister",
+        "total_distance": 10330.9,
+        "hsr": 372.4,
+        "max_speed": 26.14,
+        "accelerations": 36,
+        "decelerations": 45,
+        "hmld": 1494.13,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "D. Schroeder",
+        "total_distance": 5268.91,
+        "hsr": 201.83,
+        "max_speed": 24.29,
+        "accelerations": 29,
+        "decelerations": 11,
+        "hmld": 1187.9,
+        "position": "Goalkeeper",
+        "detail": null
+      },
+      {
+        "name": "E. Lincoln",
+        "total_distance": 9913.58,
+        "hsr": 668.03,
+        "max_speed": 28.36,
+        "accelerations": 50,
+        "decelerations": 58,
+        "hmld": 1681.83,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "E. Nossent",
+        "total_distance": 10012.25,
+        "hsr": 316,
+        "max_speed": 26.02,
+        "accelerations": 14,
+        "decelerations": 26,
+        "hmld": 1181.8,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "G. Warburton",
+        "total_distance": 3848.81,
+        "hsr": 386.88,
+        "max_speed": 28.09,
+        "accelerations": 19,
+        "decelerations": 21,
+        "hmld": 802.94,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "J. Flannery",
+        "total_distance": 11152.83,
+        "hsr": 672.17,
+        "max_speed": 27.93,
+        "accelerations": 49,
+        "decelerations": 56,
+        "hmld": 1723.39,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "K. Mccartney",
+        "total_distance": 10788.49,
+        "hsr": 283.25,
+        "max_speed": 27.9,
+        "accelerations": 19,
+        "decelerations": 36,
+        "hmld": 1129.39,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "L. Tana",
+        "total_distance": 10095.22,
+        "hsr": 458.91,
+        "max_speed": 27.53,
+        "accelerations": 44,
+        "decelerations": 72,
+        "hmld": 1599.51,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "Macey",
+        "total_distance": 2939.48,
+        "hsr": 261.45,
+        "max_speed": 22.94,
+        "accelerations": 14,
+        "decelerations": 11,
+        "hmld": 530.16,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "M. Boehm",
+        "total_distance": 10025.86,
+        "hsr": 218.23,
+        "max_speed": 25.83,
+        "accelerations": 31,
+        "decelerations": 39,
+        "hmld": 1272.77,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "R. Marshall",
+        "total_distance": 10529.03,
+        "hsr": 506.45,
+        "max_speed": 27.41,
+        "accelerations": 24,
+        "decelerations": 41,
+        "hmld": 1349.71,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "S. Mathers",
+        "total_distance": 12070.76,
+        "hsr": 749.32,
+        "max_speed": 25.9,
+        "accelerations": 40,
+        "decelerations": 50,
+        "hmld": 2167.55,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "X. Dalton",
+        "total_distance": 3254.68,
+        "hsr": 223.94,
+        "max_speed": 23.22,
+        "accelerations": 13,
+        "decelerations": 4,
+        "hmld": 555.22,
         "position": "Attackers",
         "detail": null
       }
