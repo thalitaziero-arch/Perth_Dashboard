@@ -66,11 +66,11 @@ GPS_HISTORY_FILE = BASE_DIR / "gps_history.json"
 TS_COLS = {
     "Date": 0, "Match": 1, "Competition": 2, "Duration": 3, "Team": 4, "Scheme": 5,
     "Goals": 6, "xG": 7, "Shots": 8, "SOT": 9, "Shots_acc_pct": 10,
-    "Possession_pct": 11,
-    "Losses_total": 12, "Losses_low": 13, "Losses_medium": 14, "Losses_high": 15,
-    "Rec_total": 16, "Rec_low": 17, "Rec_mid": 18, "Rec_high": 19,
-    "Duels_total": 20, "Duels_won": 21, "Duels_won_pct": 22,
-    "Fwd_passes_pct": 63,
+    "Passes": 11, "Passes_accurate": 12, "Passes_acc_pct": 13,
+    "Possession_pct": 14,
+    "Losses_total": 15, "Losses_low": 16, "Losses_medium": 17, "Losses_high": 18,
+    "Rec_total": 19, "Rec_low": 20, "Rec_mid": 21, "Rec_high": 22,
+    "Duels_total": 23, "Duels_won": 24, "Duels_won_pct": 25,
 }
 
 
@@ -119,9 +119,9 @@ def step1_update_excel():
             "Shots": int(g(TS_COLS["Shots"])),
             "Shots_on_target": int(g(TS_COLS["SOT"])),
             "Shots_acc_pct": round(float(g(TS_COLS["Shots_acc_pct"])), 2),
-            "Passes": 0,
-            "Passes_accurate": 0,
-            "Passes_acc_pct": round(float(g(TS_COLS["Fwd_passes_pct"])), 2),
+            "Passes": int(g(TS_COLS["Passes"])),
+            "Passes_accurate": int(g(TS_COLS["Passes_accurate"])),
+            "Passes_acc_pct": round(float(g(TS_COLS["Passes_acc_pct"])), 2),
             "Possession_pct": round(float(g(TS_COLS["Possession_pct"])), 2),
             "Losses_total": int(g(TS_COLS["Losses_total"])),
             "Losses_low": int(g(TS_COLS["Losses_low"])),
