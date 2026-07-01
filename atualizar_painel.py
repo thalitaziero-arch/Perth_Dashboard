@@ -77,6 +77,17 @@ TS_COLS = {
 def step1_update_excel():
     print("1) Verificando jogos novos no Excel...")
     ts = pd.read_excel(EXCEL_FILE, sheet_name="TeamStats", header=None)
+    import openpyxl as _oxl
+    _wb = _oxl.load_workbook(EXCEL_FILE)
+    if "DashboardData" not in _wb.sheetnames:
+        _ws = _wb.create_sheet("DashboardData")
+        _ws.append(["Round","Date","Match","Competition","Duration","Team","Scheme","Goals","xG",
+                    "Shots","Shots_on_target","Shots_acc_pct","Passes","Passes_accurate",
+                    "Passes_acc_pct","Possession_pct","Losses_total","Losses_low","Losses_medium",
+                    "Losses_high","Recoveries_total","Recoveries_low","Recoveries_medium",
+                    "Recoveries_high","Duels_total","Duels_won","Duels_won_pct"])
+        _wb.save(EXCEL_FILE)
+        print("   Aba DashboardData criada automaticamente.")
     dd = pd.read_excel(EXCEL_FILE, sheet_name="DashboardData")
 
     data_rows = ts.iloc[3:].copy()  # pula as 3 linhas de cabeçalho/médias
@@ -125,7 +136,7 @@ def step1_update_excel():
             "Duels_won_pct": round(float(g(TS_COLS["Duels_won_pct"])), 2),
         }
 
-    next_round = int(dd["Round"].max()) + 1
+    next_round = int(dd["Round"].max()) + 1 if not dd.empty else 1
     new_rows = []
     for match in new_matches:
         rows_for_match = data_rows[data_rows[TS_COLS["Match"]] == match]
