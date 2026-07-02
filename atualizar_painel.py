@@ -91,27 +91,40 @@ def step1_update_excel():
     dd = pd.read_excel(EXCEL_FILE, sheet_name="DashboardData")
 
     data_rows = ts.iloc[3:].copy()  # pula as 3 linhas de cabeçalho/médias
-    existing_matches = set(dd["Match"].unique())
+    existing_matches = set(dd["Match"].dropna().unique())
 
-    new_matches = []
-    for match in data_rows[TS_COLS["Match"]].unique():
+    # Collect new matches in order they appear in the sheet (newest first from Wyscout),
+    # then sort by date ascending so Round 1 = earliest match of the season.
+    new_match_info = []
+    idx_list = data_rows.index.tolist()
+    for i, idx in enumerate(idx_list):
+        match = data_rows.at[idx, TS_COLS["Match"]]
         if pd.isna(match):
-            continue
+            continue  # opponent row — handled below with its Perth row
         if match not in existing_matches:
-            new_matches.append(match)
+            date_val = data_rows.at[idx, TS_COLS["Date"]]
+            new_match_info.append((str(date_val)[:10], match, idx))
 
-    if not new_matches:
+    if not new_match_info:
         print("   Nenhum jogo novo encontrado. DashboardData já está atualizado.")
         return dd
 
-    def build_row(row, round_num):
-        g = lambda c: row.iloc[c]
+    # Sort chronologically (oldest first) so round numbers are assigned correctly
+    new_match_info.sort(key=lambda x: x[0])
+
+    def build_row(row, round_num, match_override=None, date_override=None,
+                  competition_override=None, duration_override=None):
+        g = lambda c: row.iloc[c] if hasattr(row, 'iloc') else row[c]
+        match_val = match_override if match_override is not None else g(TS_COLS["Match"])
+        date_val = date_override if date_override is not None else str(g(TS_COLS["Date"]))[:10]
+        comp_val = competition_override if competition_override is not None else g(TS_COLS["Competition"])
+        dur_val = duration_override if duration_override is not None else int(g(TS_COLS["Duration"]))
         return {
             "Round": round_num,
-            "Date": str(g(TS_COLS["Date"]))[:10],
-            "Match": g(TS_COLS["Match"]),
-            "Competition": g(TS_COLS["Competition"]),
-            "Duration": int(g(TS_COLS["Duration"])),
+            "Date": date_val,
+            "Match": match_val,
+            "Competition": comp_val,
+            "Duration": dur_val,
             "Team": g(TS_COLS["Team"]),
             "Scheme": g(TS_COLS["Scheme"]),
             "Goals": int(g(TS_COLS["Goals"])),
@@ -136,15 +149,29 @@ def step1_update_excel():
             "Duels_won_pct": round(float(g(TS_COLS["Duels_won_pct"])), 2),
         }
 
-    next_round = int(dd["Round"].max()) + 1 if not dd.empty else 1
+    # Start round numbering after existing data (Perth rows only for counting)
+    perth_dd = dd[dd["Team"] == "Perth"] if not dd.empty and "Team" in dd.columns else dd
+    next_round = int(perth_dd["Round"].max()) + 1 if not perth_dd.empty else 1
     new_rows = []
-    for match in new_matches:
-        rows_for_match = data_rows[data_rows[TS_COLS["Match"]] == match]
-        for _, row in rows_for_match.iterrows():
-            new_rows.append(build_row(row, next_round))
+    for date_str, match, perth_idx in new_match_info:
+        perth_row = data_rows.loc[perth_idx]
+        # Perth row
+        new_rows.append(build_row(perth_row, next_round))
+        # Opponent row: the very next row in TeamStats (has NaN in Match column)
+        opp_idx = perth_idx + 1
+        if opp_idx in data_rows.index:
+            opp_row = data_rows.loc[opp_idx]
+            if pd.isna(opp_row.iloc[TS_COLS["Match"]]):
+                new_rows.append(build_row(
+                    opp_row, next_round,
+                    match_override=match,
+                    date_override=date_str,
+                    competition_override=str(perth_row.iloc[TS_COLS["Competition"]]),
+                    duration_override=int(perth_row.iloc[TS_COLS["Duration"]]),
+                ))
         next_round += 1
 
-    print(f"   Jogo(s) novo(s) encontrado(s): {new_matches}")
+    print(f"   Jogo(s) novo(s) encontrado(s): {[m for _,m,_ in new_match_info]}")
     shutil.copy(EXCEL_FILE, EXCEL_FILE.with_suffix(".bak.xlsx"))
     combined = pd.concat([dd, pd.DataFrame(new_rows)], ignore_index=True)
     with pd.ExcelWriter(EXCEL_FILE, engine="openpyxl", mode="a", if_sheet_exists="overlay") as writer:
