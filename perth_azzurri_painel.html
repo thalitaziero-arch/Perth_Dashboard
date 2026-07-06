@@ -2280,16 +2280,22 @@ function showProfile(player, targetBox){
       </div>`).join('');
 
     const nplSection = document.createElement('section');
-    nplSection.style.cssText = 'margin-top:32px;';
+    nplSection.style.cssText = 'margin:4px 0 30px;';
     nplSection.innerHTML = `
       <div class="section-head" style="margin-bottom:16px;">
-        <h2 style="display:flex;align-items:center;gap:8px;">🏆 NPLW Rankings <span style="font-size:0.75rem;font-weight:400;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;">You appear in the WA NPLW league rankings</span></h2>
+        <h2 style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">🏆 NPLW Rankings <span style="font-size:0.75rem;font-weight:400;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;">You appear in the WA NPLW league rankings</span></h2>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">
         ${rankCards}
       </div>
-      <p style="font-size:0.72rem;color:var(--muted);margin-top:10px;">Source: Hudl Wyscout Season Report · ${new Date().getFullYear()} WA NPLW · Round 11</p>`;
-    box.appendChild(nplSection);
+      <p style="font-size:0.72rem;color:var(--muted);margin-top:10px;">Source: Hudl Wyscout Season Report · ${new Date().getFullYear()} WA NPLW · Round 14</p>`;
+    // Show it as the first thing in the player's area (right after the header)
+    const header = box.querySelector('.profile-header');
+    if(header && header.nextSibling){
+      box.insertBefore(nplSection, header.nextSibling);
+    } else {
+      box.appendChild(nplSection);
+    }
   }
 
   document.getElementById('logoutBtn').addEventListener('click', ()=>{
