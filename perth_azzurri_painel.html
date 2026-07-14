@@ -1309,9 +1309,17 @@ const COL = {
 Chart.register(ChartDataLabels);
 // Set Gibson as Chart.js default font
 Chart.defaults.font.family = "'Gibson', 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', system-ui, sans-serif";
-Chart.defaults.font.size = window.innerWidth < 641 ? 13 : 12;
+const isMobile = window.innerWidth < 641;
+Chart.defaults.font.size = isMobile ? 11 : 12;
 Chart.defaults.color = COL.muted;
 Chart.defaults.set('plugins.datalabels', { display:false });
+if (isMobile) {
+  Chart.defaults.aspectRatio = 1.2;
+  Chart.defaults.plugins.legend = Chart.defaults.plugins.legend || {};
+  Chart.defaults.plugins.legend.labels = Chart.defaults.plugins.legend.labels || {};
+  Chart.defaults.plugins.legend.labels.boxWidth = 10;
+  Chart.defaults.plugins.legend.labels.font = { size: 10 };
+}
 
 // ---- KPIs ----
 function fmt(n, d=0){ return Number(n).toFixed(d); }
