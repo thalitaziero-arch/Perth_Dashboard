@@ -2615,40 +2615,6 @@ function buildReport() {
     <p style="font-size:.75rem;color:var(--muted);margin-top:8px;">xG = Expected Goals. xGA = Expected Goals Against. Source: Hudl Wyscout · ${REPORT_DATA.lastUpdated}</p>`;
 
   // ── GOALS TAB HTML ──────────────────────────────────────────
-  const leagueGoals = [
-    { team:'Balcatta',      gf:26, xg:21.99, ga:8,  xga:8.74  },
-    { team:'Fremantle City',gf:25, xg:19.78, ga:10, xga:16.30 },
-    { team:'Perth',         gf:26, xg:17.81, ga:2,  xga:4.27  },
-    { team:'West NTC',      gf:17, xg:16.33, ga:16, xga:15.52 },
-    { team:'Perth RedStar', gf:17, xg:20.95, ga:12, xga:10.60 },
-    { team:'Subiaco',       gf:10, xg:16.79, ga:22, xga:18.75 },
-    { team:'Sorrento',      gf:9,  xg:7.89,  ga:29, xga:27.92 },
-    { team:'UWA Nedlands',  gf:3,  xg:3.67,  ga:34, xga:23.11 },
-  ];
-
-  const goalRow = (d) => {
-    const isP = d.team === PERTH;
-    const maxGf = Math.max(...leagueGoals.map(r=>r.gf));
-    const maxGa = Math.max(...leagueGoals.map(r=>r.ga));
-    return `<tr style="${isP?'background:rgba(22,40,79,0.06);font-weight:700;':''}border-bottom:1px solid rgba(22,40,79,0.06);">
-      <td style="padding:9px 12px;font-weight:${isP?'700':'500'};">${isP?'★ ':''}${d.team}</td>
-      <td style="padding:9px 12px;text-align:center;">${d.gf}</td>
-      <td style="padding:9px 12px;text-align:center;color:var(--muted);font-size:0.82rem;">${d.xg.toFixed(1)}</td>
-      <td style="padding:9px 12px;min-width:120px;">
-        <div style="height:8px;background:rgba(0,146,70,0.12);border-radius:4px;">
-          <div style="height:8px;width:${(d.gf/maxGf*100).toFixed(0)}%;background:${isP?'var(--azzurro-navy)':'rgba(0,146,70,0.5)'};border-radius:4px;"></div>
-        </div>
-      </td>
-      <td style="padding:9px 12px;text-align:center;">${d.ga}</td>
-      <td style="padding:9px 12px;text-align:center;color:var(--muted);font-size:0.82rem;">${d.xga.toFixed(1)}</td>
-      <td style="padding:9px 12px;min-width:120px;">
-        <div style="height:8px;background:rgba(206,43,55,0.1);border-radius:4px;">
-          <div style="height:8px;width:${(d.ga/maxGa*100).toFixed(0)}%;background:${isP?'rgba(206,43,55,0.8)':'rgba(206,43,55,0.35)'};border-radius:4px;"></div>
-        </div>
-      </td>
-    </tr>`;
-  };
-
   const goalsHtml = `
     ${perthStrip([
       [pStand.gf, 'Goals scored', '#1 in league tied'],
@@ -2657,24 +2623,6 @@ function buildReport() {
       [pStand.xg.toFixed(1), 'xG scored', ''],
       [pStand.xga.toFixed(1), 'xG conceded', 'Lowest in league'],
     ])}
-    <div class="chart-card full" style="padding:0;overflow:hidden;margin-bottom:20px;">
-      <table style="width:100%;border-collapse:collapse;font-family:var(--font-gibson);font-size:0.875rem;">
-        <thead>
-          <tr style="background:var(--azzurro-navy-deep);color:rgba(255,255,255,0.55);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;">
-            <th style="padding:10px 12px;text-align:left;">Team</th>
-            <th style="padding:10px 12px;text-align:center;">GF</th>
-            <th style="padding:10px 12px;text-align:center;">xG</th>
-            <th style="padding:10px 12px;text-align:left;"></th>
-            <th style="padding:10px 12px;text-align:center;">GA</th>
-            <th style="padding:10px 12px;text-align:center;">xGA</th>
-            <th style="padding:10px 12px;text-align:left;"></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${[...leagueGoals].sort((a,b)=>b.gf-a.gf).map(goalRow).join('')}
-        </tbody>
-      </table>
-    </div>
     <p style="font-family:var(--font-mono);font-size:0.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Players overview · WA NPLW · Perth highlighted ★</p>
     <div class="report-grid">
       <div class="chart-card"><h3>⚽ Goals</h3><canvas id="rtab-chart-goals" style="height:280px;"></canvas></div>
