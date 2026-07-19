@@ -4,16 +4,16 @@
     {
       "pos": 1,
       "team": "Perth",
-      "pts": 39,
-      "p": 15,
-      "w": 12,
+      "pts": 42,
+      "p": 16,
+      "w": 13,
       "d": 3,
       "l": 0,
-      "gf": 34,
+      "gf": 35,
       "ga": 4,
-      "gd": 30,
-      "xg": 31.1,
-      "xga": 7.5
+      "gd": 31,
+      "xg": 33.9,
+      "xga": 7.6
     },
     {
       "pos": 2,
@@ -26,7 +26,7 @@
       "gf": 34,
       "ga": 16,
       "gd": 18,
-      "xg": 30.4,
+      "xg": 30.8,
       "xga": 21.2
     },
     {
@@ -40,36 +40,36 @@
       "gf": 34,
       "ga": 12,
       "gd": 22,
-      "xg": 33.8,
-      "xga": 10.8
+      "xg": 33.7,
+      "xga": 10.7
     },
     {
       "pos": 4,
       "team": "Perth RedStar",
-      "pts": 20,
-      "p": 15,
-      "w": 5,
+      "pts": 23,
+      "p": 16,
+      "w": 6,
       "d": 5,
       "l": 5,
-      "gf": 22,
-      "ga": 17,
-      "gd": 5,
-      "xg": 24.9,
-      "xga": 18.2
+      "gf": 25,
+      "ga": 18,
+      "gd": 7,
+      "xg": 25.2,
+      "xga": 19.2
     },
     {
       "pos": 5,
       "team": "West NTC",
       "pts": 17,
-      "p": 15,
+      "p": 16,
       "w": 4,
       "d": 5,
-      "l": 6,
-      "gf": 24,
-      "ga": 28,
-      "gd": -4,
-      "xg": 22.4,
-      "xga": 25.8
+      "l": 7,
+      "gf": 25,
+      "ga": 31,
+      "gd": -6,
+      "xg": 23.5,
+      "xga": 26.1
     },
     {
       "pos": 6,
@@ -82,22 +82,22 @@
       "gf": 17,
       "ga": 29,
       "gd": -12,
-      "xg": 24.3,
+      "xg": 24.4,
       "xga": 26.6
     },
     {
       "pos": 7,
       "team": "Sorrento",
       "pts": 9,
-      "p": 15,
+      "p": 16,
       "w": 2,
       "d": 3,
-      "l": 10,
+      "l": 11,
       "gf": 15,
-      "ga": 38,
-      "gd": -23,
+      "ga": 39,
+      "gd": -24,
       "xg": 11.6,
-      "xga": 40.4
+      "xga": 43.2
     },
     {
       "pos": 8,
@@ -111,10 +111,22 @@
       "ga": 42,
       "gd": -36,
       "xg": 8.6,
-      "xga": 36.5
+      "xga": 36.9
     }
   ],
   "goalsScoredTypology": [
+    {
+      "team": "Perth",
+      "total": 35,
+      "longShots": 7,
+      "longShotsPct": 20,
+      "counter": 1,
+      "counterPct": 3,
+      "setPiece": 8,
+      "setPiecePct": 23,
+      "directFK": 1,
+      "directFKPct": 3
+    },
     {
       "team": "Balcatta",
       "total": 34,
@@ -140,40 +152,28 @@
       "directFKPct": 3
     },
     {
-      "team": "Perth",
-      "total": 34,
-      "longShots": 6,
-      "longShotsPct": 18,
-      "counter": 1,
-      "counterPct": 3,
-      "setPiece": 8,
-      "setPiecePct": 24,
-      "directFK": 1,
-      "directFKPct": 3
-    },
-    {
       "team": "West NTC",
-      "total": 24,
+      "total": 25,
       "longShots": 5,
-      "longShotsPct": 21,
+      "longShotsPct": 20,
       "counter": 2,
       "counterPct": 8,
       "setPiece": 4,
-      "setPiecePct": 17,
+      "setPiecePct": 16,
       "directFK": 0,
       "directFKPct": 0
     },
     {
       "team": "Perth RedStar",
-      "total": 22,
-      "longShots": 5,
-      "longShotsPct": 23,
+      "total": 25,
+      "longShots": 7,
+      "longShotsPct": 28,
       "counter": 1,
-      "counterPct": 5,
+      "counterPct": 4,
       "setPiece": 9,
-      "setPiecePct": 41,
+      "setPiecePct": 36,
       "directFK": 3,
-      "directFKPct": 14
+      "directFKPct": 12
     },
     {
       "team": "Subiaco",
@@ -214,6 +214,19 @@
   ],
   "goalsScoredDynamics": [
     {
+      "team": "Perth",
+      "total": 35,
+      "h1": 16,
+      "h2": 19,
+      "t1": 4,
+      "t2": 6,
+      "t3": 6,
+      "t4": 6,
+      "t5": 9,
+      "t6": 4,
+      "xg": 33.85
+    },
+    {
       "team": "Balcatta",
       "total": 34,
       "h1": 18,
@@ -224,7 +237,7 @@
       "t4": 3,
       "t5": 8,
       "t6": 5,
-      "xg": 33.79
+      "xg": 33.69
     },
     {
       "team": "Fremantle City",
@@ -237,46 +250,33 @@
       "t4": 9,
       "t5": 3,
       "t6": 8,
-      "xg": 30.39
-    },
-    {
-      "team": "Perth",
-      "total": 34,
-      "h1": 16,
-      "h2": 18,
-      "t1": 4,
-      "t2": 6,
-      "t3": 6,
-      "t4": 6,
-      "t5": 9,
-      "t6": 3,
-      "xg": 31.05
+      "xg": 30.82
     },
     {
       "team": "West NTC",
-      "total": 24,
-      "h1": 7,
+      "total": 25,
+      "h1": 8,
       "h2": 17,
       "t1": 4,
-      "t2": 2,
+      "t2": 3,
       "t3": 1,
       "t4": 6,
       "t5": 2,
       "t6": 9,
-      "xg": 22.35
+      "xg": 23.46
     },
     {
       "team": "Perth RedStar",
-      "total": 22,
-      "h1": 11,
-      "h2": 11,
+      "total": 25,
+      "h1": 13,
+      "h2": 12,
       "t1": 3,
-      "t2": 3,
+      "t2": 5,
       "t3": 5,
       "t4": 1,
-      "t5": 7,
+      "t5": 8,
       "t6": 3,
-      "xg": 24.87
+      "xg": 25.18
     },
     {
       "team": "Subiaco",
@@ -289,7 +289,7 @@
       "t4": 3,
       "t5": 3,
       "t6": 5,
-      "xg": 24.35
+      "xg": 24.37
     },
     {
       "team": "Sorrento",
@@ -302,7 +302,7 @@
       "t4": 0,
       "t5": 0,
       "t6": 8,
-      "xg": 11.6
+      "xg": 11.55
     },
     {
       "team": "UWA Nedlands",
@@ -357,27 +357,15 @@
     },
     {
       "team": "Perth RedStar",
-      "total": 17,
+      "total": 18,
       "longShots": 3,
-      "longShotsPct": 18,
+      "longShotsPct": 17,
       "counter": 0,
       "counterPct": 0,
       "setPiece": 6,
-      "setPiecePct": 35,
+      "setPiecePct": 33,
       "directFK": 1,
       "directFKPct": 6
-    },
-    {
-      "team": "West NTC",
-      "total": 28,
-      "longShots": 8,
-      "longShotsPct": 29,
-      "counter": 0,
-      "counterPct": 0,
-      "setPiece": 7,
-      "setPiecePct": 25,
-      "directFK": 3,
-      "directFKPct": 11
     },
     {
       "team": "Subiaco",
@@ -392,10 +380,22 @@
       "directFKPct": 3
     },
     {
+      "team": "West NTC",
+      "total": 31,
+      "longShots": 10,
+      "longShotsPct": 32,
+      "counter": 0,
+      "counterPct": 0,
+      "setPiece": 7,
+      "setPiecePct": 23,
+      "directFK": 3,
+      "directFKPct": 10
+    },
+    {
       "team": "Sorrento",
-      "total": 38,
-      "longShots": 8,
-      "longShotsPct": 21,
+      "total": 39,
+      "longShots": 9,
+      "longShotsPct": 23,
       "counter": 1,
       "counterPct": 3,
       "setPiece": 8,
@@ -428,7 +428,7 @@
       "t4": 0,
       "t5": 1,
       "t6": 1,
-      "xga": 7.53
+      "xga": 7.56
     },
     {
       "team": "Balcatta",
@@ -441,7 +441,7 @@
       "t4": 2,
       "t5": 1,
       "t6": 3,
-      "xga": 10.78
+      "xga": 10.71
     },
     {
       "team": "Fremantle City",
@@ -454,33 +454,20 @@
       "t4": 0,
       "t5": 3,
       "t6": 4,
-      "xga": 21.22
+      "xga": 21.17
     },
     {
       "team": "Perth RedStar",
-      "total": 17,
-      "h1": 4,
+      "total": 18,
+      "h1": 5,
       "h2": 13,
       "t1": 0,
-      "t2": 2,
+      "t2": 3,
       "t3": 2,
       "t4": 5,
       "t5": 3,
       "t6": 5,
-      "xga": 18.19
-    },
-    {
-      "team": "West NTC",
-      "total": 28,
-      "h1": 15,
-      "h2": 13,
-      "t1": 3,
-      "t2": 4,
-      "t3": 8,
-      "t4": 2,
-      "t5": 4,
-      "t6": 7,
-      "xga": 25.81
+      "xga": 19.25
     },
     {
       "team": "Subiaco",
@@ -493,20 +480,33 @@
       "t4": 5,
       "t5": 8,
       "t6": 4,
-      "xga": 26.56
+      "xga": 26.57
+    },
+    {
+      "team": "West NTC",
+      "total": 31,
+      "h1": 17,
+      "h2": 14,
+      "t1": 3,
+      "t2": 6,
+      "t3": 8,
+      "t4": 2,
+      "t5": 5,
+      "t6": 7,
+      "xga": 26.15
     },
     {
       "team": "Sorrento",
-      "total": 38,
+      "total": 39,
       "h1": 17,
-      "h2": 21,
+      "h2": 22,
       "t1": 6,
       "t2": 6,
       "t3": 5,
       "t4": 6,
       "t5": 7,
-      "t6": 8,
-      "xga": 40.42
+      "t6": 9,
+      "xga": 43.22
     },
     {
       "team": "UWA Nedlands",
@@ -519,16 +519,16 @@
       "t4": 8,
       "t5": 6,
       "t6": 10,
-      "xga": 36.47
+      "xga": 36.9
     }
   ],
   "formations": [
     {
       "team": "West NTC",
       "f1": "4-4-2",
-      "p1": 87.5,
+      "p1": 88.3,
       "f2": "4-2-3-1",
-      "p2": 7.4
+      "p2": 6.9
     },
     {
       "team": "Subiaco",
@@ -547,9 +547,9 @@
     {
       "team": "Sorrento",
       "f1": "4-1-4-1",
-      "p1": 39.4,
+      "p1": 37.1,
       "f2": "4-3-3",
-      "p2": 20.8
+      "p2": 25.4
     },
     {
       "team": "UWA Nedlands",
@@ -561,30 +561,30 @@
     {
       "team": "Perth RedStar",
       "f1": "4-3-3",
-      "p1": 34.5,
+      "p1": 39.0,
       "f2": "4-1-4-1",
-      "p2": 24.2
+      "p2": 22.6
     },
     {
       "team": "Fremantle City",
       "f1": "4-2-3-1",
-      "p1": 47.8,
+      "p1": 47.9,
       "f2": "4-4-2",
       "p2": 14.8
     },
     {
       "team": "Perth",
       "f1": "4-2-3-1",
-      "p1": 42.3,
+      "p1": 46.4,
       "f2": "4-1-4-1",
-      "p2": 34.3
+      "p2": 31.9
     }
   ],
   "attackFlanks": [
     {
       "team": "West NTC",
       "left": 30,
-      "centre": 35,
+      "centre": 34,
       "right": 36
     },
     {
@@ -603,7 +603,7 @@
       "team": "Fremantle City",
       "left": 30,
       "centre": 39,
-      "right": 31
+      "right": 30
     },
     {
       "team": "Subiaco",
@@ -613,7 +613,7 @@
     },
     {
       "team": "Sorrento",
-      "left": 31,
+      "left": 30,
       "centre": 36,
       "right": 34
     },
@@ -621,32 +621,32 @@
       "team": "Perth RedStar",
       "left": 30,
       "centre": 32,
-      "right": 38
+      "right": 37
     },
     {
       "team": "Perth",
       "left": 39,
       "centre": 28,
-      "right": 33
+      "right": 32
     }
   ],
   "teamStats": {
     "shots": [
       {
         "team": "Balcatta",
-        "val": 19.63
+        "val": 19.69
       },
       {
         "team": "Perth",
-        "val": 16.94
+        "val": 17.41
       },
       {
         "team": "Fremantle City",
-        "val": 14.47
+        "val": 14.53
       },
       {
         "team": "Perth RedStar",
-        "val": 14.44
+        "val": 13.91
       },
       {
         "team": "Subiaco",
@@ -654,7 +654,7 @@
       },
       {
         "team": "West NTC",
-        "val": 11.75
+        "val": 11.72
       },
       {
         "team": "UWA Nedlands",
@@ -662,13 +662,13 @@
       },
       {
         "team": "Sorrento",
-        "val": 5.61
+        "val": 5.38
       }
     ],
     "shotsAgainst": [
       {
         "team": "Perth",
-        "val": 6.31
+        "val": 6.04
       },
       {
         "team": "Balcatta",
@@ -676,15 +676,15 @@
       },
       {
         "team": "Perth RedStar",
-        "val": 10.07
+        "val": 10.15
       },
       {
         "team": "West NTC",
-        "val": 11.81
+        "val": 11.6
       },
       {
         "team": "Fremantle City",
-        "val": 13.21
+        "val": 13.14
       },
       {
         "team": "Subiaco",
@@ -692,11 +692,11 @@
       },
       {
         "team": "UWA Nedlands",
-        "val": 18.61
+        "val": 18.67
       },
       {
         "team": "Sorrento",
-        "val": 21.81
+        "val": 21.98
       }
     ],
     "shotsXG": [
@@ -706,7 +706,7 @@
       },
       {
         "team": "Perth",
-        "val": 0.12
+        "val": 0.11
       },
       {
         "team": "Fremantle City",
@@ -714,7 +714,7 @@
       },
       {
         "team": "Perth RedStar",
-        "val": 0.12
+        "val": 0.11
       },
       {
         "team": "Subiaco",
@@ -736,11 +736,11 @@
     "passes": [
       {
         "team": "Balcatta",
-        "val": 485.0
+        "val": 484.93
       },
       {
         "team": "Perth",
-        "val": 415.63
+        "val": 423.56
       },
       {
         "team": "Fremantle City",
@@ -748,19 +748,19 @@
       },
       {
         "team": "Perth RedStar",
-        "val": 393.51
+        "val": 395.35
       },
       {
         "team": "West NTC",
-        "val": 373.4
+        "val": 373.5
       },
       {
         "team": "Subiaco",
-        "val": 330.0
+        "val": 329.86
       },
       {
         "team": "Sorrento",
-        "val": 311.09
+        "val": 307.41
       },
       {
         "team": "UWA Nedlands",
@@ -774,15 +774,15 @@
       },
       {
         "team": "Perth RedStar",
-        "val": 54.2
+        "val": 54.0
+      },
+      {
+        "team": "Perth",
+        "val": 53.7
       },
       {
         "team": "Fremantle City",
         "val": 53.6
-      },
-      {
-        "team": "Perth",
-        "val": 52.9
       },
       {
         "team": "Subiaco",
@@ -790,11 +790,11 @@
       },
       {
         "team": "West NTC",
-        "val": 46.3
+        "val": 46.4
       },
       {
         "team": "Sorrento",
-        "val": 43.4
+        "val": 42.8
       },
       {
         "team": "UWA Nedlands",
@@ -808,19 +808,19 @@
       },
       {
         "team": "Perth",
-        "val": 80.13
+        "val": 79.8
       },
       {
         "team": "West NTC",
-        "val": 78.5
+        "val": 78.22
       },
       {
         "team": "Fremantle City",
-        "val": 76.86
+        "val": 76.79
       },
       {
         "team": "Perth RedStar",
-        "val": 75.69
+        "val": 75.96
       },
       {
         "team": "Subiaco",
@@ -828,21 +828,21 @@
       },
       {
         "team": "Sorrento",
-        "val": 67.44
+        "val": 67.37
       },
       {
         "team": "UWA Nedlands",
-        "val": 66.35
+        "val": 66.29
       }
     ],
     "deepComp": [
       {
         "team": "Perth",
-        "val": 7.63
+        "val": 7.68
       },
       {
         "team": "Balcatta",
-        "val": 6.99
+        "val": 7.05
       },
       {
         "team": "Fremantle City",
@@ -850,7 +850,7 @@
       },
       {
         "team": "Perth RedStar",
-        "val": 6.18
+        "val": 5.95
       },
       {
         "team": "Subiaco",
@@ -858,11 +858,11 @@
       },
       {
         "team": "West NTC",
-        "val": 5.08
+        "val": 4.94
       },
       {
         "team": "Sorrento",
-        "val": 2.27
+        "val": 2.19
       },
       {
         "team": "UWA Nedlands",
@@ -871,24 +871,24 @@
     ],
     "crosses": [
       {
-        "team": "Balcatta",
-        "val": 17.21
+        "team": "Perth",
+        "val": 18.0
       },
       {
-        "team": "Perth",
-        "val": 17.19
+        "team": "Balcatta",
+        "val": 17.15
       },
       {
         "team": "Perth RedStar",
-        "val": 12.29
+        "val": 12.16
       },
       {
         "team": "West NTC",
-        "val": 11.75
+        "val": 11.78
       },
       {
         "team": "Subiaco",
-        "val": 11.61
+        "val": 11.54
       },
       {
         "team": "Fremantle City",
@@ -896,7 +896,7 @@
       },
       {
         "team": "Sorrento",
-        "val": 5.67
+        "val": 5.44
       },
       {
         "team": "UWA Nedlands",
@@ -906,23 +906,23 @@
     "dribbles": [
       {
         "team": "Fremantle City",
-        "val": 30.25
+        "val": 30.31
       },
       {
         "team": "Perth",
-        "val": 22.94
+        "val": 23.1
       },
       {
         "team": "West NTC",
-        "val": 21.79
+        "val": 22.07
       },
       {
         "team": "Balcatta",
-        "val": 21.53
+        "val": 21.66
       },
       {
         "team": "Perth RedStar",
-        "val": 21.36
+        "val": 21.12
       },
       {
         "team": "Subiaco",
@@ -934,17 +934,17 @@
       },
       {
         "team": "Sorrento",
-        "val": 14.31
+        "val": 14.24
       }
     ],
     "touchesPA": [
       {
         "team": "Perth",
-        "val": 22.19
+        "val": 22.57
       },
       {
         "team": "Balcatta",
-        "val": 21.09
+        "val": 21.15
       },
       {
         "team": "Fremantle City",
@@ -952,11 +952,11 @@
       },
       {
         "team": "Perth RedStar",
-        "val": 18.81
+        "val": 17.92
       },
       {
         "team": "West NTC",
-        "val": 15.75
+        "val": 15.7
       },
       {
         "team": "Subiaco",
@@ -968,7 +968,7 @@
       },
       {
         "team": "Sorrento",
-        "val": 6.05
+        "val": 5.73
       }
     ],
     "offDuels": [
@@ -977,76 +977,76 @@
         "val": 92.77
       },
       {
-        "team": "West NTC",
-        "val": 86.95
+        "team": "Perth RedStar",
+        "val": 86.49
       },
       {
-        "team": "Perth RedStar",
-        "val": 86.44
+        "team": "West NTC",
+        "val": 85.3
       },
       {
         "team": "Balcatta",
-        "val": 73.99
+        "val": 73.87
       },
       {
         "team": "Subiaco",
-        "val": 73.51
+        "val": 73.1
       },
       {
         "team": "Perth",
-        "val": 72.88
+        "val": 72.64
       },
       {
         "team": "Sorrento",
-        "val": 71.97
+        "val": 71.39
       },
       {
         "team": "UWA Nedlands",
-        "val": 68.62
+        "val": 68.56
       }
     ],
     "defDuels": [
       {
         "team": "UWA Nedlands",
-        "val": 88.17
+        "val": 88.11
       },
       {
         "team": "West NTC",
-        "val": 79.9
+        "val": 80.3
       },
       {
         "team": "Subiaco",
         "val": 79.34
       },
       {
-        "team": "Perth",
-        "val": 78.31
-      },
-      {
         "team": "Fremantle City",
-        "val": 77.74
+        "val": 77.67
       },
       {
         "team": "Balcatta",
-        "val": 77.36
+        "val": 77.3
+      },
+      {
+        "team": "Perth",
+        "val": 77.28
       },
       {
         "team": "Sorrento",
-        "val": 74.68
+        "val": 73.99
       },
       {
         "team": "Perth RedStar",
-        "val": 71.06
+        "val": 70.51
       }
     ],
     "aerialDuels": [
       {
         "team": "Perth RedStar",
-        "val": 17.4
+        "val": 17.49
       },
       {
         "team": "Perth",
-        "val": 15.81
+        "val": 15.54
       },
       {
         "team": "UWA Nedlands",
@@ -1054,7 +1054,11 @@
       },
       {
         "team": "Subiaco",
-        "val": 13.85
+        "val": 13.71
+      },
+      {
+        "team": "West NTC",
+        "val": 12.31
       },
       {
         "team": "Fremantle City",
@@ -1062,15 +1066,11 @@
       },
       {
         "team": "Balcatta",
-        "val": 12.07
-      },
-      {
-        "team": "West NTC",
-        "val": 11.94
+        "val": 12.0
       },
       {
         "team": "Sorrento",
-        "val": 11.03
+        "val": 10.93
       }
     ],
     "interceptions": [
@@ -1079,16 +1079,16 @@
         "val": 53.04
       },
       {
-        "team": "Perth RedStar",
-        "val": 48.43
+        "team": "Sorrento",
+        "val": 48.58
       },
       {
-        "team": "Sorrento",
-        "val": 48.09
+        "team": "Perth RedStar",
+        "val": 48.57
       },
       {
         "team": "West NTC",
-        "val": 46.49
+        "val": 46.22
       },
       {
         "team": "Perth",
@@ -1096,11 +1096,11 @@
       },
       {
         "team": "Fremantle City",
-        "val": 43.58
+        "val": 43.65
       },
       {
         "team": "Balcatta",
-        "val": 41.35
+        "val": 41.41
       },
       {
         "team": "Subiaco",
@@ -1110,23 +1110,23 @@
     "ppda": [
       {
         "team": "Perth RedStar",
-        "val": 5.8
+        "val": 5.97
       },
       {
         "team": "Perth",
-        "val": 6.1
+        "val": 6.01
       },
       {
         "team": "Balcatta",
-        "val": 7.11
+        "val": 7.09
       },
       {
         "team": "Fremantle City",
-        "val": 7.89
+        "val": 7.88
       },
       {
         "team": "Subiaco",
-        "val": 8.96
+        "val": 8.97
       },
       {
         "team": "UWA Nedlands",
@@ -1134,79 +1134,79 @@
       },
       {
         "team": "West NTC",
-        "val": 11.45
+        "val": 11.27
       },
       {
         "team": "Sorrento",
-        "val": 21.53
+        "val": 21.38
       }
     ],
     "losses": [
       {
         "team": "Perth",
-        "val": 123.94
+        "val": 124.65
       },
       {
         "team": "Fremantle City",
-        "val": 126.54
+        "val": 126.67
       },
       {
         "team": "Subiaco",
-        "val": 127.53
+        "val": 127.74
       },
       {
         "team": "Balcatta",
-        "val": 128.74
+        "val": 128.81
       },
       {
         "team": "Sorrento",
-        "val": 129.26
+        "val": 130.42
       },
       {
         "team": "Perth RedStar",
-        "val": 132.85
+        "val": 132.62
       },
       {
         "team": "UWA Nedlands",
-        "val": 136.36
+        "val": 136.23
       },
       {
         "team": "West NTC",
-        "val": 139.99
+        "val": 140.26
       }
     ],
     "recoveries": [
       {
         "team": "Balcatta",
-        "val": 98.83
-      },
-      {
-        "team": "West NTC",
-        "val": 97.11
+        "val": 99.15
       },
       {
         "team": "Perth RedStar",
-        "val": 97.05
+        "val": 97.77
+      },
+      {
+        "team": "West NTC",
+        "val": 96.72
       },
       {
         "team": "Perth",
-        "val": 95.94
+        "val": 96.39
       },
       {
         "team": "Fremantle City",
-        "val": 95.35
+        "val": 95.28
       },
       {
         "team": "Subiaco",
-        "val": 89.19
+        "val": 88.98
       },
       {
         "team": "UWA Nedlands",
-        "val": 82.05
+        "val": 81.86
       },
       {
         "team": "Sorrento",
-        "val": 80.04
+        "val": 80.01
       }
     ]
   },
@@ -1216,84 +1216,84 @@
         "category": "Goals",
         "rank": 2,
         "value": "9 total",
-        "unit": "0.59 avg/90 · xG 6.50"
+        "unit": "0.55 avg/90 · xG 6.67"
       },
       {
         "category": "Assists",
         "rank": 2,
         "value": "5 total",
-        "unit": "0.33 avg/90 · xA 3.88"
+        "unit": "0.31 avg/90 · xA 4.34"
       },
       {
         "category": "Shots",
         "rank": 3,
-        "value": "57 total",
-        "unit": "3.76 avg/90 · xG/Shot 0.11"
+        "value": "60 total",
+        "unit": "3.70 avg/90 · xG/Shot 0.11"
       },
       {
         "category": "Duels",
-        "rank": 7,
-        "value": "24.11 41%",
+        "rank": 6,
+        "value": "24.39 41%",
         "unit": "avg/90"
       },
       {
         "category": "Key passes",
         "rank": 2,
-        "value": "2.17",
+        "value": "2.34",
         "unit": "avg/90"
       },
       {
         "category": "Deep completions",
         "rank": 3,
-        "value": "1.52",
+        "value": "1.54",
         "unit": "avg/90"
       },
       {
         "category": "Crosses",
         "rank": 1,
-        "value": "6.13 29%",
+        "value": "6.16 29%",
         "unit": "avg/90"
       },
       {
         "category": "Attack contribution",
         "rank": 4,
-        "value": "0.94",
+        "value": "0.96",
         "unit": "avg/90"
       },
       {
         "category": "Touches in penalty area",
         "rank": 7,
-        "value": "4.15",
+        "value": "4.07",
         "unit": "avg/90"
       },
       {
         "category": "Offsides",
         "rank": 2,
-        "value": "1.78",
+        "value": "1.66",
         "unit": "avg/90"
       },
       {
         "category": "Dribbles",
-        "rank": 3,
-        "value": "6.19 55%",
+        "rank": 4,
+        "value": "6.16 56%",
         "unit": "avg/90"
       },
       {
         "category": "Offensive duels",
-        "rank": 6,
-        "value": "15.35 37%",
+        "rank": 5,
+        "value": "15.59 37%",
         "unit": "avg/90"
       },
       {
         "category": "Aerial duels",
-        "rank": 3,
-        "value": "2.24 32%",
+        "rank": 4,
+        "value": "2.22 33%",
         "unit": "avg/90"
       },
       {
         "category": "Corners",
         "rank": 7,
-        "value": "2.57 64%",
+        "value": "2.59 64%",
         "unit": "avg/90"
       }
     ],
@@ -1302,24 +1302,24 @@
         "category": "Goals",
         "rank": 9,
         "value": "5 total",
-        "unit": "0.36 avg/90 · xG 4.39"
+        "unit": "0.34 avg/90 · xG 4.39"
       },
       {
         "category": "Assists",
-        "rank": 6,
+        "rank": 5,
         "value": "3 total",
-        "unit": "0.21 avg/90 · xA 1.13"
+        "unit": "0.20 avg/90 · xA 1.13"
       },
       {
         "category": "Crosses",
-        "rank": 10,
-        "value": "2.77 26%",
+        "rank": 9,
+        "value": "2.90 26%",
         "unit": "avg/90"
       },
       {
         "category": "Aerial duels",
         "rank": 5,
-        "value": "2.21 45%",
+        "value": "2.16 44%",
         "unit": "avg/90"
       },
       {
@@ -1330,34 +1330,28 @@
       },
       {
         "category": "Fouls",
-        "rank": 9,
-        "value": "1.21 avg/90",
+        "rank": 6,
+        "value": "1.28 avg/90",
         "unit": "YC 1 · RC 0"
       }
     ],
     "S. Mathers": [
       {
         "category": "Assists",
-        "rank": 5,
+        "rank": 6,
         "value": "3 total",
-        "unit": "0.22 avg/90 · xA 2.55"
-      },
-      {
-        "category": "Key passes",
-        "rank": 8,
-        "value": "1.65",
-        "unit": "avg/90"
+        "unit": "0.20 avg/90 · xA 2.55"
       },
       {
         "category": "Passes to final third",
-        "rank": 7,
-        "value": "8.35 61%",
+        "rank": 4,
+        "value": "8.63 63%",
         "unit": "avg/90"
       },
       {
         "category": "Corners",
         "rank": 3,
-        "value": "3.17 61%",
+        "value": "3.08 61%",
         "unit": "avg/90"
       }
     ],
@@ -1366,50 +1360,56 @@
         "category": "Second assists",
         "rank": 2,
         "value": "2 total",
-        "unit": "0.21 avg/90 · 3rd assists 0"
+        "unit": "0.20 avg/90 · 3rd assists 0"
       },
       {
         "category": "Aerial duels",
         "rank": 9,
-        "value": "1.79 30%",
+        "value": "1.97 30%",
         "unit": "avg/90"
       },
       {
         "category": "Fouls",
-        "rank": 3,
-        "value": "1.58 avg/90",
+        "rank": 2,
+        "value": "1.57 avg/90",
         "unit": "YC 0 · RC 0"
       }
     ],
     "D. McAllister": [
       {
         "category": "Second assists",
-        "rank": 3,
+        "rank": 4,
         "value": "2 total",
-        "unit": "0.17 avg/90 · 3rd assists 1"
+        "unit": "0.16 avg/90 · 3rd assists 1"
+      },
+      {
+        "category": "Key passes",
+        "rank": 8,
+        "value": "1.66",
+        "unit": "avg/90"
       },
       {
         "category": "Deep completions",
         "rank": 2,
-        "value": "1.64",
+        "value": "1.66",
         "unit": "avg/90"
       },
       {
         "category": "Attack contribution",
-        "rank": 10,
-        "value": "0.77",
+        "rank": 9,
+        "value": "0.82",
         "unit": "avg/90"
       },
       {
         "category": "Touches in penalty area",
         "rank": 5,
-        "value": "4.31",
+        "value": "4.27",
         "unit": "avg/90"
       },
       {
         "category": "Offsides",
-        "rank": 3,
-        "value": "1.38",
+        "rank": 4,
+        "value": "1.26",
         "unit": "avg/90"
       }
     ],
@@ -1418,14 +1418,14 @@
         "category": "Second assists",
         "rank": 10,
         "value": "1 total",
-        "unit": "0.24 avg/90 · 3rd assists 0"
+        "unit": "0.22 avg/90 · 3rd assists 0"
       }
     ],
     "K. Mccartney": [
       {
         "category": "Passes",
         "rank": 6,
-        "value": "51.44 85%",
+        "value": "51.95 85%",
         "unit": "avg/90"
       },
       {
@@ -1437,51 +1437,45 @@
       {
         "category": "Indirect free kicks",
         "rank": 2,
-        "value": "1.19",
+        "value": "1.23",
         "unit": "avg/90"
       }
     ],
     "C. Wainwright": [
       {
         "category": "Deep completions",
-        "rank": 8,
-        "value": "1.29",
+        "rank": 6,
+        "value": "1.35",
         "unit": "avg/90"
       },
       {
         "category": "Passes to final third",
-        "rank": 8,
-        "value": "8.23 66%",
-        "unit": "avg/90"
-      },
-      {
-        "category": "Defensive duels",
-        "rank": 8,
-        "value": "9.39 71%",
+        "rank": 5,
+        "value": "8.61 67%",
         "unit": "avg/90"
       },
       {
         "category": "Aerial duels",
         "rank": 1,
-        "value": "3.34 39%",
+        "value": "3.32 37%",
         "unit": "avg/90"
       },
       {
         "category": "Recoveries",
         "rank": 3,
-        "value": "14.27",
+        "value": "14.26",
         "unit": "avg/90"
       },
       {
         "category": "Sliding tackles",
         "rank": 4,
-        "value": "1.03",
+        "value": "0.98",
         "unit": "avg/90"
       },
       {
         "category": "Fouls",
         "rank": 1,
-        "value": "1.93 avg/90",
+        "value": "1.84 avg/90",
         "unit": "YC 4 · RC 0"
       }
     ],
@@ -1494,7 +1488,7 @@
       },
       {
         "category": "Fouls",
-        "rank": 6,
+        "rank": 5,
         "value": "1.29 avg/90",
         "unit": "YC 0 · RC 0"
       }
@@ -1502,7 +1496,7 @@
     "M. Boehm": [
       {
         "category": "Passes to final third",
-        "rank": 6,
+        "rank": 8,
         "value": "8.41 52%",
         "unit": "avg/90"
       },
@@ -1528,20 +1522,20 @@
     "L. Tana": [
       {
         "category": "Defensive duels",
-        "rank": 1,
-        "value": "10.78 70%",
+        "rank": 3,
+        "value": "10.51 71%",
         "unit": "avg/90"
       },
       {
         "category": "Recoveries",
         "rank": 4,
-        "value": "13.83",
+        "value": "13.67",
         "unit": "avg/90"
       },
       {
         "category": "Interceptions",
-        "rank": 6,
-        "value": "6.82",
+        "rank": 8,
+        "value": "6.50",
         "unit": "avg/90"
       }
     ],
@@ -1549,7 +1543,7 @@
       {
         "category": "Throw ins",
         "rank": 2,
-        "value": "13.29",
+        "value": "13.35",
         "unit": "avg/90"
       }
     ]
