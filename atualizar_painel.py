@@ -342,9 +342,11 @@ def step2c_update_players(dashboard_df):
     max_matches_in_pdf = max(matches_by_name.values()) if matches_by_name else 0
     pdf_data = ew.parse_perth_sc_pdf(PERTH_PDF, names)
 
-    full_season = max_matches_in_pdf >= current_round - 2
-    single_match = max_matches_in_pdf == 1 and not full_season
-    snapshot = json.loads(SNAPSHOT_FILE.read_text()) if SNAPSHOT_FILE.exists() else None
+    # Always treat PDF as the full source of truth — user replaces Perth_SC.pdf
+    # with the latest Wyscout report after every match, so it always has cumulative data.
+    full_season = True
+    single_match = False
+    snapshot = None
 
     players = []
     if single_match:
