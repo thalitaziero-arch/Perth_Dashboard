@@ -1321,10 +1321,10 @@ Chart.defaults.color = COL.muted;
 Chart.defaults.set('plugins.datalabels', { display:false });
 if (isMobile) {
   Chart.defaults.aspectRatio = 1.2;
-  Chart.defaults.plugins.legend = Chart.defaults.plugins.legend || {};
-  Chart.defaults.plugins.legend.labels = Chart.defaults.plugins.legend.labels || {};
-  Chart.defaults.plugins.legend.labels.boxWidth = 10;
-  Chart.defaults.plugins.legend.labels.font = { size: 10 };
+  try {
+    Chart.defaults.set('plugins.legend.labels.boxWidth', 10);
+    Chart.defaults.set('plugins.legend.labels.font', { size: 10 });
+  } catch(e) {}
 }
 
 // ---- KPIs ----
