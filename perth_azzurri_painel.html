@@ -1332,17 +1332,17 @@ function fmt(n, d=0){ return Number(n).toFixed(d); }
 
 const matches = team.length;
 const wins = team.filter(t => {
-  const opp = all.find(d => d.Round===t.Round && d.Team!=='Perth');
+  const opp = all.find(d => d.Match===t.Match && d.Team!=='Perth');
   return t.Goals > opp.Goals;
 }).length;
 const draws = team.filter(t => {
-  const opp = all.find(d => d.Round===t.Round && d.Team!=='Perth');
+  const opp = all.find(d => d.Match===t.Match && d.Team!=='Perth');
   return t.Goals === opp.Goals;
 }).length;
 const losses = matches - wins - draws;
 const goalsFor = team.reduce((s,t)=>s+t.Goals,0);
 const goalsAgainst = team.reduce((s,t)=>{
-  const opp = all.find(d => d.Round===t.Round && d.Team!=='Perth');
+  const opp = all.find(d => d.Match===t.Match && d.Team!=='Perth');
   return s + opp.Goals;
 },0);
 const xgTotal = team.reduce((s,t)=>s+t.xG,0);
@@ -1368,7 +1368,7 @@ document.getElementById('kpi-grid').innerHTML = kpis.map(k=>`
 
 // ---- Matches list ----
 document.getElementById('matches-list').innerHTML = team.map(t=>{
-  const opp = all.find(d => d.Round===t.Round && d.Team!=='Perth');
+  const opp = all.find(d => d.Match===t.Match && d.Team!=='Perth');
   const result = t.Goals > opp.Goals ? 'win' : (t.Goals === opp.Goals ? 'draw' : 'loss');
   const resultLabel = result==='win' ? 'Win' : (result==='draw' ? 'Draw' : 'Loss');
   return `
