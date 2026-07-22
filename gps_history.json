@@ -388,25 +388,25 @@
         "detail": null
       },
       {
-        "name": "D. McAllister",
+        "name": "D. Schroeder",
         "total_distance": 5347.39,
         "hsr": 89.85,
         "max_speed": 25.99,
         "accelerations": 18,
         "decelerations": 13,
         "hmld": 303.44,
-        "position": "Midfielders",
+        "position": "Goalkeeper",
         "detail": null
       },
       {
-        "name": "D. Schroeder",
+        "name": "D. McAllister",
         "total_distance": 10436.09,
         "hsr": 284.52,
         "max_speed": 27.38,
         "accelerations": 58,
         "decelerations": 53,
         "hmld": 1667.18,
-        "position": "Goalkeeper",
+        "position": "Midfielders",
         "detail": null
       },
       {
