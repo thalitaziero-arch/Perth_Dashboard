@@ -2830,9 +2830,14 @@ function buildTrainingReport() {
   }
   const sel = document.getElementById('gpsSessionSelect');
   if (sel && !sel.dataset.wired) {
-    sel.innerHTML = GPS_HISTORY.map((s,i) => `<option value="${i}">${sessionLabel(s)}</option>`).join('');
+    sel.innerHTML = `<option value="all">⚽ All Games (average)</option>` +
+      GPS_HISTORY.map((s,i) => `<option value="${i}">${sessionLabel(s)}</option>`).join('');
     sel.value = GPS_HISTORY.length - 1;
-    sel.addEventListener('change', () => renderGpsSession(parseInt(sel.value, 10)));
+    sel.addEventListener('change', () => {
+      const v = sel.value;
+      if (v === 'all') renderGpsAll();
+      else renderGpsSession(parseInt(v, 10));
+    });
     sel.dataset.wired = '1';
   }
   renderGpsSession(GPS_HISTORY.length - 1);
@@ -2920,6 +2925,129 @@ function renderGpsSession(sessionIdx) {
           type: 'line',
           label: `Team average (${teamAvgHmld.toFixed(1)})`,
           data: latest.players.map(() => teamAvgHmld),
+          borderColor: '#D62E2E',
+          borderWidth: 2,
+          borderDash: [6,4],
+          pointRadius: 0,
+          fill: false,
+          order: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: true, position: 'top', align: 'end', labels: { boxWidth: 14, font: { size: 11 } } } },
+      scales: { y: { beginAtZero: true, grid: { color: 'rgba(12,24,48,.05)' } }, x: { grid: { display: false } } },
+    },
+  });
+}
+
+function renderGpsAll() {
+  document.getElementById('gpsLatestSessionDesc').textContent = 'All Games — Season Average';
+
+  const metricCols = [
+    ['total_distance', 'Total Distance'], ['hsr', 'HSR'], ['max_speed', 'Max Speed'],
+    ['accelerations', 'Accel'], ['decelerations', 'Decel'], ['hmld', 'HMLD'],
+  ];
+  const isGK = pos => (pos || '').toLowerCase().includes('goalkeeper');
+
+  // Aggregate per player across all sessions
+  const agg = {}; // name -> { position, metrics: {k: [values]}, sessions: count }
+  GPS_HISTORY.forEach(session => {
+    session.players.forEach(p => {
+      if (!agg[p.name]) agg[p.name] = { position: p.position, metrics: {}, sessions: 0 };
+      agg[p.name].sessions++;
+      metricCols.forEach(([k]) => {
+        if (p[k] != null) {
+          if (!agg[p.name].metrics[k]) agg[p.name].metrics[k] = [];
+          agg[p.name].metrics[k].push(Number(p[k]));
+        }
+      });
+    });
+  });
+
+  // Build synthetic player list with averages
+  const players = Object.entries(agg).map(([name, d]) => {
+    const row = { name, position: d.position, sessions: d.sessions };
+    metricCols.forEach(([k]) => {
+      const vals = d.metrics[k] || [];
+      row[k] = vals.length ? parseFloat((vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1)) : null;
+    });
+    return row;
+  }).sort((a,b) => (b.total_distance||0) - (a.total_distance||0));
+
+  // Heatmap shading
+  const heatCols = ['total_distance', 'hmld'];
+  const heatRange = {};
+  heatCols.forEach(k => {
+    const vals = players.filter(p => !isGK(p.position)).map(p => p[k]).filter(v => v != null);
+    heatRange[k] = { min: Math.min(...vals), max: Math.max(...vals) };
+  });
+  const heatStyle = (k, v, pos) => {
+    if (isGK(pos)) return '';
+    if (!heatCols.includes(k) || v == null) return '';
+    const { min, max } = heatRange[k];
+    if (max === min) return '';
+    const pct = (v - min) / (max - min);
+    const r = Math.round(226 + (253-226)*pct), g = Math.round(240 + (226-240)*pct), b = Math.round(254 + (226-254)*pct);
+    return `background:rgb(${r},${g},${b});`;
+  };
+
+  const dataHead = `<tr><th style="padding:8px 10px;text-align:left;">Player</th><th style="padding:8px 10px;">Position</th>${
+    metricCols.map(([,l]) => `<th style="padding:8px 10px;">${l}</th>`).join('')
+  }<th style="padding:8px 10px;">Games</th></tr>`;
+  const dataRows = players.map(p => `<tr>
+    <td style="padding:7px 10px;font-weight:600;">${p.name}</td>
+    <td style="padding:7px 10px;text-align:center;color:var(--muted);">${p.position || '—'}</td>
+    ${metricCols.map(([k]) => `<td style="padding:7px 10px;text-align:center;${heatStyle(k, p[k], p.position)}">${p[k] ?? '—'}</td>`).join('')}
+    <td style="padding:7px 10px;text-align:center;color:var(--muted);">${p.sessions}</td>
+  </tr>`).join('');
+  document.getElementById('gpsDataTableWrap').innerHTML =
+    `<table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+       <thead style="background:var(--azzurro-navy);color:#fff;">${dataHead}</thead>
+       <tbody>${dataRows}</tbody>
+     </table>
+     <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">Values are averages across all tracked sessions. Shading reflects relative Total Distance / HMLD (darker = higher). Goalkeepers excluded from the scale.</p>`;
+
+  // Averages summary
+  const sumAvg = k => { const vals = players.filter(p=>p[k]!=null).map(p=>p[k]); return vals.length ? vals.reduce((s,v)=>s+v,0)/vals.length : 0; };
+  document.getElementById('gpsHmldExplainWrap').innerHTML = `
+    <div style="background:#FDEAEA;border-left:4px solid #D62E2E;border-radius:8px;padding:10px 12px;margin-bottom:10px;">
+      <div style="font-size:0.78rem;color:var(--muted);">Avg HMLD (season)</div>
+      <div style="font-size:1.3rem;font-weight:700;color:#A11313;">${sumAvg('hmld').toFixed(1)}</div>
+    </div>
+    <div style="background:#FFF0E0;border-left:4px solid #E08A1E;border-radius:8px;padding:10px 12px;margin-bottom:10px;">
+      <div style="font-size:0.78rem;color:var(--muted);">Avg HSR (season)</div>
+      <div style="font-size:1.3rem;font-weight:700;color:#A1610A;">${sumAvg('hsr').toFixed(1)}</div>
+    </div>
+    <div style="font-size:0.76rem;color:var(--muted);line-height:1.5;">
+      Season-wide averages across all ${GPS_HISTORY.length} tracked sessions.
+      <br><br>
+      <strong style="color:var(--ink);">HSR</strong> (sprint output) and <strong style="color:var(--ink);">HMLD</strong> (total physical cost) are individual baselines — use them to track each player's trend, not to compare between players.
+    </div>`;
+
+  // HMLD bar chart — average per player (field players only for bar, GK shown faded)
+  const fieldPlayers = players.filter(p => !isGK(p.position));
+  const teamAvgHmld = fieldPlayers.length ? fieldPlayers.reduce((s,p)=>s+(p.hmld||0),0)/fieldPlayers.length : 0;
+
+  const hmldCanvas = document.getElementById('chartGpsHmld');
+  if (window._gpsHmldChart) window._gpsHmldChart.destroy();
+  window._gpsHmldChart = new Chart(hmldCanvas, {
+    type: 'bar',
+    data: {
+      labels: players.map(p => p.name),
+      datasets: [
+        {
+          label: 'Avg HMLD',
+          data: players.map(p => p.hmld ?? 0),
+          backgroundColor: players.map(p => isGK(p.position) ? 'rgba(27,42,74,0.35)' : 'rgba(27,42,74,0.75)'),
+          borderRadius: 4,
+          order: 2,
+        },
+        {
+          type: 'line',
+          label: `Team average (${teamAvgHmld.toFixed(1)})`,
+          data: players.map(() => teamAvgHmld),
           borderColor: '#D62E2E',
           borderWidth: 2,
           borderDash: [6,4],
