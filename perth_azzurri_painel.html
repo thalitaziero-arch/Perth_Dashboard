@@ -1246,6 +1246,24 @@
       </div>
 
       <div class="chart-card full">
+        <h3>Research Benchmark — Women's Team Sport Running Demands</h3>
+        <p class="desc" style="margin-bottom:8px;">
+          Comparison of Perth Azzurri season averages (match sessions only) against published sub-elite benchmarks from
+          <em>Chesterfield &amp; Debenedictis (2024)</em> — positional running demands in SANFLW (women's Australian Rules Football).
+          Note: different sport; used here as a reference frame for women's team sport fitness levels.
+          The <strong>A-League Women</strong> tier (professional soccer) typically exceeds these numbers.
+        </p>
+        <div style="overflow-x:auto;">
+          <canvas id="chartSanflwCompare" style="max-height:340px;"></canvas>
+        </div>
+        <div style="margin-top:10px;font-size:0.75rem;color:var(--muted);line-height:1.6;">
+          <strong style="color:var(--ink);">SANFLW Key position</strong> (fwd/def): avg 7,284 m total distance, 179 m sprint (&gt;5.5 m/s) &nbsp;|&nbsp;
+          <strong style="color:var(--ink);">SANFLW Ruck</strong>: avg 5,982 m total, 111 m sprint &nbsp;|&nbsp;
+          <strong style="color:var(--ink);">A-League Women (est.)</strong>: ~10,000–11,500 m total, 400–700 m HSR (&gt;19.8 km/h)
+        </div>
+      </div>
+
+      <div class="chart-card full">
         <h3>References</h3>
         <div id="gpsReferencesWrap"></div>
       </div>
@@ -3100,6 +3118,80 @@ function buildGpsStaticSections() {
     const items = GPS_REFERENCES.slice(1).map(r => `<li style="margin-bottom:4px;">${r[0]}</li>`).join('');
     document.getElementById('gpsReferencesWrap').innerHTML = `<ul style="padding-left:18px;color:var(--muted);font-size:0.85rem;">${items}</ul>`;
   }
+
+  // -- SANFLW Research Benchmark comparison chart --
+  // Compute Perth match-session averages (exclude training type)
+  const matchSessions = GPS_HISTORY.filter(s => s.type === 'Match');
+  const perthAvg = k => {
+    const vals = matchSessions.flatMap(s => s.players.filter(p => p[k] != null).map(p => Number(p[k])));
+    return vals.length ? vals.reduce((a,b) => a+b, 0) / vals.length : 0;
+  };
+  const perthTD  = perthAvg('total_distance');   // metres
+  const perthHSR = perthAvg('hsr');               // metres
+  const perthSpd = perthAvg('max_speed');         // km/h
+
+  // SANFLW data (Chesterfield & Debenedictis, 2024) — Key vs Ruck
+  // A-League Women estimated ranges (midpoint used)
+  const labels    = ['Total Distance (m)', 'Sprint / HSR (m)', 'Max Speed (km/h)'];
+  const perth     = [perthTD,  perthHSR,  perthSpd];
+  const sanflwKey = [7284,     179,       null];   // sprint >5.5m/s; max speed not reported
+  const sanflwRck = [5982,     111,       null];
+  const aleague   = [10750,    550,       30];     // midpoint of published A-League Women estimates
+
+  const canvas = document.getElementById('chartSanflwCompare');
+  if (!canvas) return;
+  if (window._sanflwChart) window._sanflwChart.destroy();
+  window._sanflwChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Perth Azzurri (match avg)',
+          data: perth,
+          backgroundColor: 'rgba(27,42,74,0.8)',
+          borderRadius: 4,
+        },
+        {
+          label: 'SANFLW — Key position (sub-elite AFL)',
+          data: sanflwKey,
+          backgroundColor: 'rgba(214,46,46,0.65)',
+          borderRadius: 4,
+        },
+        {
+          label: 'SANFLW — Ruck (sub-elite AFL)',
+          data: sanflwRck,
+          backgroundColor: 'rgba(224,138,30,0.65)',
+          borderRadius: 4,
+        },
+        {
+          label: 'A-League Women (est. professional soccer)',
+          data: aleague,
+          backgroundColor: 'rgba(42,157,92,0.65)',
+          borderRadius: 4,
+        },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'top', labels: { boxWidth: 14, font: { size: 11 } } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              if (ctx.parsed.y == null) return `${ctx.dataset.label}: n/a`;
+              const suffix = ctx.dataIndex === 2 ? ' km/h' : ' m';
+              return `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(0)}${suffix}`;
+            },
+          },
+        },
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: 'rgba(12,24,48,.05)' } },
+        x: { grid: { display: false } },
+      },
+    },
+  });
 }
 
 // My Area CTA
