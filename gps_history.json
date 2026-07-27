@@ -520,5 +520,331 @@
         "detail": null
       }
     ]
+  },
+  {
+    "signature": "22/07/2026|Match|Fremantle Cup",
+    "date": "22/07/2026",
+    "type": "Match",
+    "opponent": "Fremantle Cup",
+    "round": null,
+    "players": [
+      {
+        "name": "A. Zindell",
+        "total_distance": 376.88,
+        "hsr": 0,
+        "max_speed": 17.99,
+        "accelerations": 1,
+        "decelerations": 1,
+        "hmld": 19.6,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "D. Schroeder",
+        "total_distance": 4791.16,
+        "hsr": 101.17,
+        "max_speed": 24.46,
+        "accelerations": 18,
+        "decelerations": 21,
+        "hmld": 297.96,
+        "position": "Goalkeeper",
+        "detail": null
+      },
+      {
+        "name": "D. McAllister",
+        "total_distance": 9032.78,
+        "hsr": 483.82,
+        "max_speed": 26.41,
+        "accelerations": 47,
+        "decelerations": 52,
+        "hmld": 1453.04,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "E. Lincoln",
+        "total_distance": 9667.71,
+        "hsr": 403.55,
+        "max_speed": 26.54,
+        "accelerations": 51,
+        "decelerations": 73,
+        "hmld": 1575.15,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "Emme",
+        "total_distance": 639.2,
+        "hsr": 0,
+        "max_speed": 18.37,
+        "accelerations": 1,
+        "decelerations": 1,
+        "hmld": 21.07,
+        "position": "Unknown",
+        "detail": null
+      },
+      {
+        "name": "E. Nossent",
+        "total_distance": 9355.35,
+        "hsr": 204.89,
+        "max_speed": 25.5,
+        "accelerations": 10,
+        "decelerations": 23,
+        "hmld": 1086.93,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "G. Warburton",
+        "total_distance": 8530.04,
+        "hsr": 294.04,
+        "max_speed": 27.22,
+        "accelerations": 49,
+        "decelerations": 72,
+        "hmld": 1668.89,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "J. Flannery",
+        "total_distance": 10129.65,
+        "hsr": 495.42,
+        "max_speed": 26.79,
+        "accelerations": 47,
+        "decelerations": 65,
+        "hmld": 1604.59,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "K. Mccartney",
+        "total_distance": 8677.67,
+        "hsr": 192.54,
+        "max_speed": 26.04,
+        "accelerations": 23,
+        "decelerations": 31,
+        "hmld": 938.07,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "L. Tana",
+        "total_distance": 9118.42,
+        "hsr": 315.88,
+        "max_speed": 28.91,
+        "accelerations": 62,
+        "decelerations": 68,
+        "hmld": 1342.67,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "R. Marshall",
+        "total_distance": 8544.22,
+        "hsr": 253.5,
+        "max_speed": 28.39,
+        "accelerations": 28,
+        "decelerations": 32,
+        "hmld": 988.68,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "S. Mathers",
+        "total_distance": 11264.18,
+        "hsr": 800.22,
+        "max_speed": 26.38,
+        "accelerations": 42,
+        "decelerations": 78,
+        "hmld": 2116.61,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "T. Attree",
+        "total_distance": 3426.24,
+        "hsr": 175.63,
+        "max_speed": 27.11,
+        "accelerations": 31,
+        "decelerations": 20,
+        "hmld": 551.1,
+        "position": "Defenders",
+        "detail": null
+      }
+    ]
+  },
+  {
+    "signature": "26/07/2026|Match|Subiaco",
+    "date": "26/07/2026",
+    "type": "Match",
+    "opponent": "Subiaco",
+    "round": 33,
+    "players": [
+      {
+        "name": "A. Zindell",
+        "total_distance": 1531.22,
+        "hsr": 0,
+        "max_speed": 18.66,
+        "accelerations": 7,
+        "decelerations": 0,
+        "hmld": 119.51,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "C. Wainwright",
+        "total_distance": 10379.36,
+        "hsr": 269,
+        "max_speed": 25.53,
+        "accelerations": 37,
+        "decelerations": 64,
+        "hmld": 1435.26,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "D. Schroeder",
+        "total_distance": 4624.26,
+        "hsr": 22.69,
+        "max_speed": 23.3,
+        "accelerations": 17,
+        "decelerations": 17,
+        "hmld": 263.84,
+        "position": "Goalkeeper",
+        "detail": null
+      },
+      {
+        "name": "D. McAllister",
+        "total_distance": 7922.35,
+        "hsr": 193.67,
+        "max_speed": 28.86,
+        "accelerations": 37,
+        "decelerations": 34,
+        "hmld": 1002.56,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "E. Lincoln",
+        "total_distance": 9314.61,
+        "hsr": 396.11,
+        "max_speed": 27.71,
+        "accelerations": 48,
+        "decelerations": 59,
+        "hmld": 1447.59,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "Emme",
+        "total_distance": 295.32,
+        "hsr": 0,
+        "max_speed": 15.76,
+        "accelerations": 2,
+        "decelerations": 0,
+        "hmld": 22.94,
+        "position": "Unknown",
+        "detail": null
+      },
+      {
+        "name": "E. Nossent",
+        "total_distance": 9496.39,
+        "hsr": 201.06,
+        "max_speed": 26.24,
+        "accelerations": 14,
+        "decelerations": 34,
+        "hmld": 1050.2,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "G. Warburton",
+        "total_distance": 6228.87,
+        "hsr": 96.16,
+        "max_speed": 25.05,
+        "accelerations": 30,
+        "decelerations": 37,
+        "hmld": 1081.94,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "J. Flannery",
+        "total_distance": 9905.18,
+        "hsr": 433.95,
+        "max_speed": 27.82,
+        "accelerations": 45,
+        "decelerations": 50,
+        "hmld": 1536.31,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "K. Mccartney",
+        "total_distance": 9055.32,
+        "hsr": 180.93,
+        "max_speed": 27.93,
+        "accelerations": 29,
+        "decelerations": 37,
+        "hmld": 942.94,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "L. Tana",
+        "total_distance": 9093.6,
+        "hsr": 321.56,
+        "max_speed": 27.38,
+        "accelerations": 55,
+        "decelerations": 68,
+        "hmld": 1344.59,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "Macey",
+        "total_distance": 783.62,
+        "hsr": 0,
+        "max_speed": 18.61,
+        "accelerations": 7,
+        "decelerations": 6,
+        "hmld": 65.81,
+        "position": "Midfielders",
+        "detail": null
+      },
+      {
+        "name": "R. Marshall",
+        "total_distance": 8475.46,
+        "hsr": 226.32,
+        "max_speed": 26.34,
+        "accelerations": 29,
+        "decelerations": 30,
+        "hmld": 1057.29,
+        "position": "Defenders",
+        "detail": null
+      },
+      {
+        "name": "S. Mathers",
+        "total_distance": 11096.38,
+        "hsr": 527.48,
+        "max_speed": 26.67,
+        "accelerations": 24,
+        "decelerations": 62,
+        "hmld": 1904.97,
+        "position": "Attackers",
+        "detail": null
+      },
+      {
+        "name": "T. Attree",
+        "total_distance": 4944.28,
+        "hsr": 249.28,
+        "max_speed": 25.57,
+        "accelerations": 32,
+        "decelerations": 32,
+        "hmld": 768.34,
+        "position": "Defenders",
+        "detail": null
+      }
+    ]
   }
 ]
