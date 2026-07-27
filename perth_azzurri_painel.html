@@ -2977,29 +2977,33 @@ function renderGpsAll() {
   }).sort((a,b) => (b.total_distance||0) - (a.total_distance||0));
 
   // Heatmap shading
-  const heatCols = ['total_distance', 'hmld'];
-  const heatRange = {};
-  heatCols.forEach(k => {
-    const vals = players.filter(p => !isGK(p.position)).map(p => p[k]).filter(v => v != null);
-    heatRange[k] = { min: Math.min(...vals), max: Math.max(...vals) };
-  });
-  const heatStyle = (k, v, pos) => {
-    if (isGK(pos)) return '';
-    if (!heatCols.includes(k) || v == null) return '';
-    const { min, max } = heatRange[k];
-    if (max === min) return '';
-    const pct = (v - min) / (max - min);
-    const r = Math.round(226 + (253-226)*pct), g = Math.round(240 + (226-240)*pct), b = Math.round(254 + (226-254)*pct);
-    return `background:rgb(${r},${g},${b});`;
+  // Benchmark ranges per position (per 90-min match, from published elite women's soccer literature)
+  const BENCH = {
+    Defenders:   { total_distance: [9000, 10000], hsr: [600, 900],  max_speed: [26, 32] },
+    Midfielders: { total_distance: [10000,11500], hsr: [800, 1200], max_speed: [27, 32] },
+    Attackers:   { total_distance: [9500, 10500], hsr: [900, 1300], max_speed: [28, 32] },
+  };
+  const benchCols = ['total_distance', 'hsr', 'max_speed'];
+  const benchIndicator = (k, v, pos) => {
+    if (!benchCols.includes(k) || v == null || isGK(pos)) return '';
+    const b = BENCH[pos];
+    if (!b || !b[k]) return '';
+    const [lo, hi] = b[k];
+    if (v >= lo)           return ' <span title="Meets elite benchmark" style="color:#2a9d5c;font-size:0.8rem;">✓</span>';
+    if (v >= lo * 0.85)    return ' <span title="Close to benchmark" style="color:#e08a1e;font-size:0.8rem;">~</span>';
+    return                        ' <span title="Below benchmark" style="color:#c0392b;font-size:0.8rem;">↓</span>';
   };
 
-  const dataHead = `<tr><th style="padding:8px 10px;text-align:left;">Player</th><th style="padding:8px 10px;">Position</th>${
-    metricCols.map(([,l]) => `<th style="padding:8px 10px;">${l}</th>`).join('')
-  }<th style="padding:8px 10px;">Games</th></tr>`;
+  const dataHead = `<tr>
+    <th style="padding:8px 10px;text-align:left;">Player</th>
+    <th style="padding:8px 10px;">Position</th>
+    ${metricCols.map(([,l]) => `<th style="padding:8px 10px;">${l}</th>`).join('')}
+    <th style="padding:8px 10px;">Games</th>
+  </tr>`;
   const dataRows = players.map(p => `<tr>
     <td style="padding:7px 10px;font-weight:600;">${p.name}</td>
     <td style="padding:7px 10px;text-align:center;color:var(--muted);">${p.position || '—'}</td>
-    ${metricCols.map(([k]) => `<td style="padding:7px 10px;text-align:center;${heatStyle(k, p[k], p.position)}">${p[k] ?? '—'}</td>`).join('')}
+    ${metricCols.map(([k]) => `<td style="padding:7px 10px;text-align:center;">${p[k] ?? '—'}${benchIndicator(k, p[k], p.position)}</td>`).join('')}
     <td style="padding:7px 10px;text-align:center;color:var(--muted);">${p.sessions}</td>
   </tr>`).join('');
   document.getElementById('gpsDataTableWrap').innerHTML =
@@ -3007,7 +3011,12 @@ function renderGpsAll() {
        <thead style="background:var(--azzurro-navy);color:#fff;">${dataHead}</thead>
        <tbody>${dataRows}</tbody>
      </table>
-     <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;">Values are averages across all tracked sessions. Shading reflects relative Total Distance / HMLD (darker = higher). Goalkeepers excluded from the scale.</p>`;
+     <div style="margin-top:8px;font-size:0.72rem;color:var(--muted);line-height:1.7;">
+       Benchmarks per game (90 min) from elite women's football literature — <span style="color:#2a9d5c;font-weight:700;">✓</span> meets range &nbsp;
+       <span style="color:#e08a1e;font-weight:700;">~</span> close (&lt;15% below) &nbsp;
+       <span style="color:#c0392b;font-weight:700;">↓</span> below &nbsp;
+       Applies to Total Distance, HSR, Max Speed by position. GK benchmarks differ and are not shown.
+     </div>`;
 
   // Averages summary
   const sumAvg = k => { const vals = players.filter(p=>p[k]!=null).map(p=>p[k]); return vals.length ? vals.reduce((s,v)=>s+v,0)/vals.length : 0; };
