@@ -662,6 +662,56 @@ def step3_inject_html(dashboard_df, img1=None, img2=None, players=None, gps=None
                 html, flags=re.S,
             )
 
+    # --- Shooting section labels ---
+    # Derive date range from PDFs so labels stay accurate after each update
+    try:
+        import fitz as _fitz
+        def _pdf_dates(path):
+            import re as _re
+            doc = _fitz.open(str(path))
+            txt = doc[0].get_text()
+            doc.close()
+            return _re.findall(r'\d{2}\.\d{2}\.\d{4}', txt)
+
+        new_dates = _pdf_dates(PERTH_PDF) if PERTH_PDF.exists() else []
+        old_dates = _pdf_dates(PERTH_PDF_OLD) if PERTH_PDF_OLD.exists() else []
+        all_dates = sorted(set(new_dates + old_dates))
+        n_games_shots = len(new_dates)          # shots map = new PDF only
+        n_games_total = len(all_dates)
+        if all_dates:
+            d0 = all_dates[0].replace(".", "/")
+            d1 = all_dates[-1].replace(".", "/")
+            shots_label   = f"Últimos {n_games_shots} jogos · {new_dates[-1].replace('.','/') if new_dates else '—'} → {new_dates[0].replace('.','/') if new_dates else '—'}"
+            player_label  = f"Temporada 2026 · {n_games_total} jogos (2 relatórios)"
+            source_label  = f"Round {last_round_num}"
+        else:
+            shots_label  = "Relatório atual"
+            player_label = "Temporada 2026"
+            source_label = f"Round {last_round_num}"
+
+        # Update shots section badge (two occurrences — map & summary)
+        html = re.sub(r'Rounds 6–15 · 26 Apr → 11 Jul · 10 games in the report', shots_label, html)
+        html = re.sub(r'Rounds 6–15 · 10 games', shots_label, html)
+        html = re.sub(r'Where and when the team shoots.*?11 Jul \(Perth 4–1 UWA Nedlands\)\.',
+                      f'Where and when the team shoots — goals, on target and misses. Covers the last {n_games_shots} games in the report.',
+                      html, flags=re.S)
+        html = re.sub(r'Total · on target · accuracy.*?→ 11 Jul\)',
+                      f'Total · on target · accuracy % · xG · goals, by shot type. Last {n_games_shots} games in the report.',
+                      html, flags=re.S)
+
+        # Update player card source ("Source: Hudl Wyscout ... · Round 14")
+        html = re.sub(r'Source: Hudl Wyscout Season Report · \d+ WA NPLW · Round \d+',
+                      f'Source: Hudl Wyscout Season Report · 2026 WA NPLW · Round {last_round_num}', html)
+
+        # Update player card coverage label ("Rounds 6-15 · últimos 10 jogos do relatório")
+        html = re.sub(r"Rounds 6–15 · últimos 10 jogos do relatório", player_label, html)
+
+        # Update JS comment (non-critical)
+        html = re.sub(r'// Rounds 5–14.*?\)\.', f'// {player_label}.', html)
+
+    except Exception as _e:
+        print(f"   Aviso: não consegui atualizar os labels de rodadas: {_e}")
+
     if img1:
         html = re.sub(r'const FINISHING_IMG1 = "[^"]*";', f'const FINISHING_IMG1 = "{img1}";', html)
     if img2:
