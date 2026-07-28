@@ -452,22 +452,46 @@ def step2c_update_players(dashboard_df):
                 players.append(player)
                 continue
 
+            # Build a truly-zeroed base so previous HTML values don't accumulate
+            def _zero_player(src):
+                z = dict(src)
+                z["matches"] = 0
+                z["total_min"] = 0
+                z["avg_min"] = 0
+                z["goals"] = 0
+                z["xg"] = 0.0
+                z["assists"] = 0
+                z["xa"] = 0.0
+                for f in RATIO_FIELDS_A:
+                    z[f] = "0/0"
+                    z[f + "_pct"] = None
+                z["losses_total"] = 0
+                z["losses_own"] = 0
+                z["recoveries"] = 0
+                z["recoveries_opp"] = 0
+                z["touches_pa"] = 0
+                z["yc"] = 0
+                z["rc"] = 0
+                z["duels_detail"] = {}
+                z["passing"] = {}
+                return z
+
             # Start from old PDF as base
             old_rec = old_pdf_data.get(name)
             if old_rec:
                 old_num = _numeric_record(old_rec)
-                # Build a zeroed player to apply old stats onto cleanly
-                zeroed = dict(base)
-                zeroed["matches"] = m_old
+                zeroed = _zero_player(base)
                 player = _apply_delta_to_player(zeroed, old_num)
+                player["matches"] = m_old   # fix: _apply_delta adds 1 but we want exact count
+                if m_old:
+                    player["avg_min"] = round(player.get("total_min", 0) / m_old)
 
-            # Then add new PDF on top
+            # Then add new PDF on top (don't re-zero — accumulate on top of old)
             new_rec = new_pdf_data.get(name)
             if new_rec:
                 new_num = _numeric_record(new_rec)
-                player["matches"] = total_matches  # restore correct total
+                player["matches"] = total_matches - 1  # _apply_delta will +1
                 player = _apply_delta_to_player(player, new_num)
-                # _apply_delta increments matches by 1; correct it
                 player["matches"] = total_matches
                 if total_matches:
                     player["avg_min"] = round(player.get("total_min", 0) / total_matches)
