@@ -59,7 +59,8 @@ HTML_FILE = BASE_DIR / "perth_azzurri_painel.html"
 NPL_PDF = BASE_DIR / "NPL_Comparison.pdf"
 NPL_JSON = BASE_DIR / "npl_comparison_data.json"
 EXTRACT_SCRIPT = BASE_DIR / "extract_wyscout.py"
-PERTH_PDF = BASE_DIR / "Perth_SC.pdf"
+PERTH_PDF     = BASE_DIR / "Perth_SC.pdf"
+PERTH_PDF_OLD = BASE_DIR / "Perth_sc_old.pdf"
 GPS_FILE = BASE_DIR / "Perth_SC_GPS_Weekly_Update_v3.xlsx"
 GPS_HISTORY_FILE = BASE_DIR / "gps_history.json"
 
@@ -342,9 +343,12 @@ def step2c_update_players(dashboard_df):
     max_matches_in_pdf = max(matches_by_name.values()) if matches_by_name else 0
     pdf_data = ew.parse_perth_sc_pdf(PERTH_PDF, names)
 
-    # Always treat PDF as the full source of truth — user replaces Perth_SC.pdf
-    # with the latest Wyscout report after every match, so it always has cumulative data.
-    full_season = True
+    # Wyscout limits PDF exports to ~10 games. If Perth_sc_old.pdf also exists,
+    # merge both: old PDF = base stats, new PDF = delta on top (additive, no overlap assumed).
+    # Otherwise fall back to treating the single PDF as the full season.
+    has_old_pdf = PERTH_PDF_OLD.exists()
+    full_season = not has_old_pdf   # single PDF covers whole season
+    merge_pdfs  = has_old_pdf       # two PDFs must be summed
     single_match = False
     snapshot = None
 
@@ -425,6 +429,61 @@ def step2c_update_players(dashboard_df):
             players.append(player)
         print(f"   {len(players)} jogadores atualizados a partir do Perth_SC.pdf "
               f"(temporada completa, rodada {current_round}).")
+    elif merge_pdfs:
+        # Two PDFs covering non-overlapping game windows (Wyscout ~10-game limit).
+        # Parse old PDF first (earlier games), then add new PDF stats on top.
+        old_pdf_data     = ew.parse_perth_sc_pdf(PERTH_PDF_OLD, names)
+        old_matches      = ew.parse_perth_sc_overview(PERTH_PDF_OLD, names)
+        new_matches_by   = matches_by_name   # already parsed above from PERTH_PDF
+        new_pdf_data     = pdf_data
+
+        updated = 0
+        for name, base in base_players.items():
+            player = dict(base)
+
+            # --- matches count: old + new (assume no overlap) ---
+            m_old = old_matches.get(name, 0)
+            m_new = new_matches_by.get(name, 0)
+            total_matches = m_old + m_new
+            if total_matches:
+                player["matches"] = total_matches
+
+            if base.get("is_goalkeeper"):
+                players.append(player)
+                continue
+
+            # Start from old PDF as base
+            old_rec = old_pdf_data.get(name)
+            if old_rec:
+                old_num = _numeric_record(old_rec)
+                # Build a zeroed player to apply old stats onto cleanly
+                zeroed = dict(base)
+                zeroed["matches"] = m_old
+                player = _apply_delta_to_player(zeroed, old_num)
+
+            # Then add new PDF on top
+            new_rec = new_pdf_data.get(name)
+            if new_rec:
+                new_num = _numeric_record(new_rec)
+                player["matches"] = total_matches  # restore correct total
+                player = _apply_delta_to_player(player, new_num)
+                # _apply_delta increments matches by 1; correct it
+                player["matches"] = total_matches
+                if total_matches:
+                    player["avg_min"] = round(player.get("total_min", 0) / total_matches)
+                updated += 1
+            elif old_rec:
+                player["matches"] = total_matches
+                if total_matches:
+                    player["avg_min"] = round(player.get("total_min", 0) / total_matches)
+                updated += 1
+
+            players.append(player)
+        old_count = sum(1 for v in old_matches.values() if v)
+        new_count = sum(1 for v in new_matches_by.values() if v)
+        print(f"   {updated} jogadores atualizados combinando Perth_sc_old.pdf "
+              f"({old_count} jogadoras, janela antiga) + Perth_SC.pdf ({new_count} jogadoras, "
+              f"janela recente) — rodada {current_round}.")
     elif snapshot:
         # rolling-window report ('last N matches'). Diff against last week's
         # saved window to isolate just the newest match, then add that to the
@@ -719,7 +778,7 @@ def step4_publish_to_github(round_num):
     print("4) Publicando no GitHub (site online)...")
     files = [
         "perth_azzurri_painel.html", "atualizar_painel.py", "extract_wyscout.py", "app.py",
-        "npl_comparison_data.json", "team_stats_perth.xlsx", "Perth_SC.pdf",
+        "npl_comparison_data.json", "team_stats_perth.xlsx", "Perth_SC.pdf", "Perth_sc_old.pdf",
         "NPL_Comparison.pdf", "perth_sc_last5_snapshot.json", "perth_sc_applied_matches.json",
         "Perth_SC_GPS_Weekly_Update_v3.xlsx", "gps_history.json",
     ]
