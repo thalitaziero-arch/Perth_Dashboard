@@ -897,9 +897,191 @@
     letter-spacing: 0.04em;
   }
 
+
+/* ══ Staff PIN Gate ══════════════════════════════════════════════════════════ */
+#staffGate {
+  position:fixed; inset:0; z-index:9999;
+  background:#0C1830;
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity 0.5s;
+}
+#staffGate.hidden { opacity:0; pointer-events:none; }
+
+#staffGate .gate-particles { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+#staffGate .gate-p {
+  position:absolute; border-radius:50%; background:rgba(184,151,90,0.18);
+  animation:gateFloat linear infinite;
+}
+@keyframes gateFloat {
+  from { transform:translateY(110vh) rotate(0deg); opacity:0; }
+  10%  { opacity:1; } 90% { opacity:1; }
+  to   { transform:translateY(-10vh) rotate(360deg); opacity:0; }
+}
+@media(prefers-reduced-motion:reduce){ #staffGate .gate-p{display:none;} }
+body::before { content:''; position:fixed; inset:0; z-index:9998;
+  background:radial-gradient(ellipse 60% 50% at 50% 48%,rgba(27,52,110,0.7) 0%,transparent 70%);
+  pointer-events:none; transition:opacity 0.5s; }
+#staffGate.hidden ~ * body::before { opacity:0; }
+
+.gate-card {
+  position:relative; width:min(400px,92vw);
+  background:rgba(255,255,255,0.055);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:20px; padding:0 0 36px;
+  box-shadow:0 32px 64px rgba(0,0,0,0.45);
+  z-index:1;
+}
+.gate-stripe {
+  height:5px; border-radius:20px 20px 0 0;
+  background:linear-gradient(to right,#009246 33.3%,#fff 33.3% 66.6%,#ce2b37 66.6%);
+  margin-bottom:36px;
+}
+.gate-inner { padding:0 36px; }
+.gate-crest { display:flex; justify-content:center; margin-bottom:20px; }
+.gate-crest svg { width:64px; height:72px; filter:drop-shadow(0 4px 16px rgba(184,151,90,0.35)); }
+.gate-club-name {
+  text-align:center; font-family:Georgia,'Times New Roman',serif;
+  font-size:1.45rem; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:#fff; line-height:1.1; margin-bottom:4px;
+}
+.gate-club-name span { color:#D62E2E; }
+.gate-subtitle {
+  text-align:center; font-size:.68rem; letter-spacing:.2em;
+  text-transform:uppercase; color:rgba(255,255,255,0.38); margin-bottom:36px;
+}
+.gate-dots {
+  display:flex; justify-content:center; gap:10px;
+  margin-bottom:20px; height:16px; align-items:center;
+}
+.gate-dot {
+  width:10px; height:10px; border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.12); background:transparent;
+  transition:background .15s,border-color .15s,transform .15s;
+}
+.gate-dot.filled { background:#B8975A; border-color:#B8975A; transform:scale(1.1); }
+.gate-dot.error  { background:#D62E2E; border-color:#D62E2E; }
+.gate-input-wrap { position:relative; margin-bottom:14px; }
+.gate-input {
+  width:100%; background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12); border-radius:10px;
+  padding:14px 48px 14px 18px; font-size:1rem; color:#fff;
+  letter-spacing:.06em; outline:none;
+  transition:border-color .2s,background .2s;
+  font-family:inherit;
+}
+.gate-input::placeholder { color:rgba(255,255,255,0.38); font-size:.88rem; }
+.gate-input:focus { border-color:rgba(184,151,90,0.55); background:rgba(255,255,255,0.1); }
+.gate-input.gate-err { border-color:#D62E2E !important; }
+.gate-eye {
+  position:absolute; right:14px; top:50%; transform:translateY(-50%);
+  background:none; border:none; color:rgba(255,255,255,0.38);
+  cursor:pointer; padding:4px; display:flex; align-items:center;
+  transition:color .15s;
+}
+.gate-eye:hover { color:#fff; }
+.gate-btn {
+  width:100%; padding:14px;
+  background:linear-gradient(135deg,#1B2A4A 0%,#0C1830 100%);
+  border:1px solid rgba(184,151,90,0.4); border-radius:10px;
+  color:#B8975A; font-size:.78rem; font-weight:600;
+  letter-spacing:.22em; text-transform:uppercase; cursor:pointer;
+  transition:background .2s,border-color .2s,transform .1s; margin-top:4px;
+}
+.gate-btn:hover { background:linear-gradient(135deg,#243560 0%,#152240 100%); border-color:rgba(184,151,90,0.7); }
+.gate-btn:active { transform:scale(.98); }
+.gate-error-msg {
+  text-align:center; font-size:.75rem; color:#D62E2E;
+  letter-spacing:.08em; min-height:18px; margin-top:12px;
+  opacity:0; transition:opacity .2s;
+}
+.gate-error-msg.show { opacity:1; }
+.gate-success {
+  position:absolute; inset:0; border-radius:20px;
+  background:rgba(12,24,48,0.96);
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:14px;
+  opacity:0; pointer-events:none; transition:opacity .4s;
+}
+.gate-success.show { opacity:1; pointer-events:all; }
+.gate-check {
+  width:60px; height:60px; border-radius:50%;
+  background:rgba(184,151,90,0.12); border:2px solid #B8975A;
+  display:flex; align-items:center; justify-content:center;
+}
+.gate-check svg { width:28px; height:28px; }
+.gate-ok-text { font-size:.75rem; letter-spacing:.22em; text-transform:uppercase; color:#B8975A; }
+.gate-bar { width:120px; height:2px; background:rgba(255,255,255,0.12); border-radius:2px; overflow:hidden; }
+.gate-fill { height:100%; background:#B8975A; width:0%; transition:width 1.2s ease; }
+.gate-footer {
+  margin-top:28px; text-align:center; font-size:.65rem;
+  color:rgba(255,255,255,0.38); letter-spacing:.1em; text-transform:uppercase;
+}
+@keyframes gateShake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)}   60%{transform:translateX(-6px)}
+  80%{transform:translateX(6px)}
+}
+.gate-shake { animation:gateShake .4s ease; }
+/* lock icon on private tabs */
+.nav-page-tab.tab-locked::after {
+  content:'🔒'; font-size:.7em; margin-left:4px; opacity:.6;
+}
 </style>
 </head>
 <body>
+
+<!-- ══ Staff PIN Gate ══════════════════════════════════════════════════════ -->
+<div id="staffGate">
+  <div class="gate-particles" id="gateParticles"></div>
+  <div class="gate-card" id="gateCard">
+    <div class="gate-stripe"></div>
+    <div class="gate-inner">
+
+      <div class="gate-crest">
+        <svg viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 4 L74 18 L74 52 Q74 72 40 86 Q6 72 6 52 L6 18 Z" fill="#0C1830" stroke="#B8975A" stroke-width="2"/>
+          <path d="M40 10 L68 22 L68 52 Q68 69 40 82 Q12 69 12 52 L12 22 Z" fill="#0C1830"/>
+          <path d="M12 22 L12 52 Q12 65 25 74 L25 22 Z" fill="#009246"/>
+          <path d="M25 22 L25 77 Q32.5 81 40 82 Q47.5 81 55 77 L55 22 Z" fill="#FFFFFF"/>
+          <path d="M55 22 L55 74 Q68 65 68 52 L68 22 Z" fill="#CE2B37"/>
+          <text x="40" y="44" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-weight="700" fill="#FFFFFF" letter-spacing="2">PERTH</text>
+          <text x="40" y="56" text-anchor="middle" font-family="Georgia,serif" font-size="7" font-weight="700" fill="#FFFFFF" letter-spacing="3">AZZURRI</text>
+        </svg>
+      </div>
+
+      <div class="gate-club-name">Perth <span>Azzurri</span></div>
+      <div class="gate-subtitle">Internal Staff Dashboard</div>
+
+      <div class="gate-dots" id="gateDots"></div>
+
+      <div class="gate-input-wrap">
+        <input class="gate-input" id="gateInput" type="password"
+          placeholder="Código de acesso" autocomplete="off"
+          autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="20"/>
+        <button class="gate-eye" id="gateEye" type="button" aria-label="Mostrar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+
+      <button class="gate-btn" id="gateBtn">Entrar &nbsp;→</button>
+      <div class="gate-error-msg" id="gateError">Código inválido — tente novamente</div>
+      <div class="gate-footer">Perth Azzurri FC · NPLW 2026</div>
+    </div>
+
+    <div class="gate-success" id="gateSuccess">
+      <div class="gate-check">
+        <svg viewBox="0 0 28 28" fill="none" stroke="#B8975A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="5,14 11,20 23,8"/>
+        </svg>
+      </div>
+      <div class="gate-ok-text">Acesso autorizado</div>
+      <div class="gate-bar"><div class="gate-fill" id="gateFill"></div></div>
+    </div>
+  </div>
+</div>
+<!-- ══ /Staff PIN Gate ══════════════════════════════════════════════════════ -->
 
 <header>
   <div class="hero">
@@ -3308,6 +3490,121 @@ if(pinInput2){
   pinInput2.addEventListener('keydown', e=>{ if(e.key==='Enter') attemptLogin2(); });
   pinInput2.addEventListener('input', ()=>{ pinInput2.value = pinInput2.value.replace(/\D/g,'').slice(0,4); });
 }
+
+// ══ Staff PIN Gate ════════════════════════════════════════════════════════════
+(function(){
+  const STAFF_PIN = 'Azzurri';
+  const PRIVATE_VIEWS = ['main','npl','training'];
+  const SESSION_KEY = 'perthStaffAuth';
+  const gate       = document.getElementById('staffGate');
+  const gateCard   = document.getElementById('gateCard');
+  const gateInput  = document.getElementById('gateInput');
+  const gateBtn    = document.getElementById('gateBtn');
+  const gateErrEl  = document.getElementById('gateError');
+  const gateEye    = document.getElementById('gateEye');
+  const gateSucc   = document.getElementById('gateSuccess');
+  const gateFill   = document.getElementById('gateFill');
+  const dotsWrap   = document.getElementById('gateDots');
+  const particlesWrap = document.getElementById('gateParticles');
+
+  // Particles
+  for(let i=0;i<18;i++){
+    const p=document.createElement('div'); p.className='gate-p';
+    const s=3+Math.random()*6;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;`+
+      `animation-duration:${10+Math.random()*14}s;animation-delay:-${Math.random()*14}s;`+
+      `opacity:${0.3+Math.random()*0.4};`;
+    particlesWrap.appendChild(p);
+  }
+
+  // PIN dots (length = STAFF_PIN.length)
+  const dots=[];
+  for(let i=0;i<STAFF_PIN.length;i++){
+    const d=document.createElement('div'); d.className='gate-dot';
+    dotsWrap.appendChild(d); dots.push(d);
+  }
+  function updateDots(){
+    const len=Math.min(gateInput.value.length,STAFF_PIN.length);
+    dots.forEach((d,i)=>{ d.classList.remove('error'); d.classList.toggle('filled',i<len); });
+  }
+
+  // Lock private tabs visually
+  function applyTabLocks(locked){
+    ['tab-main','tab-npl','tab-training'].forEach(id=>{
+      const t=document.getElementById(id);
+      if(t) t.classList.toggle('tab-locked',locked);
+    });
+  }
+
+  function unlock(){
+    sessionStorage.setItem(SESSION_KEY,'1');
+    applyTabLocks(false);
+  }
+
+  // If already authenticated this session, skip gate immediately
+  if(sessionStorage.getItem(SESSION_KEY)==='1'){
+    gate.style.display='none';
+    applyTabLocks(false);
+  } else {
+    applyTabLocks(true);
+    // Block clicks on private tabs
+    PRIVATE_VIEWS.forEach(v=>{
+      const tab=document.getElementById('tab-'+v);
+      if(tab){
+        tab.addEventListener('click', function(e){
+          if(sessionStorage.getItem(SESSION_KEY)!=='1'){
+            e.preventDefault(); e.stopImmediatePropagation();
+            // Pulse the gate input if somehow visible
+            gateInput.focus();
+          }
+        }, true);
+      }
+    });
+    gateInput.focus();
+  }
+
+  // Eye toggle
+  let eyeOn=false;
+  if(gateEye) gateEye.addEventListener('click',()=>{
+    eyeOn=!eyeOn;
+    gateInput.type=eyeOn?'text':'password';
+    gateEye.style.color=eyeOn?'rgba(255,255,255,0.8)':'';
+  });
+
+  gateInput.addEventListener('input',()=>{
+    gateErrEl.classList.remove('show');
+    gateInput.classList.remove('gate-err');
+    updateDots();
+  });
+  gateInput.addEventListener('keydown',e=>{ if(e.key==='Enter') attempt(); });
+  if(gateBtn) gateBtn.addEventListener('click', attempt);
+
+  function attempt(){
+    if(!gateInput.value) return;
+    if(gateInput.value===STAFF_PIN){
+      gateBtn.disabled=true;
+      gateSucc.classList.add('show');
+      requestAnimationFrame(()=>{ setTimeout(()=>{ gateFill.style.width='100%'; },50); });
+      setTimeout(()=>{
+        unlock();
+        gate.classList.add('hidden');
+        setTimeout(()=>{ gate.style.display='none'; }, 500);
+      },1400);
+    } else {
+      dots.forEach(d=>{ d.classList.remove('filled'); d.classList.add('error'); });
+      gateInput.classList.add('gate-err');
+      gateErrEl.classList.add('show');
+      gateCard.classList.add('gate-shake');
+      setTimeout(()=>{
+        gateCard.classList.remove('gate-shake');
+        dots.forEach(d=>d.classList.remove('error'));
+        gateInput.value=''; updateDots();
+      },420);
+    }
+  }
+})();
+// ══ /Staff PIN Gate ═══════════════════════════════════════════════════════════
+
 </script>
 
 </body>
